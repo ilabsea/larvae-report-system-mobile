@@ -1,0 +1,15 @@
+<ion-view view-title="Sign-In" name="login-view" ng-controller='AppCtrl'>
+  <ion-content class="padding">
+      <div class="list list-inset">
+          <label class="item item-input">
+            <div class="input-label">{{"email" | translate}}</div>
+            <input type="email" placeholder='{{"email" | translate}}' ng-model="user.email">
+          </label>
+          <label class="item item-input">
+            <div class="input-label">{{"password" | translate}}</div>
+            <input type="password" placeholder='{{"password" | translate}}' ng-model="user.password">
+          </label>
+      </div>
+      <button class="button button-block button-positive" ng-click="login(user)">Login</button>
+  </ion-content>
+</ion-view>

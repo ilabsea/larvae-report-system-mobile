@@ -1,0 +1,18 @@
+{
+  "name": "larvae-report-system-mobile",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ],
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://cam-monitoring.info:8080/api/"
+    }
+  ]
+}
