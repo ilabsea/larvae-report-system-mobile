@@ -1,11 +1,12 @@
 angular.module('app')
 
-.controller('WeeksCalendarCtrl', function($scope, $filter, WeeklyService) {
+.controller('WeeksCalendarCtrl', function($scope, $state, $filter, WeeklyService) {
   $scope.currentYear = $filter('date')(new Date(), "yyyy");
   $scope.index = 1;
   $scope.weeks = WeeklyService.getWeeks($scope.currentYear, $scope.index);
   $scope.isDisabledPreviousButton = true;
   $scope.isDisabledNextButton = false;
+  $scope.selectedWeek = '';
 
   $scope.next = function(){
     $scope.index += 9;
@@ -22,6 +23,9 @@ angular.module('app')
   }
 
   $scope.getWeekNumber = function (weekNumber) {
-    console.log('weekNumber : ', weekNumber);
+    todayWeek = $filter('date')(new Date(), 'ww');
+    $scope.selectedWeek = weekNumber;
+    console.log("selectedWeek : ", $scope.selectedWeek);
+    $state.go('villages')
   }
 })
