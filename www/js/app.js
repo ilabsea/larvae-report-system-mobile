@@ -48,5 +48,5 @@ angular.module('app', ['ionic', 'pascalprecht.translate', 'base64'])
     controller: 'WeeksCalendarCtrl'
   })
 
-  $urlRouterProvider.otherwise('/login')
+  $urlRouterProvider.otherwise('/weeks-calendar')
 })

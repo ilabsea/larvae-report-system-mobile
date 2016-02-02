@@ -20,4 +20,8 @@ angular.module('app')
     $scope.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
     $scope.isDisabledNextButton = WeeklyService.isDisabledNextButton();
   }
+
+  $scope.getWeekNumber = function (weekNumber) {
+    console.log('weekNumber : ', weekNumber);
+  }
 })
