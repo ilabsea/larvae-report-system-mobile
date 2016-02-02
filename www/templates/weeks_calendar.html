@@ -1,0 +1,33 @@
+<ion-view view-title="Larvae" name="week-calendar-view" >
+  <ion-nav-buttons side="right" >
+    <button class="button icon-left ion-log-out button-stable" ng-controller='SessionsCtrl' ng-click="logout()">Logout</button>
+  </ion-nav-buttons>
+  <ion-content class="padding">
+    <label class="item item-input item-select item-stable">
+      <div class="input-label">
+          Select year
+      </div>
+      <select>
+          <option selected>{{currentYear}}</option>
+      </select>
+    </label>
+    <br>
+    <div style="width: 99%; height:45%; background-color:#f4f4f4">
+      <div class="row" ng-repeat="week in weeks">
+        <div class="col-20 col-offset-10" ng-repeat="row in week.row">
+          <button class="button button-block">{{row}}</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-left">
+          <button class="button icon-left ion-chevron-left button-stable"
+                  ng-click='previous()' ng-disabled="isDisabledPreviousButton"></button>
+        </div>
+        <div class="col text-right">
+          <button class="button icon-left ion-chevron-right button-stable"
+                ng-click='next()' ng-disabled="isDisabledNextButton"></button>
+        </div>
+      </div>
+      </div>
+  </ion-content>
+</ion-view>

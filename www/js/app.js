@@ -39,7 +39,13 @@ angular.module('app', ['ionic', 'pascalprecht.translate', 'base64'])
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    controller: 'LoginCtrl'
+    controller: 'SessionsCtrl'
+  })
+
+  .state('weeks-calendar', {
+    url: '/weeks-calendar',
+    templateUrl: 'templates/weeks_calendar.html',
+    controller: 'WeeksCalendarCtrl'
   })
 
   $urlRouterProvider.otherwise('/login')

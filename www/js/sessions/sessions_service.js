@@ -1,6 +1,6 @@
 angular.module('app')
 
-.service('AuthService', function($q, $http, ENDPOINT, API, $base64, $state) {
+.service('SessionsService', function($q, $http, ENDPOINT, API, $base64, $state) {
   var LOCAL_TOKEN_KEY = 'authToken';
   var authToken;
 
