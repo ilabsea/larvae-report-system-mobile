@@ -54,5 +54,11 @@ angular.module('app', ['ionic', 'pascalprecht.translate', 'base64'])
     controller: 'VillagesCtrl'
   })
 
+  .state('form-site', {
+    url: '/form-site',
+    templateUrl: 'templates/form_site.html',
+    controller: 'FormSiteCtrl'
+  })
+
   $urlRouterProvider.otherwise('/weeks-calendar')
 })
