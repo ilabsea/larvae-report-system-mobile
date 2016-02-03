@@ -1,4 +1,8 @@
-angular.module('app', ['ionic', 'pascalprecht.translate', 'base64'])
+angular.module('app',
+  ['ionic',
+  'pascalprecht.translate',
+  'base64',
+  'ionic-fancy-select'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

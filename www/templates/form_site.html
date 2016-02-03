@@ -21,20 +21,36 @@
           <input type="{{field.type}}" placeholder="{{field.name}}" ng-model="field.value">
         </label>
 
-        <label class="item item-input item-select item-balance" ng-if="field.type === 'select_one'">
-          <div class="input-label">{{field.name}}</div>
-          <select>
-              <option ng-repeat="option in field.config.options">{{option.label}}</option>
-          </select>
-        </label>
-
-        <label class="item item-input item-select item-balance"
-                ng-if="field.type === 'select_many'" >
-          <div class="input-label">{{field.name}}</div>
-          <select>
-              <option ng-repeat="option in field.config.options">{{option.label}}</option>
-          </select>
-        </label>
+        <fancy-select ng-if="field.type === 'select_one'"
+          header-text="Select an option"
+          items="field.config.options"
+          value="selected"
+          value-property="id"
+          text-property="label"
+          text="(no value)"
+          modal-template-url="templates/fancy_select.html"
+          template-url="lib/ionic-fancy-select/templates/item-template.html"
+          note-text="{{field.name}}"
+          value-changed="onValueChanged(value)"
+          get-custom-text="getCustomText(value)"
+          >
+        </fancy-select>
+        <fancy-select
+          ng-if="field.type === 'select_many'"
+          header-text="Select options"
+          items="field.config.options"
+          value="selected"
+          value-property="id"
+          text-property="label"
+          multi-select="true"
+          text="(no value)"
+          modal-template-url="templates/fancy_select.html"
+          template-url="lib/ionic-fancy-select/templates/item-template.html"
+          note-text="{{field.name}}"
+          value-changed="onValueChanged(value)"
+          get-custom-text="getCustomText(value)"
+          >
+        </fancy-select>
       </div>
     </div>
 
