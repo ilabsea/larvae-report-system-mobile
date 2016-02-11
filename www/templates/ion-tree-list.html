@@ -1,0 +1,32 @@
+<script type="text/ng-template" id="item_default_renderer">
+    <span class="symbol">
+        <i class="icon" ng-if="item.sub.length > 0" ng-class="item.sub.collapsed ? 'ion-custom-folder' : 'ion-custom-open-folder'"></i>
+        <i class="icon ion-custom-blank-doc" ng-if="!item.sub"></i>
+    </span>
+    {{item.name}}
+</script>
+
+<script type="text/ng-template" id="items_renderer">
+    <ion-item class="item custom-item"
+              style="padding-left: calc({{item.depth}} * 15px)"
+              ng-click="toggleCollapse(item);setSelected(item);"
+              ng-include="'item_default_renderer'"
+              ng-class="item == selectedItem ? 'custom-selected-item' : ''"
+              ng-value='item.id'>
+    </ion-item>
+    <ion-list ng-model="item.sub"
+              ng-repeat="item in item.sub"
+              ng-hide="item.collapsed"
+              ng-include="'items_renderer'">
+    </ion-list>
+</script>
+
+<div class="list" ng-model="items">
+  <ion-item class="item custom-item"
+            style="padding-left: 15px"
+            ng-click="setSelected(item);"
+            ng-class="item == selectedItem ? 'custom-selected-item' : ''">
+            (no value)
+  </ion-item>
+  <span ng-repeat="item in items" ng-include="'items_renderer'"></span>
+</div>

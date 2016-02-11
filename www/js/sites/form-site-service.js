@@ -15,30 +15,41 @@ angular.module('app')
 
   function buildFields(fields){
     angular.forEach(fields, function(field) {
-      field.isInputType = true;
+      field.isInputType = false;
       switch (field.kind) {
         case "numeric":
           field.type = "number";
-          break;
-        case "yes_no":
-          field.isInputType = false;
-          field.type = "checkbox";
-          break;
-        case "phone":
-          field.type = "tel";
+          field.isInputType = true;
           break;
         case "calculation":
           field.type = "text";
+          field.isInputType = true;
+          break;
+        case "phone":
+          field.type = "tel";
+          field.isInputType = true;
+          break;
+        case "date":
+          field.type = "date";
+          break;
+        case "yes_no":
+          field.type = "checkbox";
           break;
         case "select_one":
+          field.type = 'select';
+          field.multiSelect = false;
+          break;
         case "select_many":
+          field.type = 'select';
+          field.multiSelect = true;
+          break;
         case "hierarchy":
         case "photo":
           field.type = field.kind;
-          field.isInputType = false;
           break;
         default:
           field.type = field.kind;
+          field.isInputType = true;
           break;
       }
     });
@@ -70,9 +81,22 @@ angular.module('app')
     });
   };
 
+  var saveSite = function (site) {
+    return $q(function(resolve, reject) {
+      $http.post(ENDPOINT.api + API.sites + authToken, {"site": site})
+        .success(function(response) {
+          resolve(response);
+        })
+        .error(function(error){
+          reject('error ' + error);
+        });
+    });
+  }
+
   return {
     fetch: fetch,
-    getFields: getFields
+    getFields: getFields,
+    saveSite: saveSite
   };
 })
 

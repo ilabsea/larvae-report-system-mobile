@@ -9,5 +9,5 @@ angular.module('app')
   sign_in: 'users/sign_in.json',
   collections: "collections?auth_token=",
   layers: 'v1/collections/39/fields?auth_token=',
-
+  sites: 'v1/collections/39/sites?auth_token='
 })

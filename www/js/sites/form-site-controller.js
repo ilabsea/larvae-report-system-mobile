@@ -1,8 +1,9 @@
 angular.module('app')
 
-.controller('FormSiteCtrl', function($scope, $state, $ionicPopup,  $ionicHistory, FormSiteService, CameraService) {
-  $scope.items = [{name: 'first task 1', tree: [{name: 'first task 1.1'}]},
-     {name: 'first task 2'}];
+.controller('FormSiteCtrl', function($scope, $state, $ionicPopup, $filter,
+            $ionicHistory, FormSiteService, CameraService) {
+  $scope.site = {properties : {}};
+  $scope.propertiesDate = {};
 
   $scope.getLayers = function() {
     FormSiteService.fetch().then(function(layers){
@@ -18,6 +19,14 @@ angular.module('app')
 
   $scope.renderFieldsForm = function(layerId){
     $scope.fields = FormSiteService.getFields(layerId);
+  }
+
+  $scope.saveSite = function (site, propertiesDate) {
+    angular.forEach(propertiesDate, function (date, key) {
+      site.properties[key] =  $filter('date')(date, 'MM/dd/yyyy');
+    })
+    console.log('site : ', site);
+    FormSiteService.saveSite(site);
   }
 
   $scope.backToVillage = function(){

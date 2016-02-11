@@ -1,0 +1,74 @@
+<ion-view title='Larvae' name="village-view" ng-controller='FormSiteCtrl' ng-init='getLayers()'>
+  <ion-nav-buttons side="left">
+    <button class="button icon-left ion-android-arrow-back button-stable" ng-click="backToVillage()">Back</button>
+  </ion-nav-buttons>
+
+  <ion-nav-buttons side="right">
+    <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
+  </ion-nav-buttons>
+
+  <ion-tabs class="tabs-color-active-positive">
+    <ion-tab ng-repeat="layer in layers" title="{{layer.name}}" ng-click='renderFieldsForm({{layer.id}})'>
+      <ion-nav-view></ion-nav-view>
+    </ion-tab>
+  </ion-tabs>
+
+  <ion-content class="padding has-subheader">
+    <div ng-repeat="field in fields">
+      <label class='item item-input' ng-if="field.isInputType">
+        <div class="input-label">{{field.name}}</div>
+        <input type="{{field.type}}" placeholder="(no value)" ng-model="site.properties[field.id]">
+      </label>
+
+      <label class='item item-input' ng-if="field.type == 'date'">
+        <div class="input-label">{{field.name}}</div>
+        <input type="date" placeholder="(no value)" ng-model="propertiesDate[field.id]">
+      </label>
+
+      <div class='item item-toggle' ng-if="field.type == 'checkbox'" >
+        {{field.name}}
+       <label class="toggle">
+         <input type="checkbox" ng-model='site.properties[field.id]'>
+         <div class="track">
+           <div class="handle"></div>
+         </div>
+       </label>
+      </div>
+
+      <fancy-select ng-if="field.type === 'select'" header-text="Select option"
+        items="field.config.options" value="site.properties[field.id]"
+        value-property="id" text-property="label"
+        multi-select="{{field.multiSelect}}" text="(no value)"
+        modal-template-url="templates/fancy-select/fancy-select.html"
+        template-url="templates/fancy-select/item-template.html"
+        note-text="{{field.name}}" value-changed="onValueChanged(value)"
+        get-custom-text="getCustomText(value)"
+        >
+      </fancy-select>
+
+      <div class='item item-input' ng-if="field.type === 'photo'">
+        <div class="input-label">{{field.name}}</div>
+        <div ng-click='takePicture()'>
+          <img ng-src="{{photo}}" ng-model='site.properties[field.id]'>
+        </div>
+      </div>
+
+      <div class='item' ng-if="field.type === 'hierarchy'">
+        <div class="input-label">{{field.name}}</div>
+        <div class='item'>
+          <ion-tree-list items="field.config.hierarchy"
+                         value="site.properties[field.id]"
+                         value-property="id"
+                         collapsed="true">
+          </ion-tree-list>
+        </div>
+      </div>
+    </div>
+    <pre>{{site | json}}</pre>
+    <button class='button button-block button-positive' ng-click="saveSite(site, propertiesDate)">
+    <!-- <button ng-if='isLastTab' class='button button-block button-positive' ng-click="saveSite(site)"> -->
+      Save
+    </button>
+
+  </ion-content>
+</ion-view>

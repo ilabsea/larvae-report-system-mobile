@@ -2,7 +2,8 @@ angular.module('app',
   ['ionic',
   'pascalprecht.translate',
   'base64',
-  'ionic-fancy-select'])
+  'ionic-fancy-select',
+  'ion-tree-list'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -48,7 +49,7 @@ angular.module('app',
 
   .state('weeks-calendar', {
     url: '/weeks-calendar',
-    templateUrl: 'templates/weeks_calendar.html',
+    templateUrl: 'templates/weeks-calendar.html',
     controller: 'WeeksCalendarCtrl'
   })
 
@@ -60,9 +61,9 @@ angular.module('app',
 
   .state('form-site', {
     url: '/form-site',
-    templateUrl: 'templates/form_site.html',
+    templateUrl: 'templates/form-site.html',
     controller: 'FormSiteCtrl'
   })
 
-  $urlRouterProvider.otherwise('/weeks-calendar')
+  $urlRouterProvider.otherwise('/form-site')
 })
