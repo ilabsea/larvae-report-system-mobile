@@ -4,11 +4,13 @@ angular.module('app')
             $ionicHistory, FormSiteService, CameraService) {
   $scope.site = {properties : {}};
   $scope.propertiesDate = {};
+  $scope.fields = [];
 
   $scope.getLayers = function() {
     FormSiteService.fetch().then(function(layers){
       $scope.layers = layers;
-      $scope.fields = FormSiteService.getFields(layers[0].id);
+      console.log('layers : ', layers);
+      $scope.fields = layers.length > 0 ? FormSiteService.getFields(layers[0].id) : [];
     }, function(error){
       var alertPopup = $ionicPopup.alert({
         title: 'Fetch data failed',
@@ -24,9 +26,10 @@ angular.module('app')
   $scope.saveSite = function (site, propertiesDate) {
     angular.forEach(propertiesDate, function (date, key) {
       site.properties[key] =  $filter('date')(date, 'MM/dd/yyyy');
-    })
-    console.log('site : ', site);
+    });
     FormSiteService.saveSite(site);
+    $state.go('villages');
+    $scope.fields = [];
   }
 
   $scope.backToVillage = function(){

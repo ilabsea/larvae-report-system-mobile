@@ -1,6 +1,6 @@
 angular.module('app')
 
-.service('SessionsService', function($q, $http, ENDPOINT, API, $base64, $state) {
+.service('SessionsService', function($q, $http, ENDPOINT, API, $state) {
   var LOCAL_TOKEN_KEY = 'authToken';
   var authToken;
 
@@ -31,9 +31,6 @@ angular.module('app')
     return $q(function(resolve, reject) {
       email = user.email;
       password = user.password;
-      auth_data = $base64.encode(email + ':' + password);
-      console.log('auth_data : ', auth_data);
-      // $http.post(ENDPOINT.api + API.sign_in , {}, {headers: {'Authorization': 'Basic ' + auth_data}})
       console.log(" end point : ", ENDPOINT.api + API.sign_in)
       $http.post(ENDPOINT.api + API.sign_in, {"user":{'email':email, 'password':password}})
         .success(function(response) {

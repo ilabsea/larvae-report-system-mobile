@@ -53,7 +53,6 @@ angular.module('app')
           break;
       }
     });
-    console.log('fields built : ', fields);
     return fields;
   }
 

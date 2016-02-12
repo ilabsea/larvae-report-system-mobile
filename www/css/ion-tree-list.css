@@ -6,13 +6,13 @@
   background-color: #9D9C9C !important;
 }
 .icon.ion-custom-folder:before{
-  content: url('../../img/folder.png') !important;
+  content: url('../img/folder.png') !important;
 }
 .icon.ion-custom-open-folder:before {
-  content: url('../../img/folder_open.png') !important;
+  content: url('../img/folder_open.png') !important;
 }
 .icon.ion-custom-blank-doc:before{
-  content: url('../../img/doc_blank.png') !important;
+  content: url('../img/doc_blank.png') !important;
 }
 
 .icon.ion-custom-folder,
