@@ -5,11 +5,11 @@ angular.module('app')
   $scope.site = {properties : {}};
   $scope.propertiesDate = {};
   $scope.fields = [];
+  $scope.photo = 'img/camera.png';
 
   $scope.getLayers = function() {
     FormSiteService.fetch().then(function(layers){
       $scope.layers = layers;
-      console.log('layers : ', layers);
       $scope.fields = layers.length > 0 ? FormSiteService.getFields(layers[0].id) : [];
     }, function(error){
       var alertPopup = $ionicPopup.alert({
@@ -32,15 +32,20 @@ angular.module('app')
     $scope.fields = [];
   }
 
-  $scope.backToVillage = function(){
-    $ionicHistory.goBack();
+  $scope.showChoiceCameraPopup = function(){
+    var popup = $ionicPopup.show({
+      templateUrl: "templates/camera-options.html",
+      title: 'Photo options',
+      scope: $scope,
+      buttons: [{ text: 'Cancel' }]
+    });
   }
 
-  $scope.takePicture = function(){
-    cameraOptions = {
+  $scope.getPhoto = function (value) {
+    var cameraOptions = {
       quality: 50,
       destinationType: Camera.DestinationType.DATA_URL,
-      sourceType: Camera.PictureSourceType.CAMERA,
+      sourceType: Camera.PictureSourceType.value,
       encodingType: Camera.EncodingType.JPEG,
       targetWidth: 100,
       targetHeight: 100,
@@ -50,10 +55,14 @@ angular.module('app')
     }
 
     CameraService.getPicture(cameraOptions).then(function(imageURI) {
-      $scope.lastPhoto = imageURI;
+      $scope.photo = "data:image/jpeg;base64," + imageURI;
       console.log("imageURI : ", imageURI);
     }, function(err) {
       console.err(err);
     });
+  }
+
+  $scope.backToVillage = function(){
+    $ionicHistory.goBack();
   }
 })
