@@ -1,7 +1,7 @@
 angular.module('app')
 
 .controller('FormSiteCtrl', function($scope, $state, $ionicPopup, $filter,
-            $ionicHistory, FormSiteService, CameraService) {
+            $ionicHistory, FormSiteService, SiteService, CameraService) {
   $scope.site = {properties : {}};
   $scope.propertiesDate = {};
   $scope.fields = [];
@@ -27,7 +27,7 @@ angular.module('app')
     angular.forEach(propertiesDate, function (date, key) {
       site.properties[key] =  $filter('date')(date, 'MM/dd/yyyy');
     });
-    FormSiteService.saveSite(site);
+    SiteService.saveSiteToDB(site);
     $state.go('villages');
     $scope.fields = [];
   }
