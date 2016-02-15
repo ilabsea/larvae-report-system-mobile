@@ -53,8 +53,14 @@ angular.module('ion-tree-list', [], function($rootScopeProvider){
 
             $scope.setSelected = function (item) {
               $scope.selectedItem = item;
-              $scope.valueProperty = item.id;
-              $scope.value = item.id;
+              if(item){
+                $scope.valueProperty = item.id;
+                $scope.value = item.id;
+              } else{
+                $scope.valueProperty = attrs.valueProperty || "id";
+                $scope.value = "";
+              }
+
             }
 /////////////////////////////////////////////////////////////////////////////////
             $scope.$watch('collapsed', function(){
