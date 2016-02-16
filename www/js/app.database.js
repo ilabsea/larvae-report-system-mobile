@@ -5,10 +5,8 @@ function createTables($cordovaSQLite) {
   var queryCreateSiteTable = "CREATE TABLE IF NOT EXISTS sites" +
                       "(id integer primary key, collection_id integer, " +
                       "user_id integer, village_id integer, device_id text, " +
-                      "properties text, files text)";
+                      "week_number integer, properties text, files text)";
 
-  $cordovaSQLite.execute(db,
-      "CREATE TABLE IF NOT EXISTS people (id integer primary key, firstname text, lastname text)");
   $cordovaSQLite.execute(db, queryCreateSiteTable);
 
 }

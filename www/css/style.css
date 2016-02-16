@@ -1,1 +1,4 @@
-/* Empty. Add your own CSS if you like */
+.week-calendar-error {
+    color: #cc2511;
+    font-weight: bold;
+}

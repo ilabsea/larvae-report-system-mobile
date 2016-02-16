@@ -3,6 +3,7 @@ angular.module('app')
 .service('WeeklyService', function($filter) {
   isDisabledNextButton = false;
   isDisabledPreviousButton = false;
+  selectedWeekNumber = '';
 
   function setDisabledNextButton(isDisabled) {
     isDisabledNextButton = isDisabled;
@@ -72,12 +73,23 @@ angular.module('app')
       i += 3;
       weeks.push({"row": row});
     }
+    console.log('weeks : ', weeks);
     return weeks;
+  }
+
+  function setSelectedWeek(weekNumber) {
+    selectedWeek = weekNumber;
+  }
+
+  function getSelectedWeek() {
+    return selectedWeek;
   }
 
   return {
     getWeeks: getWeeks,
     isDisabledNextButton: getDisabledNextButton,
     isDisabledPreviousButton: getDisabledPreviousButton,
+    setSelectedWeek: setSelectedWeek,
+    getSelectedWeek: getSelectedWeek
   }
 })
