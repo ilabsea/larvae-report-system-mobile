@@ -1,8 +1,9 @@
 angular.module('app')
 
 .controller('SessionsCtrl', function($scope, $state, $ionicPopup, SessionsService) {
-  $scope.user = {"email": 'mouyleng+1@instedd.org', "password" : 'mouyleng123'};
-
+  // $scope.user = {"email": 'mouyleng+1@instedd.org', "password" : 'mouyleng123'};
+  $scope.user = {};
+  
   $scope.login = function(user) {
     SessionsService.login(user).then(function(authenticated) {
       $state.go("weeks-calendar");

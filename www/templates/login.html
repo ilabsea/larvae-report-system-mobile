@@ -1,15 +1,21 @@
 <ion-view view-title="Sign-In" name="login-view" ng-controller='AppCtrl'>
   <ion-content class="padding">
+    <form name="loginForm" novalidate ng-submit='login(user)'>
       <div class="list list-inset">
-          <label class="item item-input">
+          <label class="item item-input" ng-class="{ 'has-errors' : (loginForm.email.$invalid
+            || loginForm.email.$pristine) && loginForm.email.$touched}">
             <div class="input-label">{{"email" | translate}}</div>
-            <input type="email" placeholder='{{"email" | translate}}' ng-model="user.email">
+            <input type="email" name='email' placeholder='{{"email" | translate}}'
+                  ng-model="user.email" required>
           </label>
-          <label class="item item-input">
+          <label class="item item-input" ng-class="{ 'has-errors' : (loginForm.password.$invalid
+              || loginForm.password.$pristine) && loginForm.password.$touched}">
             <div class="input-label">{{"password" | translate}}</div>
-            <input type="password" placeholder='{{"password" | translate}}' ng-model="user.password">
+            <input type="password" name='password' placeholder='{{"password" | translate}}'
+                ng-model="user.password" required="">
           </label>
       </div>
-      <button id='login-button' class="button button-block button-positive" ng-click="login(user)">Login</button>
+      <button id='login-button' class="button button-block button-positive">Login</button>
+    </form>
   </ion-content>
 </ion-view>

@@ -30,5 +30,5 @@ function routes($stateProvider, $urlRouterProvider, $compileProvider) {
     controller: 'FormSiteCtrl'
   })
 
-  $urlRouterProvider.otherwise('/villages')
+  $urlRouterProvider.otherwise('/weeks-calendar')
 }
