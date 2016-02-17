@@ -1,10 +1,12 @@
 angular.module('app')
+.factory('SiteService', SiteService)
+SiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "FormSiteService", "$cordovaSQLite", "WeeklyService"]
 
-.service('SiteService', function($q, $http, ENDPOINT, API,
-  FormSiteService, $cordovaSQLite, WeeklyService){
+function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
+  WeeklyService) {
   var authToken = window.localStorage.getItem('authToken');
 
-  var saveSiteToDB = function(site){
+  function saveSiteToDB(site){
     var query = "INSERT INTO sites" +
                 "(week_number, properties, files)" +
                 "VALUES (?, ?, ?)";
@@ -20,7 +22,7 @@ angular.module('app')
     });
   }
 
-  var uploadSites = function() {
+  function uploadSites() {
     var query = "SELECT * FROM sites WHERE id= ? "
     $cordovaSQLite.execute(db, query, [6])
       .then(function(res){
@@ -55,4 +57,4 @@ angular.module('app')
     removeSiteById: removeSiteById,
     getWeeksMissingSend: getWeeksMissingSend
   }
-});
+}

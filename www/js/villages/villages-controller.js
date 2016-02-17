@@ -1,13 +1,17 @@
 angular.module('app')
+.controller('VillagesCtrl', VillagesCtrl)
 
-.controller('VillagesCtrl', function ($scope, $ionicHistory, VillagesService,
-    SiteService) {
-  $scope.backToWeeksCalendar = function(){
+VillagesCtrl.$inject = ["$scope", "$ionicHistory", "VillagesService",
+    "SiteService"]
+
+function VillagesCtrl($scope, $ionicHistory, VillagesService, SiteService) {
+  var vm = $scope;
+  vm.backToWeeksCalendar = function(){
     $ionicHistory.goBack();
   }
 
-  $scope.villages = VillagesService.all();
-  $scope.uploadSites = function(){
+  vm.villages = VillagesService.all();
+  vm.uploadSites = function(){
     SiteService.uploadSites();
   }
-})
+}

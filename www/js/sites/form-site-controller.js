@@ -1,16 +1,27 @@
 angular.module('app')
+.controller("FormSiteCtrl", FormSiteCtrl)
+FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$filter",
+            "$ionicHistory", "FormSiteService", "SiteService", "CameraService"]
 
-.controller('FormSiteCtrl', function($scope, $state, $ionicPopup, $filter,
+function FormSiteCtrl($scope, $state, $ionicPopup, $filter,
             $ionicHistory, FormSiteService, SiteService, CameraService) {
-  $scope.site = {properties : {}};
-  $scope.propertiesDate = {};
-  $scope.fields = [];
-  $scope.photo = 'img/camera.png';
+  var vm = $scope;
+  vm.site = {properties : {}};
+  vm.propertiesDate = {};
+  vm.fields = [];
+  vm.photo = 'img/camera.png';
 
-  $scope.getLayers = function() {
+  vm.getLayers = getLayers;
+  vm.renderFieldsForm = renderFieldsForm;
+  vm.saveSite = saveSite;
+  vm.showChoiceCameraPopup = showChoiceCameraPopup;
+  vm.getPhoto = getPhoto;
+  vm.backToVillage = backToVillage;
+
+  function getLayers() {
     FormSiteService.fetch().then(function(layers){
-      $scope.layers = layers;
-      $scope.fields = layers.length > 0 ? FormSiteService.getFields(layers[0].id) : [];
+      vm.layers = layers;
+      vm.fields = layers.length > 0 ? FormSiteService.getFields(layers[0].id) : [];
     }, function(error){
       var alertPopup = $ionicPopup.alert({
         title: 'Fetch data failed',
@@ -19,20 +30,20 @@ angular.module('app')
     })
   }
 
-  $scope.renderFieldsForm = function(layerId){
-    $scope.fields = FormSiteService.getFields(layerId);
+  function renderFieldsForm(layerId){
+    vm.fields = FormSiteService.getFields(layerId);
   }
 
-  $scope.saveSite = function (site, propertiesDate) {
+  function saveSite(site, propertiesDate) {
     angular.forEach(propertiesDate, function (date, key) {
       site.properties[key] =  $filter('date')(date, 'MM/dd/yyyy');
     });
     SiteService.saveSiteToDB(site);
     $state.go('villages');
-    $scope.fields = [];
+    vm.fields = [];
   }
 
-  $scope.showChoiceCameraPopup = function(){
+  function showChoiceCameraPopup(){
     var popup = $ionicPopup.show({
       templateUrl: "templates/camera-options.html",
       title: 'Photo options',
@@ -41,7 +52,7 @@ angular.module('app')
     });
   }
 
-  $scope.getPhoto = function (value) {
+  function getPhoto(value) {
     var cameraOptions = {
       quality: 50,
       destinationType: Camera.DestinationType.DATA_URL,
@@ -55,14 +66,14 @@ angular.module('app')
     }
 
     CameraService.getPicture(cameraOptions).then(function(imageURI) {
-      $scope.photo = "data:image/jpeg;base64," + imageURI;
+      vm.photo = "data:image/jpeg;base64," + imageURI;
       console.log("imageURI : ", imageURI);
     }, function(err) {
       console.err(err);
     });
   }
 
-  $scope.backToVillage = function(){
+  function backToVillage(){
     $ionicHistory.goBack();
   }
-})
+}

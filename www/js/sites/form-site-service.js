@@ -1,6 +1,8 @@
 angular.module('app')
+.factory('FormSiteService', FormSiteService)
+FormSiteService.$inject = ["$q", "$http", "ENDPOINT", "API"]
 
-.service('FormSiteService', function($q, $http, ENDPOINT, API){
+function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
   var collection_id = "";
   var authToken = window.localStorage.getItem('authToken');
   var layers = {};
@@ -56,7 +58,7 @@ angular.module('app')
     return fields;
   }
 
-  var getFields = function(layerId){
+  function getFields(layerId){
     var fields;
     angular.forEach(layers, function(layer) {
       if(layer.id == layerId){
@@ -67,7 +69,7 @@ angular.module('app')
     return fields;
   }
 
-  var fetch = function() {
+  function fetch() {
     return $q(function(resolve, reject) {
       $http.get(ENDPOINT.api + API.layers + authToken)
         .success(function(response) {
@@ -80,7 +82,7 @@ angular.module('app')
     });
   };
 
-  var saveSite = function (site) {
+  function saveSite(site) {
     return $q(function(resolve, reject) {
       $http.post(ENDPOINT.api + API.sites + authToken, {"site": site})
         .success(function(response) {
@@ -97,20 +99,4 @@ angular.module('app')
     getFields: getFields,
     saveSite: saveSite
   };
-})
-
-.factory('CameraService', ['$q', function($q) {
-  return {
-    getPicture: function(options) {
-      var q = $q.defer();
-
-      navigator.camera.getPicture(function(result) {
-        q.resolve(result);
-      }, function(err) {
-        q.reject(err);
-      }, options);
-
-      return q.promise;
-    }
-  }
-}]);
+}

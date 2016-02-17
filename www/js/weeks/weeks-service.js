@@ -1,6 +1,17 @@
 angular.module('app')
+.factory('WeeklyService', WeeklyService)
 
-.service('WeeklyService', function($filter) {
+WeeklyService.$inject = ["$filter"];
+
+function WeeklyService($filter) {
+  return {
+    getWeeks: getWeeks,
+    isDisabledNextButton: getDisabledNextButton,
+    isDisabledPreviousButton: getDisabledPreviousButton,
+    setSelectedWeek: setSelectedWeek,
+    getSelectedWeek: getSelectedWeek
+  }
+
   isDisabledNextButton = false;
   isDisabledPreviousButton = false;
   selectedWeekNumber = '';
@@ -73,7 +84,6 @@ angular.module('app')
       i += 3;
       weeks.push({"row": row});
     }
-    console.log('weeks : ', weeks);
     return weeks;
   }
 
@@ -85,11 +95,4 @@ angular.module('app')
     return selectedWeek;
   }
 
-  return {
-    getWeeks: getWeeks,
-    isDisabledNextButton: getDisabledNextButton,
-    isDisabledPreviousButton: getDisabledPreviousButton,
-    setSelectedWeek: setSelectedWeek,
-    getSelectedWeek: getSelectedWeek
-  }
-})
+}

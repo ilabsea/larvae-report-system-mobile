@@ -1,10 +1,15 @@
 angular.module('app')
+.controller('SessionsCtrl', SessionsCtrl)
 
-.controller('SessionsCtrl', function($scope, $state, $ionicPopup, SessionsService) {
-  // $scope.user = {"email": 'mouyleng+1@instedd.org', "password" : 'mouyleng123'};
-  $scope.user = {};
-  
-  $scope.login = function(user) {
+SessionsCtrl.$inject = ["$scope", "$state", "$ionicPopup", "SessionsService"]
+
+function SessionsCtrl($scope, $state, $ionicPopup, SessionsService) {
+  var vm = $scope;
+  vm.user = {'email': 'mouyleng+1@instedd.org', 'password':'mouyleng123'};
+  vm.login = login;
+  vm.logout = logout;
+
+  function login(user) {
     SessionsService.login(user).then(function(authenticated) {
       $state.go("weeks-calendar");
     }, function(err) {
@@ -15,8 +20,8 @@ angular.module('app')
     });
   };
 
-  $scope.logout = function() {
+  function logout() {
     SessionsService.logout();
     $state.go("login");
   };
-})
+}

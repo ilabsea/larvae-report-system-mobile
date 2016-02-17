@@ -1,51 +1,59 @@
 angular.module('app')
+.controller('WeeksCalendarCtrl', WeeksCalendarCtrl)
 
-.controller('WeeksCalendarCtrl', function($scope, $state, $filter, SiteService, WeeklyService) {
-  $scope.currentYear = $filter('date')(new Date(), "yyyy");
-  $scope.index = 1;
-  $scope.isDisabledPreviousButton = true;
-  $scope.isDisabledNextButton = false;
-  $scope.hasError = "has-errors";
+WeeksCalendarCtrl.$inject = ["$scope", "$state", "$filter", "SiteService", "WeeklyService"]
 
-  $scope.weeks = WeeklyService.getWeeks($scope.currentYear, $scope.index);
+function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
+  var vm = $scope, index = 1;
+  vm.currentYear = $filter('date')(new Date(), "yyyy");
+  vm.isDisabledPreviousButton = true;
+  vm.isDisabledNextButton = false;
+  vm.weeks = WeeklyService.getWeeks(vm.currentYear, index);
+  vm.next = goNext;
+  vm.previous = goPrevious;
+  vm.getWeekNumber = setWeekNumber;
+  vm.weeksMissingSend = [];
+  vm.isErrorWeekNumber = isErrorWeekNumber;
+  setWeeksMissingSend();
 
-
-  $scope.next = function(){
-    $scope.index += 9;
-    $scope.weeks = WeeklyService.getWeeks("2016", $scope.index);
-    $scope.isDisabledNextButton = WeeklyService.isDisabledNextButton();
-    $scope.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
+  function goPrevious(){
+    index -= 9;
+    vm.weeks = WeeklyService.getWeeks("2016", index);
+    vm.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
+    vm.isDisabledNextButton = WeeklyService.isDisabledNextButton();
+  }
+  function goNext(){
+    index += 9;
+    vm.weeks = WeeklyService.getWeeks("2016", index);
+    vm.isDisabledNextButton = WeeklyService.isDisabledNextButton();
+    vm.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
   }
 
-  $scope.previous = function () {
-    $scope.index -= 9;
-    $scope.weeks = WeeklyService.getWeeks("2016", $scope.index);
-    $scope.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
-    $scope.isDisabledNextButton = WeeklyService.isDisabledNextButton();
-  }
-
-  $scope.getWeekNumber = function (weekNumber) {
+  function setWeekNumber(weekNumber) {
     WeeklyService.setSelectedWeek(weekNumber);
     $state.go('villages')
   }
 
-  $scope.weeksMissingSendArray = [];
-  SiteService.getWeeksMissingSend().then(function(weeks){
-    $scope.weeksMissingSendArray = weeks;
-  })
+  function setWeeksMissingSend(){
+    SiteService.getWeeksMissingSend().then(function(weeks){
+      vm.weeksMissingSend = weeks;
+    })
+  }
 
-  $scope.isErrorWeek = function(weekNumber){
-    var weeksMissingSend =  $scope.weeksMissingSendArray;
+  function isErrorWeekNumber(weekNumber){
+    var weeksMissingSend =  vm.weeksMissingSend;
     var isError = '';
-    for(var i = 0; i<weeksMissingSend.length ; i++){
-      if(weeksMissingSend[i].week_number == weekNumber){
-        var todayWeek = $filter('date')(new Date(), 'w');
-        if(weekNumber < todayWeek ){
-          isError = 'week-calendar-error';
-          break;
-        }
+    for(var i = 0; i < weeksMissingSend.length ; i++){
+      if(isMissingUploadSites(weeksMissingSend[i], weekNumber)){
+        isError = 'week-calendar-error';
+        break;
       }
     }
     return isError;
   };
-})
+
+  function isMissingUploadSites(weeksMissingSend, weekNumber) {
+    var todayWeek = $filter('date')(new Date(), 'w');
+    return weeksMissingSend.week_number == weekNumber && weekNumber < todayWeek;
+  }
+}
