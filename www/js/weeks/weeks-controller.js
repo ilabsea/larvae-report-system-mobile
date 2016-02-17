@@ -14,7 +14,6 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   vm.getWeekNumber = setWeekNumber;
   vm.weeksMissingSend = [];
   vm.isErrorWeekNumber = isErrorWeekNumber;
-  setWeeksMissingSend();
 
   function goPrevious(){
     index -= 9;
@@ -36,6 +35,7 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
 
   function setWeeksMissingSend(){
     SiteService.getWeeksMissingSend().then(function(weeks){
+      console.log('weeksMissingSend : ', weeks);
       vm.weeksMissingSend = weeks;
     })
   }
@@ -56,4 +56,10 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
     var todayWeek = $filter('date')(new Date(), 'w');
     return weeksMissingSend.week_number == weekNumber && weekNumber < todayWeek;
   }
+
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    if (toState.url== "/weeks-calendar") {
+      setWeeksMissingSend();
+    }
+  });
 }
