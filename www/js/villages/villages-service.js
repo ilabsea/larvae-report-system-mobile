@@ -3,27 +3,43 @@ angular.module('app')
 
 VillagesService.$inject = [];
 
-var villages = [{
-  id: 0,
-  name: 'Saysetha'
-}, {
+var villages = [
+{
   id: 1,
-  name: 'Phouvong',
+  name: 'Phouvong'
 }, {
   id: 2,
   name: 'Samakkhixay'
 }, {
   id: 3,
-  name: 'Sanamxay',
+  name: 'Sanamxay'
 }, {
   id: 4,
-  name: 'Sanxay',
+  name: 'Sanxay'
+},
+{
+  id: 5,
+  name: 'Saysetha'
 }];
 
 function VillagesService() {
+  var village_id;
+
+  function all(){
+    return villages;
+  }
+
+  function setSelectedVillageId(id){
+    village_id = id;
+  }
+
+  function getSelectedVillageId() {
+    return village_id;
+  }
+
   return {
-    all: function() {
-      return villages;
-    }
+    all: all,
+    setSelectedVillageId: setSelectedVillageId,
+    getSelectedVillageId: getSelectedVillageId
   };
 }

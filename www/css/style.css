@@ -1,9 +1,14 @@
 .week-calendar-error {
-    color: #cc2511;
-    font-weight: bold;
+  color: #cc2511;
+  font-weight: bold;
 }
 
 .week-calendar-error:hover {
-    color: #cc2511;
-    font-weight: bold;
+  color: #cc2511;
+  font-weight: bold;
+}
+
+.village-has-data{
+  border-left: 3px solid #3d8b3d;
+  border-right: 3px solid #3d8b3d;
 }

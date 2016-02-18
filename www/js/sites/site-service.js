@@ -1,19 +1,20 @@
 angular.module('app')
 .factory('SiteService', SiteService)
-SiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "FormSiteService", "$cordovaSQLite", "WeeklyService"]
+SiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "FormSiteService",
+                      "$cordovaSQLite", "WeeklyService", "VillagesService"]
 
 function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
-  WeeklyService) {
+  WeeklyService, VillagesService) {
   var authToken = window.localStorage.getItem('authToken');
 
   function saveSiteToDB(site){
     var query = "INSERT INTO sites" +
-                "(week_number, year, properties, files)" +
-                "VALUES (?, ?, ?, ?)";
-
+                "(village_id , week_number, year, properties, files)" +
+                "VALUES (?, ?, ?, ?, ?)";
+    var village_id = VillagesService.getSelectedVillageId();
     var weekNumber = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
-    var siteData = [weekNumber, year, angular.toJson(site.properties), ""];
+    var siteData = [village_id, weekNumber, year, angular.toJson(site.properties), ""];
     $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
       console.log("Deleted : ", res);
@@ -51,10 +52,23 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
     return weeksMissingSend;
   }
 
+  function getSiteByVillageIdInWeekYear(id) {
+    var query = "SELECT * FROM sites WHERE village_id=? AND week_number=? AND year=?";
+    var week = WeeklyService.getSelectedWeek();
+    var year = WeeklyService.getSelectedYear();
+    console.log('week : ', week);
+    console.log('year : ', year);
+    var site = $cordovaSQLite.execute(db, query, [id, week, year]).then(function(site){
+      return site.rows;
+    });
+    return site;
+  }
+
   return {
     saveSiteToDB: saveSiteToDB,
     uploadSites: uploadSites,
     removeSiteById: removeSiteById,
-    getWeeksMissingSend: getWeeksMissingSend
+    getWeeksMissingSend: getWeeksMissingSend,
+    getSiteByVillageIdInWeekYear: getSiteByVillageIdInWeekYear
   }
 }

@@ -10,7 +10,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter,
   vm.propertiesDate = {};
   vm.fields = [];
   vm.photo = 'img/camera.png';
-
   vm.getLayers = getLayers;
   vm.renderFieldsForm = renderFieldsForm;
   vm.saveSite = saveSite;

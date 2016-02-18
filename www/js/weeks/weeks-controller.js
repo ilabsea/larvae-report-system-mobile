@@ -60,7 +60,6 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   function isErrorWeekNumber(weekNumber){
     var weeksMissingSend =  vm.weeksMissingSend;
     var isError = '';
-    console.log('weeksMissingSend : ', weeksMissingSend);
     for(var i = 0; i < weeksMissingSend.length ; i++){
       if(isMissingUploadSites(weeksMissingSend[i], weekNumber)){
         isError = 'week-calendar-error';
