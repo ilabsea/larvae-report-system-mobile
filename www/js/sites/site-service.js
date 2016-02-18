@@ -8,12 +8,12 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
 
   function saveSiteToDB(site){
     var query = "INSERT INTO sites" +
-                "(week_number, properties, files)" +
-                "VALUES (?, ?, ?)";
+                "(week_number, year, properties, files)" +
+                "VALUES (?, ?, ?, ?)";
 
     var weekNumber = WeeklyService.getSelectedWeek();
-    console.log('weekNumber : ', weekNumber);
-    var siteData = [weekNumber, angular.toJson(site.properties), ""];
+    var year = WeeklyService.getSelectedYear();
+    var siteData = [weekNumber, year, angular.toJson(site.properties), ""];
     $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
       console.log("Deleted : ", res);
@@ -44,7 +44,7 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   }
 
   function getWeeksMissingSend() {
-    var query = "SELECT week_number, COUNT(*) AS number_sites FROM sites GROUP BY week_number";
+    var query = "SELECT week_number, year, COUNT(*) AS number_sites FROM sites GROUP BY week_number";
     weeksMissingSend = $cordovaSQLite.execute(db, query).then(function(count){
       return count.rows;
     });

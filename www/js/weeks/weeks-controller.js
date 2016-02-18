@@ -17,7 +17,8 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   vm.isErrorWeekNumber = isErrorWeekNumber;
   vm.years = setYears();
 
-  vm.getWeeks = function() {
+  vm.setWeeks = function() {
+    WeeklyService.setSelectedYear(vm.selectedYear);
     vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
   }
 
@@ -26,7 +27,6 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
     var currentYear = $filter('date')(new Date(), "yyyy");
     var years = [];
     for(var i= startYear ; i <= currentYear ; i++){
-      console.log('years : ', i);
       years.push(i);
     }
     return years;
@@ -60,6 +60,7 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   function isErrorWeekNumber(weekNumber){
     var weeksMissingSend =  vm.weeksMissingSend;
     var isError = '';
+    console.log('weeksMissingSend : ', weeksMissingSend);
     for(var i = 0; i < weeksMissingSend.length ; i++){
       if(isMissingUploadSites(weeksMissingSend[i], weekNumber)){
         isError = 'week-calendar-error';
@@ -71,11 +72,29 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
 
   function isMissingUploadSites(weeksMissingSend, weekNumber) {
     var todayWeek = $filter('date')(new Date(), 'w');
-    return weeksMissingSend.week_number == weekNumber && weekNumber < todayWeek;
+    var todayYear = $filter('date')(new Date(), 'yyyy');
+    var isMissing = false;
+    if(vm.selectedYear == weeksMissingSend.year){
+      if(weeksMissingSend.week_number == weekNumber){
+        if(weeksMissingSend.year < todayYear){
+          isMissing = true;
+        }else{
+          if(weekNumber < todayWeek){
+            isMissing = true;
+          }
+        }
+      }
+    }
+    return  isMissing;
+  }
+
+  function setSelectedYear(year){
+    WeeklyService.setSelectedYear(year);
   }
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
     if (toState.url== "/weeks-calendar") {
+      setSelectedYear(vm.selectedYear);
       setWeeksMissingSend();
     }
   });

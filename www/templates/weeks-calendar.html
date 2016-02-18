@@ -5,7 +5,7 @@
   <ion-content class="padding" ng-controller='WeeksCalendarCtrl'>
     <label class="item item-input item-select item-balance">
       <div class="input-label">Select year</div>
-      <select ng-model="selectedYear" ng-change='getWeeks()'>
+      <select ng-model="selectedYear" ng-change='setWeeks()'>
         <option ng-repeat='year in years' ng-value="{{year}}">{{year}}</option>
       </select>
     </label>

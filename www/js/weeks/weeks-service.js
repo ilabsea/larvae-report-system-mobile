@@ -7,6 +7,7 @@ function WeeklyService($filter) {
   isDisabledNextButton = false;
   isDisabledPreviousButton = false;
   selectedWeekNumber = '';
+  selectedYear = '';
 
   function setDisabledNextButton(isDisabled) {
     isDisabledNextButton = isDisabled;
@@ -78,12 +79,22 @@ function WeeklyService($filter) {
     return selectedWeek;
   }
 
+  function setSelectedYear(year) {
+    selectedYear = year;
+  }
+
+  function getSelectedYear() {
+    return selectedYear;
+  }
+
   return {
     getWeeks: getWeeks,
     isDisabledNextButton: getDisabledNextButton,
     isDisabledPreviousButton: getDisabledPreviousButton,
     setSelectedWeek: setSelectedWeek,
-    getSelectedWeek: getSelectedWeek
+    getSelectedWeek: getSelectedWeek,
+    getSelectedYear: getSelectedYear,
+    setSelectedYear: setSelectedYear
   }
 
 }
