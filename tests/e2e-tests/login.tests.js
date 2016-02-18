@@ -14,7 +14,6 @@ describe('Clicking on the login button', function () {
 
     loginButton.click().then(function(){
       expect(browser.getLocationAbsUrl()).toMatch('/weeks-calendar');
-
       var weeks = element.all(by.repeater('week in weeks'));
       expect(weeks.count()).toEqual(3);
     })

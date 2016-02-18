@@ -4,14 +4,6 @@ angular.module('app')
 WeeklyService.$inject = ["$filter"];
 
 function WeeklyService($filter) {
-  return {
-    getWeeks: getWeeks,
-    isDisabledNextButton: getDisabledNextButton,
-    isDisabledPreviousButton: getDisabledPreviousButton,
-    setSelectedWeek: setSelectedWeek,
-    getSelectedWeek: getSelectedWeek
-  }
-
   isDisabledNextButton = false;
   isDisabledPreviousButton = false;
   selectedWeekNumber = '';
@@ -34,33 +26,24 @@ function WeeklyService($filter) {
 
   //Sunday is the first day of the week and Week 01 is the week with the first Thursday of the year
   function getWeeks(year, index){
-    firstWeek = ''; endWeek = '';
+    lastWeekOfYear = '';
+    lastDayOfYear = $filter('date')(new Date('Dec 31, '+ year), "EEE");
 
-    day = $filter('date')(new Date('Jan 01, ' + year), "EEE");
-    endDay = $filter('date')(new Date('Dec 31, '+ year), "EEE");
-
-    if(day == 'Fri')
-      firstWeek = $filter('date')(new Date('Jan 03, ' + year), 'ww');
-    else if (day == 'Sat')
-      firstWeek = $filter('date')(new Date('Jan 02, ' + year), 'ww');
-    else
-      firstWeek = $filter('date')(new Date('Jan 01, ' + year), 'ww');
-
-    switch (endDay) {
+    switch (lastDayOfYear) {
       case 'Sun':
-        endWeek = $filter('date')(new Date('Dec 30, '+ year), 'ww');
+        lastWeekOfYear = $filter('date')(new Date('Dec 30, '+ year), 'ww');
         break;
       case 'Mon':
-        endWeek = $filter('date')(new Date('Dec 29, ' + year), 'ww');
+        lastWeekOfYear = $filter('date')(new Date('Dec 29, ' + year), 'ww');
         break;
       case 'Tue':
-        endWeek = $filter('date')(new Date('Dec 28, ' + year), 'ww');
+        lastWeekOfYear = $filter('date')(new Date('Dec 28, ' + year), 'ww');
         break;
       case 'Wed':
-        endWeek = $filter('date')(new Date('Dec 27, ' + year), 'ww');
+        lastWeekOfYear = $filter('date')(new Date('Dec 27, ' + year), 'ww');
         break;
       default:
-        endWeek = $filter('date')(new Date('Dec 31, ' + year), 'ww');
+        lastWeekOfYear = $filter('date')(new Date('Dec 31, ' + year), 'ww');
         break;
     }
     if(index == 1)
@@ -72,11 +55,11 @@ function WeeklyService($filter) {
     while(i < index + 9){
       row = [];
       for (j = i; j < i + 3 ; j++){
-        if(j<= 52)
+        if(j<= lastWeekOfYear)
           row.push(j);
         else
           break;
-        if(j>=52)
+        if(j>=lastWeekOfYear)
           setDisabledNextButton(true);
         else
           setDisabledNextButton(false);
@@ -93,6 +76,14 @@ function WeeklyService($filter) {
 
   function getSelectedWeek() {
     return selectedWeek;
+  }
+
+  return {
+    getWeeks: getWeeks,
+    isDisabledNextButton: getDisabledNextButton,
+    isDisabledPreviousButton: getDisabledPreviousButton,
+    setSelectedWeek: setSelectedWeek,
+    getSelectedWeek: getSelectedWeek
   }
 
 }

@@ -14,8 +14,7 @@ function routes($stateProvider, $urlRouterProvider, $compileProvider) {
 
   .state('weeks-calendar', {
     url: '/weeks-calendar',
-    templateUrl: 'templates/weeks-calendar.html',
-    controller: 'WeeksCalendarCtrl'
+    templateUrl: 'templates/weeks-calendar.html'
   })
 
   .state('villages', {

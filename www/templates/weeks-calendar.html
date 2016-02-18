@@ -2,11 +2,11 @@
   <ion-nav-buttons side="right" >
     <button class="button icon-left ion-log-out button-stable" ng-controller='SessionsCtrl' ng-click="logout()">Logout</button>
   </ion-nav-buttons>
-  <ion-content class="padding">
+  <ion-content class="padding" ng-controller='WeeksCalendarCtrl'>
     <label class="item item-input item-select item-balance">
       <div class="input-label">Select year</div>
-      <select>
-          <option>{{currentYear}}</option>
+      <select ng-model="selectedYear" ng-change='getWeeks()'>
+        <option ng-repeat='year in years' ng-value="{{year}}">{{year}}</option>
       </select>
     </label>
     <br>
@@ -40,7 +40,7 @@
         <span> {{weeks[0].row[0]}} </span>
         to
         <span> {{weeks[2].row[2]}} </span>
-        of {{currentYear}}</span>
+        of {{selectedYear}}</span>
     </div>
 
   </ion-content>

@@ -5,25 +5,42 @@ WeeksCalendarCtrl.$inject = ["$scope", "$state", "$filter", "SiteService", "Week
 
 function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   var vm = $scope, index = 1;
-  vm.currentYear = $filter('date')(new Date(), "yyyy");
+  currentYear = $filter('date')(new Date(), "yyyy");
+  vm.selectedYear = currentYear;
   vm.isDisabledPreviousButton = true;
   vm.isDisabledNextButton = false;
-  vm.weeks = WeeklyService.getWeeks(vm.currentYear, index);
+  vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);;
   vm.next = goNext;
   vm.previous = goPrevious;
   vm.getWeekNumber = setWeekNumber;
   vm.weeksMissingSend = [];
   vm.isErrorWeekNumber = isErrorWeekNumber;
+  vm.years = setYears();
+
+  vm.getWeeks = function() {
+    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
+  }
+
+  function setYears() {
+    var startYear = 2014;
+    var currentYear = $filter('date')(new Date(), "yyyy");
+    var years = [];
+    for(var i= startYear ; i <= currentYear ; i++){
+      console.log('years : ', i);
+      years.push(i);
+    }
+    return years;
+  }
 
   function goPrevious(){
     index -= 9;
-    vm.weeks = WeeklyService.getWeeks("2016", index);
+    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
     vm.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
     vm.isDisabledNextButton = WeeklyService.isDisabledNextButton();
   }
   function goNext(){
     index += 9;
-    vm.weeks = WeeklyService.getWeeks("2016", index);
+    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
     vm.isDisabledNextButton = WeeklyService.isDisabledNextButton();
     vm.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
   }

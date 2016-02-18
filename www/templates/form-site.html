@@ -1,4 +1,4 @@
-<ion-view title='Larvae' name="village-view" ng-controller='FormSiteCtrl' ng-init='getLayers()'>
+<ion-view title='Larvae' name="form-site-view" ng-controller='FormSiteCtrl' ng-init='getLayers()'>
   <ion-nav-buttons side="left">
     <button class="button icon-left ion-android-arrow-back button-stable" ng-click="backToVillage()">Back</button>
   </ion-nav-buttons>
@@ -8,8 +8,8 @@
   </ion-nav-buttons>
 
   <ion-tabs class="tabs-color-active-positive">
-    <ion-tab ng-repeat="layer in layers" title="{{layer.name}}" ng-click='renderFieldsForm({{layer.id}})'>
-      <ion-nav-view></ion-nav-view>
+    <ion-tab ng-repeat="layer in layers" ng-class="tab-item-active"
+             title="{{layer.name}}" on-select="renderFieldsForm({{layer.id}})">
     </ion-tab>
   </ion-tabs>
 

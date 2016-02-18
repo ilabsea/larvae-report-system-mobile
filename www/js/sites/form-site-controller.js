@@ -1,7 +1,7 @@
 angular.module('app')
 .controller("FormSiteCtrl", FormSiteCtrl)
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$filter",
-            "$ionicHistory", "FormSiteService", "SiteService", "CameraService"]
+            "$ionicHistory","FormSiteService", "SiteService", "CameraService"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $filter,
             $ionicHistory, FormSiteService, SiteService, CameraService) {
