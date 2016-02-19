@@ -58,15 +58,15 @@
           <ion-tree-list items="field.config.hierarchy"
                          value="site.properties[field.id]"
                          value-property="id"
-                         collapsed="true">
+                         collapsed="site.properties[field.id] ? false : true">
           </ion-tree-list>
         </div>
       </div>
     </div>
     <pre>{{site | json}}</pre>
-    <button class='button button-block button-positive' ng-click="saveSite(site, propertiesDate)">
-    <!-- <button ng-if='isLastTab' class='button button-block button-positive' ng-click="saveSite(site)"> -->
-      Save
+    <button ng-if='isLastTab' class='button button-block button-positive' ng-click="saveSite(site, propertiesDate)">
+      <span ng-if='isUpdateSite'>Update</span>
+      <span ng-if='!isUpdateSite'>Save</span>
     </button>
 
   </ion-content>

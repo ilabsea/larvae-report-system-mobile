@@ -7,7 +7,7 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   WeeklyService, VillagesService) {
   var authToken = window.localStorage.getItem('authToken');
 
-  function saveSiteToDB(site){
+  function saveSite(site){
     var query = "INSERT INTO sites" +
                 "(village_id , week_number, year, properties, files)" +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -23,14 +23,14 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
     });
   }
 
-  function uploadSites() {
-    var query = "SELECT * FROM sites WHERE id= ? "
-    $cordovaSQLite.execute(db, query, [6])
+  function updateSite(site, siteId) {
+    var query = "UPDATE sites SET properties=? WHERE id=?" ;
+    var siteData = [angular.toJson(site.properties), siteId];
+    $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
-        properties = angular.fromJson(res.rows[0].properties);
-        prepareData = {"properties": properties};
-        FormSiteService.saveSite(prepareData);
-        console.log("Deleted : ", prepareData);
+      console.log("Deleted : ", res);
+    }, function(error){
+      console.log('error : ', error);
     });
   }
 
@@ -56,8 +56,6 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
     var query = "SELECT * FROM sites WHERE village_id=? AND week_number=? AND year=?";
     var week = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
-    console.log('week : ', week);
-    console.log('year : ', year);
     var site = $cordovaSQLite.execute(db, query, [id, week, year]).then(function(site){
       return site.rows;
     });
@@ -65,8 +63,8 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   }
 
   return {
-    saveSiteToDB: saveSiteToDB,
-    uploadSites: uploadSites,
+    saveSite: saveSite,
+    updateSite: updateSite,
     removeSiteById: removeSiteById,
     getWeeksMissingSend: getWeeksMissingSend,
     getSiteByVillageIdInWeekYear: getSiteByVillageIdInWeekYear

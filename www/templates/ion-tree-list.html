@@ -11,7 +11,7 @@
               style="padding-left: calc({{item.depth}} * 15px)"
               ng-click="toggleCollapse(item);setSelected(item);"
               ng-include="'item_default_renderer'"
-              ng-class="item == selectedItem ? 'custom-selected-item' : ''">
+              ng-class="(item == selectedItem || item.id == value)? 'custom-selected-item' : ''">
     </ion-item>
     <ion-list ng-model="item.sub"
               ng-repeat="item in item.sub"

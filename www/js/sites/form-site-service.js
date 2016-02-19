@@ -6,6 +6,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
   var collection_id = "";
   var authToken = window.localStorage.getItem('authToken');
   var layers = {};
+  var dateFieldsId = [];
 
   function setLayers(layersResponse){
     layers = layersResponse
@@ -33,6 +34,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
           break;
         case "date":
           field.type = "date";
+          dateFieldsId.push(field.id);
           break;
         case "yes_no":
           field.type = "checkbox";
@@ -94,9 +96,20 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
     });
   }
 
+  function getDateFieldsId() {
+    return dateFieldsId;
+  }
+
+  var getLastLayerId = function () {
+    var layerLength = layers.length;
+    return layers[layerLength-1].id;
+  }
+
   return {
     fetch: fetch,
     getFields: getFields,
-    saveSite: saveSite
+    saveSite: saveSite,
+    getDateFieldsId: getDateFieldsId,
+    getLastLayerId: getLastLayerId
   };
 }
