@@ -24,11 +24,10 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter,
       vm.fields = layers.length > 0 ? FormSiteService.getFields(layers[0].id) : [];
       var villageId = VillagesService.getSelectedVillageId();
       SiteService.getSiteByVillageIdInWeekYear(villageId).then(function(site){
-        if(site){
+        if(site.length > 0){
           vm.isUpdateSite = true;
           vm.site.properties = angular.fromJson(site[0].properties);
           vm.site.id = site[0].id;
-          console.log('vm.site.properties : ', vm.site.properties);
           var dateFieldsId = FormSiteService.getDateFieldsId();
           angular.forEach(dateFieldsId, function(id) {
             vm.propertiesDate[id] = new Date(vm.site.properties[id]);
