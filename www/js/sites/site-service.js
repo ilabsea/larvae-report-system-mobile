@@ -17,7 +17,7 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
     var siteData = [village_id, weekNumber, year, angular.toJson(site.properties), ""];
     $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
-      console.log("Deleted : ", res);
+      console.log("INSERT : ", res);
     }, function(error){
       console.log('error : ', error);
     });
@@ -28,7 +28,7 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
     var siteData = [angular.toJson(site.properties), siteId];
     $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
-      console.log("Deleted : ", res);
+      console.log("update : ", res);
     }, function(error){
       console.log('error : ', error);
     });
@@ -38,7 +38,7 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
     var query = "DELETE FROM sites WHERE id = ?";
     $cordovaSQLite.execute(db, query, [id])
       .then(function(res){
-        console.log('delete : ', res);
+        console.log('remove : ', res);
       }, function(error){
         console.log('error : ', error);
       });
@@ -47,7 +47,13 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   function getWeeksMissingSend() {
     var query = "SELECT week_number, year, COUNT(*) AS number_sites FROM sites GROUP BY week_number";
     weeksMissingSend = $cordovaSQLite.execute(db, query).then(function(count){
-      return count.rows;
+      var result = [];
+      if(count.rows.length > 0) {
+        for(var i = 0; i < count.rows.length; i++) {
+          result.push(count.rows.item(i));
+        }
+      }
+      return result;
     });
     return weeksMissingSend;
   }
@@ -57,7 +63,13 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
     var week = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
     var site = $cordovaSQLite.execute(db, query, [id, week, year]).then(function(site){
-      return site.rows;
+      var result = [];
+      if(site.rows.length > 0) {
+        for(var i = 0; i < site.rows.length; i++) {
+          result.push(site.rows.item(i));
+        }
+      }
+      return result;
     });
     return site;
   }

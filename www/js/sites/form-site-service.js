@@ -105,11 +105,24 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
     return layers[layerLength-1].id;
   }
 
+  function getPicture(options) {
+    var q = $q.defer();
+
+    navigator.camera.getPicture(function(result) {
+      q.resolve(result);
+    }, function(err) {
+      q.reject(err);
+    }, options);
+
+    return q.promise;
+  }
+
   return {
     fetch: fetch,
     getFields: getFields,
     saveSite: saveSite,
     getDateFieldsId: getDateFieldsId,
-    getLastLayerId: getLastLayerId
+    getLastLayerId: getLastLayerId,
+    getPicture: getPicture
   };
 }

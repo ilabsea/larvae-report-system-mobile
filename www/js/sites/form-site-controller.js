@@ -86,7 +86,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter,
       correctOrientation:true
     }
 
-    CameraService.getPicture(cameraOptions).then(function(imageURI) {
+    FormSiteService.getPicture(cameraOptions).then(function(imageURI) {
       vm.photo = "data:image/jpeg;base64," + imageURI;
       console.log("imageURI : ", imageURI);
     }, function(err) {
