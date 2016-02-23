@@ -14,7 +14,8 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
     var village_id = VillagesService.getSelectedVillageId();
     var weekNumber = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
-    var siteData = [village_id, weekNumber, year, angular.toJson(site.properties), ""];
+    var siteData = [village_id, weekNumber, year,
+          angular.toJson(site.properties), angular.toJson(site.files)];
     $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
       console.log("INSERT : ", res);
@@ -24,8 +25,8 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   }
 
   function updateSite(site, siteId) {
-    var query = "UPDATE sites SET properties=? WHERE id=?" ;
-    var siteData = [angular.toJson(site.properties), siteId];
+    var query = "UPDATE sites SET properties=?, files=? WHERE id=?" ;
+    var siteData = [angular.toJson(site.properties), angular.toJson(site.files), siteId];
     $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
       console.log("update : ", res);

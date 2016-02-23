@@ -47,8 +47,13 @@
 
       <div class='item item-input' ng-if="field.type === 'photo'">
         <div class="input-label">{{field.name}}</div>
-        <div ng-click='showChoiceCameraPopup()'>
-          <img ng-src="{{photo}}" ng-model='site.properties[field.id]'>
+        <div ng-click='showChoiceCameraPopup({{field.id}})'>
+          <img ng-if='imagesMimeData[field.id]'
+               ng-src="{{imagesMimeData[field.id]}}"
+               ng-model='site.properties[field.id]'>
+         <img ng-if='!imagesMimeData[field.id]'
+              ng-src="{{field.defaultImageSrc}}"
+              ng-model='site.properties[field.id]'>
         </div>
       </div>
 

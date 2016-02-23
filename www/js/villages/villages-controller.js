@@ -7,16 +7,11 @@ VillagesCtrl.$inject = ["$scope", "$ionicHistory", "WeeklyService",
 function VillagesCtrl($scope, $ionicHistory, WeeklyService, VillagesService, SiteService) {
   var vm = $scope;
   vm.backToWeeksCalendar = goBack;
-  vm.villages = getVillages();
+  vm.villages = VillagesService.all();
   vm.selectedYear = WeeklyService.getSelectedYear();
   vm.selectedWeek = WeeklyService.getSelectedWeek();
   vm.uploadSites = uploadSites;
   vm.setVillageId = setSelectedVillageId;
-
-  function getVillages(){
-    villages = VillagesService.all();
-    return generateClassInVillages(villages);
-  }
 
   function generateClassInVillages(villages){
     angular.forEach(villages, function(village){
@@ -39,12 +34,9 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, VillagesService, Sit
     VillagesService.setSelectedVillageId(id);
   }
 
-  function isVillageHasData(id){
-    SiteService.getSiteByVillageId(id).then(function(siteData){
-      console.log('siteData : ', siteData);
-      if(siteData){
-        return true;
-      }
-    })
-  }
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+    if (toState.url== "/villages") {
+      vm.villages = generateClassInVillages(vm.villages);
+    }
+  });
 }

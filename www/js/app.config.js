@@ -2,8 +2,9 @@ angular
 .module('app')
 .config(configuration);
 
-configuration.$inject = ['$compileProvider'];
+configuration.$inject = ['$compileProvider', '$ionicConfigProvider'];
 
-function configuration($compileProvider){
+function configuration($compileProvider, $ionicConfigProvider){
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob):|data:image\//);
+  $ionicConfigProvider.views.transition('none');
 }

@@ -7,6 +7,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
   var authToken = window.localStorage.getItem('authToken');
   var layers = {};
   var dateFieldsId = [];
+  var photoFieldsId = [];
 
   function setLayers(layersResponse){
     layers = layersResponse
@@ -48,8 +49,12 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
           field.multiSelect = true;
           break;
         case "hierarchy":
+          field.type = field.kind;
+          break;
         case "photo":
           field.type = field.kind;
+          field.defaultImageSrc = 'img/camera.png'
+          photoFieldsId.push(field.id);
           break;
         default:
           field.type = field.kind;
@@ -117,12 +122,17 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
     return q.promise;
   }
 
+  function getPhotoFieldsid() {
+    return photoFieldsId;
+  }
+
   return {
     fetch: fetch,
     getFields: getFields,
     saveSite: saveSite,
     getDateFieldsId: getDateFieldsId,
     getLastLayerId: getLastLayerId,
-    getPicture: getPicture
+    getPicture: getPicture,
+    getPhotoFieldsid: getPhotoFieldsid
   };
 }
