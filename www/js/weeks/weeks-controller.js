@@ -76,9 +76,8 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
     var todayYear = $filter('date')(new Date(), 'yyyy');
     if(vm.selectedYear == todayYear && week == todayWeek){
       return true;
-    }else {
-      return false;
     }
+    return false;
   }
 
   function isMissingUploadSites(weeksMissingSend, weekNumber) {

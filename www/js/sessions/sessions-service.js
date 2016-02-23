@@ -30,8 +30,12 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
     window.localStorage.setItem(LOCAL_TOKEN_KEY, token);
   }
 
-  function remoreAuthToken() {
+  function removeAuthToken() {
     window.localStorage.removeItem(LOCAL_TOKEN_KEY);
+  }
+
+  function removeUserId() {
+    window.localStorage.removeItem(USER_ID_KEY);
   }
 
   var login = function(user) {
@@ -51,7 +55,8 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
   };
 
   function logout() {
-    remoreAuthToken();
+    removeAuthToken();
+    removeUserId();
   };
 
   return {
