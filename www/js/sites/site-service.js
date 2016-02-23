@@ -45,6 +45,19 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
       });
   }
 
+  function uploadSites(week, year) {
+    getSitesInWeekYear(week, year).then(function(sites){
+      angular.forEach(sites, function(site){
+        var prepareSite = {"properties": angular.fromJson(site.properties),
+                            "files": angular.fromJson(site.files)
+                          }
+        FormSiteService.saveSite(prepareSite).then(function(response){
+          removeSiteById(site.id);
+        });
+      });
+    });
+  }
+
   function getWeeksMissingSend() {
     var query = "SELECT week_number, year, COUNT(*) AS number_sites FROM sites GROUP BY week_number";
     weeksMissingSend = $cordovaSQLite.execute(db, query).then(function(count){
@@ -57,6 +70,21 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
       return result;
     });
     return weeksMissingSend;
+  }
+
+  function getSitesInWeekYear(week, year) {
+    var query = "SELECT * FROM sites WHERE week_number=? AND year=?";
+    var sites = $cordovaSQLite.execute(db, query, [week, year]).then(function(site){
+      var result = [];
+      if(site.rows.length > 0) {
+        for(var i = 0; i < site.rows.length; i++) {
+          result.push(site.rows.item(i));
+        }
+      }
+      console.log('result of getSitesInWeekYear : ', result);
+      return result;
+    });
+    return sites;
   }
 
   function getSiteByVillageIdInWeekYear(id) {
@@ -78,6 +106,7 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   return {
     saveSite: saveSite,
     updateSite: updateSite,
+    uploadSites: uploadSites,
     removeSiteById: removeSiteById,
     getWeeksMissingSend: getWeeksMissingSend,
     getSiteByVillageIdInWeekYear: getSiteByVillageIdInWeekYear

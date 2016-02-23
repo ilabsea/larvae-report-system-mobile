@@ -27,7 +27,7 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, VillagesService, Sit
   }
 
   function uploadSites(){
-    SiteService.uploadSites();
+    SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
   }
 
   function setSelectedVillageId(id) {
