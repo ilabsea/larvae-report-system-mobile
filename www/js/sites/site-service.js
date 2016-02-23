@@ -1,20 +1,21 @@
 angular.module('app')
 .factory('SiteService', SiteService)
-SiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "FormSiteService",
+SiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "SessionsService", "FormSiteService",
                       "$cordovaSQLite", "WeeklyService", "VillagesService"]
 
-function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
+function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService, $cordovaSQLite,
   WeeklyService, VillagesService) {
   var authToken = window.localStorage.getItem('authToken');
 
-  function saveSite(site){
+  function insertSite(site){
     var query = "INSERT INTO sites" +
-                "(village_id , week_number, year, properties, files)" +
-                "VALUES (?, ?, ?, ?, ?)";
-    var village_id = VillagesService.getSelectedVillageId();
+                "(user_id, village_id , week_number, year, properties, files)" +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+    var userId = SessionsService.getUserId();
+    var villageId = VillagesService.getSelectedVillageId();
     var weekNumber = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
-    var siteData = [village_id, weekNumber, year,
+    var siteData = [userId, villageId, weekNumber, year,
           angular.toJson(site.properties), angular.toJson(site.files)];
     $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
@@ -59,8 +60,10 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   }
 
   function getWeeksMissingSend() {
-    var query = "SELECT week_number, year, COUNT(*) AS number_sites FROM sites GROUP BY week_number";
-    weeksMissingSend = $cordovaSQLite.execute(db, query).then(function(count){
+    var query = "SELECT week_number, year, COUNT(*) AS number_sites FROM sites "+
+                "WHERE user_id=? GROUP BY week_number";
+    var userId = SessionsService.getUserId();
+    weeksMissingSend = $cordovaSQLite.execute(db, query, [userId]).then(function(count){
       var result = [];
       if(count.rows.length > 0) {
         for(var i = 0; i < count.rows.length; i++) {
@@ -73,8 +76,9 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   }
 
   function getSitesInWeekYear(week, year) {
-    var query = "SELECT * FROM sites WHERE week_number=? AND year=?";
-    var sites = $cordovaSQLite.execute(db, query, [week, year]).then(function(site){
+    var query = "SELECT * FROM sites WHERE week_number=? AND year=? AND user_id=?";
+    var userId = SessionsService.getUserId();
+    var sites = $cordovaSQLite.execute(db, query, [week, year, userId]).then(function(site){
       var result = [];
       if(site.rows.length > 0) {
         for(var i = 0; i < site.rows.length; i++) {
@@ -88,10 +92,11 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   }
 
   function getSiteByVillageIdInWeekYear(id) {
-    var query = "SELECT * FROM sites WHERE village_id=? AND week_number=? AND year=?";
+    var query = "SELECT * FROM sites WHERE village_id=? AND week_number=? AND year=? AND user_id=?";
+    var userId = SessionsService.getUserId();
     var week = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
-    var site = $cordovaSQLite.execute(db, query, [id, week, year]).then(function(site){
+    var site = $cordovaSQLite.execute(db, query, [id, week, year, userId]).then(function(site){
       var result = [];
       if(site.rows.length > 0) {
         for(var i = 0; i < site.rows.length; i++) {
@@ -104,7 +109,7 @@ function SiteService($q, $http, ENDPOINT, API, FormSiteService, $cordovaSQLite,
   }
 
   return {
-    saveSite: saveSite,
+    insertSite: insertSite,
     updateSite: updateSite,
     uploadSites: uploadSites,
     removeSiteById: removeSiteById,

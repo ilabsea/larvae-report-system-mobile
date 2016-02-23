@@ -72,7 +72,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter, $timeout,
     if(vm.isUpdateSite)
       SiteService.updateSite(site, vm.site.id);
     else
-      SiteService.saveSite(site);
+      SiteService.insertSite(site);
     $state.go('villages');
     vm.fields = [];
   }
