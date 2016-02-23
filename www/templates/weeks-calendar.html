@@ -17,7 +17,7 @@
       <div class="row" ng-repeat="week in weeks">
         <div class="col-20 col-offset-10" ng-repeat="row in week.row" >
           <button class="button button-block"
-                  ng-class="isErrorWeekNumber(row)"
+                  ng-class="isErrorOrCurrentWeekNumber(row)"
                   ng-click='getWeekNumber({{row}})'>
             {{row}}
           </button>

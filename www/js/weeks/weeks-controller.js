@@ -14,7 +14,7 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   vm.previous = goPrevious;
   vm.getWeekNumber = setWeekNumber;
   vm.weeksMissingSend = [];
-  vm.isErrorWeekNumber = isErrorWeekNumber;
+  vm.isErrorOrCurrentWeekNumber = isErrorOrCurrentWeekNumber;
   vm.years = setYears();
 
   vm.setWeeks = function() {
@@ -57,17 +57,29 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
     })
   }
 
-  function isErrorWeekNumber(weekNumber){
+  function isErrorOrCurrentWeekNumber(weekNumber){
     var weeksMissingSend =  vm.weeksMissingSend;
-    var isError = '';
+    var highlightClass = '';
     for(var i = 0; i < weeksMissingSend.length ; i++){
       if(isMissingUploadSites(weeksMissingSend[i], weekNumber)){
-        isError = 'week-calendar-error';
+        highlightClass = 'week-calendar-error';
         break;
       }
     }
-    return isError;
+    if(isCurrentWeek(weekNumber))
+      highlightClass = 'calendar-current-week';
+    return highlightClass;
   };
+
+  function isCurrentWeek(week) {
+    var todayWeek = $filter('date')(new Date(), 'w');
+    var todayYear = $filter('date')(new Date(), 'yyyy');
+    if(vm.selectedYear == todayYear && week == todayWeek){
+      return true;
+    }else {
+      return false;
+    }
+  }
 
   function isMissingUploadSites(weeksMissingSend, weekNumber) {
     var todayWeek = $filter('date')(new Date(), 'w');

@@ -38,10 +38,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter, $timeout,
           angular.forEach(photoFieldsId, function(id) {
             var propertiesPhoto = vm.site.properties[id];
             var files = angular.fromJson(site[0]).files;
-            console.log('propertiesPhoto : ', angular.isString(propertiesPhoto));
-            console.log("fields: " , files[propertiesPhoto]);
             var imageURI = angular.fromJson(site[0]).files[propertiesPhoto];
-            console.log('imageURL : ', imageURI);
             if(imageURI)
               vm.imagesMimeData[id] = "data:image/jpeg;base64," + imageURI;
           });

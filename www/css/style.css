@@ -8,6 +8,14 @@
   font-weight: bold;
 }
 
+.calendar-current-week {
+  border: 2px solid #3d8b3d;
+}
+
+.calendar-current-week:hover {
+  border: 2px solid #3d8b3d;
+}
+
 .village-has-data{
   border-left: 3px solid #3d8b3d;
   border-right: 3px solid #3d8b3d;
