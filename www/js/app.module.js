@@ -4,5 +4,6 @@ angular
   'pascalprecht.translate',
   'ionic-fancy-select',
   'ion-tree-list',
-  'ngCordova'
+  'ngCordova',
+  'angularMoment'
 ]);
