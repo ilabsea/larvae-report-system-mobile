@@ -10,23 +10,19 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
 
   function getUserId() {
     userId = window.localStorage.getItem(USER_ID_KEY);
-    console.log('userId : ', userId);
     return userId;
   }
 
   function setUserId(id) {
-    console.log('set user id : ', id);
     window.localStorage.setItem(USER_ID_KEY, id);
   }
 
   function getAuthToken() {
     authToken = window.localStorage.getItem(LOCAL_TOKEN_KEY);
-    console.log('authToken : ', authToken);
     return authToken;
   }
 
   function setAuthToken(token) {
-    console.log('set token : ', token);
     window.localStorage.setItem(LOCAL_TOKEN_KEY, token);
   }
 

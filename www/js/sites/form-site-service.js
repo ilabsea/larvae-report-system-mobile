@@ -5,17 +5,10 @@ FormSiteService.$inject = ["$q", "$http", "ENDPOINT", "API"]
 function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
   var collection_id = "";
   var authToken = window.localStorage.getItem('authToken');
-  var layers = {};
+  var layers = [];
+  var builtLayers = [];
   var dateFieldsId = [];
   var photoFieldsId = [];
-
-  function setLayers(layersResponse){
-    layers = layersResponse
-  }
-
-  function getLayers(){
-    return layers;
-  }
 
   function buildFields(fields){
     angular.forEach(fields, function(field) {
@@ -65,11 +58,31 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
     return fields;
   }
 
-  function getFields(layerId){
+  function setLayers(layersResponse){
+    layers = layersResponse
+  }
+
+  function getLayers(){
+    return layers;
+  }
+
+  function getBuiltLayers(){
+    return builtLayers;
+  }
+
+  function setBuiltLayers(layersResponse){
+    builtLayers = [];
+    angular.forEach(layersResponse, function(layer) {
+      builtFields = buildFields(layer.fields);
+      builtLayers.push({id: layer.id, name: layer.name , ord: layer.ord, fields: builtFields});
+    })
+  }
+
+  function getBuiltFieldsByLayerId(layerId){
     var fields;
-    angular.forEach(layers, function(layer) {
+    angular.forEach(builtLayers, function(layer) {
       if(layer.id == layerId){
-        fields = buildFields(layer.fields);
+        fields = layer.fields;
         return;
       }
     });
@@ -81,7 +94,9 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
       $http.get(ENDPOINT.api + API.layers + authToken)
         .success(function(response) {
           setLayers(response);
-          resolve(response);
+          setBuiltLayers(response);
+          var builtData = getBuiltLayers();
+          resolve(builtData);
         })
         .error(function(error){
           reject('error ' + error);
@@ -128,7 +143,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
 
   return {
     fetch: fetch,
-    getFields: getFields,
+    getBuiltFieldsByLayerId: getBuiltFieldsByLayerId,
     saveSite: saveSite,
     getDateFieldsId: getDateFieldsId,
     getLastLayerId: getLastLayerId,

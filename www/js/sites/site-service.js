@@ -85,7 +85,6 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
           result.push(site.rows.item(i));
         }
       }
-      console.log('result of getSitesInWeekYear : ', result);
       return result;
     });
     return sites;

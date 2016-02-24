@@ -52,7 +52,6 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
 
   function setWeeksMissingSend(){
     SiteService.getWeeksMissingSend().then(function(weeks){
-      console.log('weeksMissingSend : ', weeks);
       vm.weeksMissingSend = weeks;
     })
   }

@@ -23,7 +23,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter, $timeout,
   function getLayers() {
     FormSiteService.fetch().then(function(layers){
       vm.layers = layers;
-      vm.fields = layers.length > 0 ? FormSiteService.getFields(layers[0].id) : [];
+      vm.fields = layers.length > 0 ? FormSiteService.getBuiltFieldsByLayerId(layers[0].id) : [];
       var villageId = VillagesService.getSelectedVillageId();
       SiteService.getSiteByVillageIdInWeekYear(villageId).then(function(site){
         if(site.length > 0){
@@ -37,8 +37,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter, $timeout,
           });
           angular.forEach(photoFieldsId, function(id) {
             var propertiesPhoto = vm.site.properties[id];
-            var files = angular.fromJson(site[0]).files;
-            var imageURI = angular.fromJson(site[0]).files[propertiesPhoto];
+            vm.site.files = angular.fromJson(site[0].files);
+            var imageURI = vm.site.files[propertiesPhoto];
             if(imageURI)
               vm.imagesMimeData[id] = "data:image/jpeg;base64," + imageURI;
           });
@@ -55,7 +55,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter, $timeout,
   }
 
   function renderFieldsForm(layerId){
-    vm.fields = FormSiteService.getFields(layerId);
+    vm.fields = FormSiteService.getBuiltFieldsByLayerId(layerId);
     if(layerId == FormSiteService.getLastLayerId())
       vm.isLastTab = true;
     else
@@ -109,7 +109,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter, $timeout,
         saveToPhotoAlbum: false,
         correctOrientation:true
       }
-      console.log('vallue : ', type);
 
       FormSiteService.getPicture(cameraOptions).then(function(imageURI) {
         var timeStampMoment = new moment().valueOf();
