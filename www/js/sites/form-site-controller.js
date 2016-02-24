@@ -1,11 +1,11 @@
 angular.module('app')
 .controller("FormSiteCtrl", FormSiteCtrl)
-FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$filter", "$timeout",
-            "$ionicHistory", "VillagesService","FormSiteService", "SiteService",
+FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory",
+            "VillagesService","FormSiteService", "SiteService",
             "CameraService", "moment"]
 
-function FormSiteCtrl($scope, $state, $ionicPopup, $filter, $timeout,
-            $ionicHistory, VillagesService, FormSiteService, SiteService, CameraService, moment) {
+function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, VillagesService,
+                FormSiteService, SiteService, CameraService, moment) {
   var vm = $scope, currentPhotoFieldId;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
@@ -64,7 +64,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $filter, $timeout,
 
   function saveSite(site, propertiesDate) {
     angular.forEach(propertiesDate, function (date, key) {
-      site.properties[key] =  $filter('date')(date, 'MM/dd/yyyy');
+      site.properties[key] = date? new moment(date).format('MM/DD/YYYY') : ""
     });
     if(vm.isUpdateSite)
       SiteService.updateSite(site, vm.site.id);

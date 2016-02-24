@@ -1,6 +1,5 @@
 angular.module('app')
 
-.controller('AppCtrl', function($translate, $scope, $filter) {
+.controller('AppCtrl', function($translate) {
   $translate.use("lao");
-  
 })
