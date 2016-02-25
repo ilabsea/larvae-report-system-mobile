@@ -23,3 +23,15 @@
 .icon.ion-checkmark-green{
   float: right;
 }
+
+.popup{
+    background-color: #E5E5E5 !important;
+}
+
+.custom-class .popup-body{
+  padding: 25px;
+}
+
+.custom-class .popup-head {
+  display: none;
+}

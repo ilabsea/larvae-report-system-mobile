@@ -1,10 +1,11 @@
 angular.module('app')
 .controller('VillagesCtrl', VillagesCtrl)
 
-VillagesCtrl.$inject = ["$scope", "$ionicHistory", "WeeklyService",
+VillagesCtrl.$inject = ["$scope", "$ionicHistory", "WeeklyService", "$ionicPopup",
     "VillagesService", "SiteService", "$controller"]
 
-function VillagesCtrl($scope, $ionicHistory, WeeklyService, VillagesService, SiteService) {
+function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup,
+    VillagesService, SiteService) {
   var vm = $scope;
   vm.backToWeeksCalendar = goBack;
   vm.villages = VillagesService.all();
@@ -34,7 +35,21 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, VillagesService, Sit
   }
 
   function uploadSites(){
-    SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Upload Sites to malaria station',
+      template: 'Are you sure to send all reports to malaria station with total of '
+                  + vm.numberOfSites + ' villages?',
+      cssClass: 'custom-class',
+      buttons: [{ text: 'No' },
+                {text: 'Yes', type: 'button-positive'}]
+    });
+
+    confirmPopup.then(function(res) {
+      if(res) {
+        console.log(res );
+        SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
+      }
+    });
   }
 
   function setSelectedVillageId(id) {

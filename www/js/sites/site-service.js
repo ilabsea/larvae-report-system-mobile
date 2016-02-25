@@ -66,7 +66,6 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
     var week = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
     numberOfSitesInWeekYear = $cordovaSQLite.execute(db, query, [userId, week, year]).then(function(count){
-      console.log('count : ', count.rows.item(0));
       return count.rows.item(0);
     });
     return numberOfSitesInWeekYear;
