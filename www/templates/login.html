@@ -1,21 +1,24 @@
-<ion-view view-title="Sign-In" name="login-view" ng-controller='AppCtrl'>
-  <ion-content class="padding">
-    <form name="loginForm" novalidate ng-submit='login(user)'>
-      <div class="list list-inset">
-          <label class="item item-input" ng-class="{ 'has-errors' : loginForm.email.$invalid
-            && loginForm.email.$touched}">
-            <div class="input-label">{{"email" | translate}}</div>
-            <input type="email" name='email' placeholder='{{"email" | translate}}'
-                  ng-model="user.email" required>
-          </label>
-          <label class="item item-input" ng-class="{ 'has-errors' : loginForm.password.$invalid
-            && loginForm.password.$touched}">
-            <div class="input-label">{{"password" | translate}}</div>
-            <input type="password" name='password' placeholder='{{"password" | translate}}'
-                ng-model="user.password" required="">
-          </label>
-      </div>
-      <button id='login-button' class="button button-block button-positive">Login</button>
-    </form>
+<ion-view hide-nav-bar="true" name="login-view" ng-controller='AppCtrl' class='login'>
+  <ion-content class="padding" has-header="false">
+    <div class='login-container'>
+      <h4 class='login-title'>Weekly report</h4>
+      <form name="loginForm" novalidate ng-submit='login(user)'>
+        <div class="list list-inset">
+            <label class="item item-input" ng-class="{ 'has-errors' : loginForm.email.$invalid
+              && loginForm.email.$touched}">
+              <div class="input-label">{{"email" | translate}}</div>
+              <input type="email" name='email' placeholder='{{"email" | translate}}'
+                    ng-model="user.email" required>
+            </label>
+            <label class="item item-input" ng-class="{ 'has-errors' : loginForm.password.$invalid
+              && loginForm.password.$touched}">
+              <div class="input-label">{{"password" | translate}}</div>
+              <input type="password" name='password' placeholder='{{"password" | translate}}'
+                  ng-model="user.password" required="">
+            </label>
+        </div>
+        <button id='login-button' class="button button-block default-button">Sign in</button>
+      </form>
+    </div>
   </ion-content>
 </ion-view>

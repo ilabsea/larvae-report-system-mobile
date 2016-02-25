@@ -19,11 +19,11 @@
          ui-sref="form-site" ng-repeat="village in villages"
          ng-click='setVillageId({{village.id}})'>
         {{village.name}}
-        <i class="icon" ng-class="village.hasData ? 'ion-checkmark-green' : ''"></i>
+        <i class="icon" ng-class="village.hasData ? 'ion-checkmark' : ''"></i>
       </a>
     </div>
 
-    <button ng-disabled="numberOfSites == 0" class='button button-block button-positive'
+    <button ng-disabled="numberOfSites == 0" class='button button-block default-button'
             ng-click="uploadSites()">
       Send report to malaria station
     </button>

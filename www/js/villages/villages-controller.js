@@ -41,7 +41,7 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup,
                   + vm.numberOfSites + ' villages?',
       cssClass: 'custom-class',
       buttons: [{ text: 'No' },
-                {text: 'Yes', type: 'button-positive', onTap: function(e) {
+                {text: 'Yes', type: 'default-button', onTap: function(e) {
                   SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
                 }}]
     });

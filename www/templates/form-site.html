@@ -8,7 +8,7 @@
   </ion-nav-buttons>
 
   <ion-tabs class="tabs-color-active-positive">
-    <ion-tab ng-repeat="layer in layers" 
+    <ion-tab ng-repeat="layer in layers"
              title="{{layer.name}}" on-select="renderFieldsForm({{layer.id}})">
     </ion-tab>
   </ion-tabs>
@@ -78,7 +78,7 @@
         </div>
       </div>
     </div>
-    <button ng-if='isLastTab' class='button button-block button-positive' ng-click="saveSite(site, propertiesDate)">
+    <button ng-if='isLastTab' class='button button-block default-button' ng-click="saveSite(site, propertiesDate)">
       <span ng-if='isUpdateSite'>Update</span>
       <span ng-if='!isUpdateSite'>Save</span>
     </button>
