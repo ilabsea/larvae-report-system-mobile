@@ -59,6 +59,19 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
     });
   }
 
+  function getNumberOfSitesInWeekYear(){
+    var query = "SELECT COUNT(*) AS number_sites FROM sites "+
+                "WHERE user_id=? AND week_number=? AND year=? ";
+    var userId = SessionsService.getUserId();
+    var week = WeeklyService.getSelectedWeek();
+    var year = WeeklyService.getSelectedYear();
+    numberOfSitesInWeekYear = $cordovaSQLite.execute(db, query, [userId, week, year]).then(function(count){
+      console.log('count : ', count.rows.item(0));
+      return count.rows.item(0);
+    });
+    return numberOfSitesInWeekYear;
+  }
+
   function getWeeksMissingSend() {
     var query = "SELECT week_number, year, COUNT(*) AS number_sites FROM sites "+
                 "WHERE user_id=? GROUP BY week_number";
@@ -113,6 +126,7 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
     uploadSites: uploadSites,
     removeSiteById: removeSiteById,
     getWeeksMissingSend: getWeeksMissingSend,
-    getSiteByVillageIdInWeekYear: getSiteByVillageIdInWeekYear
+    getSiteByVillageIdInWeekYear: getSiteByVillageIdInWeekYear,
+    getNumberOfSitesInWeekYear: getNumberOfSitesInWeekYear
   }
 }

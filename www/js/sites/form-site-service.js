@@ -13,6 +13,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
   function buildFields(fields){
     angular.forEach(fields, function(field) {
       field.isInputType = false;
+      field.required = field.is_mandatory;
       switch (field.kind) {
         case "numeric":
           field.type = "number";

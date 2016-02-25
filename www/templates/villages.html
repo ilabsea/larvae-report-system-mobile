@@ -15,14 +15,15 @@
     </span>
 
     <div class="list list-inset">
-      <a class="item {{village.class}}"
+      <a class="item"
          ui-sref="form-site" ng-repeat="village in villages"
          ng-click='setVillageId({{village.id}})'>
         {{village.name}}
+        <i class="icon" ng-class="village.hasData ? 'ion-checkmark-green' : ''"></i>
       </a>
     </div>
 
-    <button  class='button button-block button-positive' ng-click="uploadSites()">
+    <button ng-disabled="numberOfSites == 0" class='button button-block button-positive' ng-click="uploadSites()">
       Send report to malaria station
     </button>
 

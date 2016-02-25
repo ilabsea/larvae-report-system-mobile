@@ -8,7 +8,7 @@
   </ion-nav-buttons>
 
   <ion-tabs class="tabs-color-active-positive">
-    <ion-tab ng-repeat="layer in layers" ng-class="tab-item-active"
+    <ion-tab ng-repeat="layer in layers" 
              title="{{layer.name}}" on-select="renderFieldsForm({{layer.id}})">
     </ion-tab>
   </ion-tabs>
@@ -16,17 +16,23 @@
   <ion-content class="padding has-subheader">
     <div ng-repeat="field in fields">
       <label class='item item-input' ng-if="field.isInputType">
-        <div class="input-label">{{field.name}}</div>
-        <input type="{{field.type}}" placeholder="(no value)" ng-model="site.properties[field.id]">
+        <div class="input-label">{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
+        <input type="{{field.type}}" required='{{field.required}}'
+          placeholder="(no value)" ng-model="site.properties[field.id]">
       </label>
 
       <label class='item item-input' ng-if="field.type == 'date'">
-        <div class="input-label">{{field.name}}</div>
+        <div class="input-label">{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
         <input type="date" placeholder="(no value)" ng-model="propertiesDate[field.id]">
       </label>
 
       <div class='item item-toggle' ng-if="field.type == 'checkbox'" >
         {{field.name}}
+        <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
        <label class="toggle">
          <input type="checkbox" ng-model='site.properties[field.id]'>
          <div class="track">
@@ -46,19 +52,23 @@
       </fancy-select>
 
       <div class='item item-input' ng-if="field.type === 'photo'">
-        <div class="input-label">{{field.name}}</div>
+        <div class="input-label">{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
         <div ng-click='showChoiceCameraPopup({{field.id}})'>
           <img ng-if='imagesMimeData[field.id]'
                ng-src="{{imagesMimeData[field.id]}}"
                ng-model='site.properties[field.id]'>
-         <img ng-if='!imagesMimeData[field.id]'
+          <img ng-if='!imagesMimeData[field.id]'
               ng-src="{{field.defaultImageSrc}}"
               ng-model='site.properties[field.id]'>
         </div>
       </div>
 
       <div class='item' ng-if="field.type === 'hierarchy'">
-        <div class="input-label">{{field.name}}</div>
+        <div class="input-label">{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
         <div class='item'>
           <ion-tree-list items="field.config.hierarchy"
                          value="site.properties[field.id]"

@@ -12,11 +12,18 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, VillagesService, Sit
   vm.selectedWeek = WeeklyService.getSelectedWeek();
   vm.uploadSites = uploadSites;
   vm.setVillageId = setSelectedVillageId;
+  vm.numberOfSites = 0;
+
+  function setNumberOfSitesInWeekYear() {
+    SiteService.getNumberOfSitesInWeekYear().then(function(l){
+      vm.numberOfSites = l.number_sites;
+    })
+  }
 
   function generateClassInVillages(villages){
     angular.forEach(villages, function(village){
       SiteService.getSiteByVillageIdInWeekYear(village.id).then(function(site){
-        village.class = site.length > 0 ? 'village-has-data' : '';
+        village.hasData = site.length > 0 ;
       })
     });
     return villages;
@@ -37,6 +44,7 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, VillagesService, Sit
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
     if (toState.url== "/villages") {
       vm.villages = generateClassInVillages(vm.villages);
+      setNumberOfSitesInWeekYear();
     }
   });
 }

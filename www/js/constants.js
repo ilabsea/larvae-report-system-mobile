@@ -2,7 +2,7 @@ angular.module('app')
 
 .constant("ENDPOINT", {
   // api: 'http://cam-monitoring.info:8080/api/'
-  api: 'http://192.168.1.140:3000/api/'
+  api: 'http://192.168.1.116:3000/api/'
   // api: 'http://192.168.1.18:3000/api/'
   // api: 'http://localhost:8100/api/'
 })
