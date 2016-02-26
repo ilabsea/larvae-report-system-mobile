@@ -1,7 +1,7 @@
 angular.module('app')
 .factory("VillagesService", VillagesService)
 
-VillagesService.$inject = [];
+VillagesService.$inject = ["$q", "$http", "ENDPOINT", "API"];
 
 var villages = [
 {
@@ -22,11 +22,30 @@ var villages = [
   name: 'Saysetha'
 }];
 
-function VillagesService() {
+function VillagesService($q, $http, ENDPOINT, API) {
   var village_id;
+  var villages;
+  var authToken = window.localStorage.getItem('authToken');
 
-  function all(){
+  function setVillages(villagesResponse) {
+    villages = villagesResponse;
+  }
+
+  function getVillages() {
     return villages;
+  }
+
+  function getVillages(){
+    return $q(function(resolve, reject) {
+      $http.get(ENDPOINT.api + API.villages + authToken)
+        .success(function(response) {
+          setVillages(response);
+          resolve(response);
+        })
+        .error(function(error){
+          reject('error ' + error);
+        });
+    });
   }
 
   function setSelectedVillageId(id){
@@ -38,7 +57,7 @@ function VillagesService() {
   }
 
   return {
-    all: all,
+    getVillages: getVillages,
     setSelectedVillageId: setSelectedVillageId,
     getSelectedVillageId: getSelectedVillageId
   };

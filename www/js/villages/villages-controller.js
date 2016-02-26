@@ -8,7 +8,7 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup,
     VillagesService, SiteService) {
   var vm = $scope;
   vm.backToWeeksCalendar = goBack;
-  vm.villages = VillagesService.all();
+  vm.getVillages = getVillages;
   vm.selectedYear = WeeklyService.getSelectedYear();
   vm.selectedWeek = WeeklyService.getSelectedWeek();
   vm.uploadSites = uploadSites;
@@ -19,6 +19,12 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup,
     SiteService.getNumberOfSitesInWeekYear().then(function(l){
       vm.numberOfSites = l.number_sites;
     })
+  }
+
+  function getVillages() {
+    VillagesService.getVillages().then(function (villages) {
+      vm.villages = villages;
+    });
   }
 
   function generateClassInVillages(villages){
