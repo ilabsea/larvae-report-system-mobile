@@ -35,16 +35,19 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup,
   }
 
   function uploadSites(){
-    $ionicPopup.confirm({
+    var confirmPopup = $ionicPopup.confirm({
       title: 'Upload Sites to malaria station',
       template: 'Are you sure to send all reports to malaria station with total of '
                   + vm.numberOfSites + ' villages?',
       cssClass: 'custom-class',
-      buttons: [{ text: 'No' },
-                {text: 'Yes', type: 'default-button', onTap: function(e) {
-                  SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
-                }}]
+      cancelText: 'No',
+      okText: 'Yes',
+      okType: 'default-button'
     });
+    confirmPopup.then(function (res) {
+      if(res)
+        SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
+    })
   }
 
   function setSelectedVillageId(id) {

@@ -1,10 +1,12 @@
 angular.module('app')
 .controller("FormSiteCtrl", FormSiteCtrl)
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory",
+            "$ionicLoading",
             "VillagesService","FormSiteService", "SiteService",
             "CameraService", "moment"]
 
-function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, VillagesService,
+function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
+                $ionicLoading, VillagesService,
                 FormSiteService, SiteService, CameraService, moment) {
   var vm = $scope, currentPhotoFieldId;
   vm.site = {properties : {}, id:'', files: {}};
@@ -19,10 +21,14 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, VillagesServic
   vm.backToVillage = backToVillage;
   vm.isUpdateSite = false;
   vm.imagesMimeData = {};
+  vm.activeTab;
 
   function getLayers() {
+    vm.showSpinner('templates/partials/loading.html');
     FormSiteService.fetch().then(function(layers){
+      vm.hideSpinner();
       vm.layers = layers;
+      vm.activeTab = layers[0].id;
       vm.fields = layers.length > 0 ? FormSiteService.getBuiltFieldsByLayerId(layers[0].id) : [];
       var villageId = VillagesService.getSelectedVillageId();
       SiteService.getSiteByVillageIdInWeekYear(villageId).then(function(site){
@@ -47,6 +53,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, VillagesServic
         }
       });
     }, function(error){
+      vm.hideSpinner();
       var alertPopup = $ionicPopup.alert({
         title: 'Fetch data failed',
         template: 'Please try aggain!'
@@ -55,6 +62,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, VillagesServic
   }
 
   function renderFieldsForm(layerId){
+    vm.activeTab = layerId;
     vm.fields = FormSiteService.getBuiltFieldsByLayerId(layerId);
     if(layerId == FormSiteService.getLastLayerId())
       vm.isLastTab = true;

@@ -1,19 +1,25 @@
-<ion-view title='Larvae' name="form-site-view" ng-controller='FormSiteCtrl' ng-init='getLayers()'>
+<ion-view title='New weekly report' name="form-site-view" ng-controller='FormSiteCtrl' ng-init='getLayers()'>
   <ion-nav-buttons side="left">
-    <button class="button icon-left ion-android-arrow-back button-stable" ng-click="backToVillage()">Back</button>
+    <button class="button icon-left ion-android-arrow-back button-stable"
+      ng-click="backToVillage()">Back</button>
   </ion-nav-buttons>
 
   <ion-nav-buttons side="right">
-    <button class="button icon-left ion-log-out button-stable" ng-click="logout()">Logout</button>
+    <button class='button button-stable' ng-click="saveSite(site, propertiesDate)">
+      <span ng-if='isUpdateSite'>Update</span>
+      <span ng-if='!isUpdateSite'>Save</span>
+    </button>
   </ion-nav-buttons>
 
-  <ion-tabs class="tabs-color-active-positive">
-    <ion-tab ng-repeat="layer in layers"
-             title="{{layer.name}}" on-select="renderFieldsForm({{layer.id}})">
-    </ion-tab>
-  </ion-tabs>
+  <div class="bar-positive tab-nav tabs tabs-color-active-positive pane tabs-top tabs-striped">
+    <div ng-repeat="layer in layers" ng-click="renderFieldsForm({{layer.id}})"
+      ng-class="activeTab == layer.id ? 'tab-item tab-item-active' : 'tab-item'">
+       {{layer.name}}
+    </div>
+  </div>
 
   <ion-content class="padding has-subheader">
+    <br>
     <div ng-repeat="field in fields">
       <label class='item item-input' ng-if="field.isInputType">
         <div class="input-label">{{field.name}}

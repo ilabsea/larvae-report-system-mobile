@@ -55,7 +55,7 @@ h1.title-select{
 }
 
 .popup{
-    background-color: #E5E5E5 !important;
+  background-color: #E5E5E5 !important;
 }
 
 .custom-class .popup-body{
@@ -64,4 +64,22 @@ h1.title-select{
 
 .custom-class .popup-head {
   display: none;
+}
+
+.tabs-top.tabs-striped .tab-item.tab-item-active,
+.tabs-top.tabs-striped .tab-item.active,
+.tabs-top.tabs-striped .tab-item.activated{
+  margin-top: 1px;
+  border-width: 0px 0px 3px 0px !important;
+  border-style: solid;
+  border-color: #1984A4;
+}
+
+.spinner.spinner-login {
+  stroke: #fff;
+  fill: #fff;
+}
+
+.loading-container .loading {
+  background-color: transparent;
 }
