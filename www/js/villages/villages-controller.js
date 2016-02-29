@@ -2,9 +2,9 @@ angular.module('app')
 .controller('VillagesCtrl', VillagesCtrl)
 
 VillagesCtrl.$inject = ["$scope", "$ionicHistory", "WeeklyService", "$ionicPopup",
-    "VillagesService", "SiteService", "$controller"]
+      "$state", "VillagesService", "SiteService", "$controller"]
 
-function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup,
+function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup, $state,
     VillagesService, SiteService) {
   var vm = $scope;
   vm.backToWeeksCalendar = goBack;
@@ -22,7 +22,9 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup,
   }
 
   function getVillages() {
+    vm.showSpinner('templates/partials/loading.html');
     VillagesService.getVillages().then(function (villages) {
+      vm.hideSpinner();
       vm.villages = villages;
     });
   }
@@ -51,8 +53,10 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup,
       okType: 'default-button'
     });
     confirmPopup.then(function (res) {
-      if(res)
+      if(res){
         SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
+        $state.go('weeks-calendar')
+      }
     })
   }
 

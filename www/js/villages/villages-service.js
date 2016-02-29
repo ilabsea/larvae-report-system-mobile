@@ -3,25 +3,6 @@ angular.module('app')
 
 VillagesService.$inject = ["$q", "$http", "ENDPOINT", "API"];
 
-var villages = [
-{
-  id: 1,
-  name: 'Phouvong'
-}, {
-  id: 2,
-  name: 'Samakkhixay'
-}, {
-  id: 3,
-  name: 'Sanamxay'
-}, {
-  id: 4,
-  name: 'Sanxay'
-},
-{
-  id: 5,
-  name: 'Saysetha'
-}];
-
 function VillagesService($q, $http, ENDPOINT, API) {
   var village_id;
   var villages;

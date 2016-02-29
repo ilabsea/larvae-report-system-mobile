@@ -1,18 +1,17 @@
 angular.module('app')
 .controller("FormSiteCtrl", FormSiteCtrl)
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory",
-            "$ionicLoading",
-            "VillagesService","FormSiteService", "SiteService",
+            "$ionicLoading", "WeeklyService", "VillagesService", "ENDPOINT",
+            "FormSiteService", "SiteService",
             "CameraService", "moment"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
-                $ionicLoading, VillagesService,
+                $ionicLoading, WeeklyService, VillagesService, ENDPOINT,
                 FormSiteService, SiteService, CameraService, moment) {
   var vm = $scope, currentPhotoFieldId;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
   vm.fields = [];
-  vm.photo = 'img/camera.png';
   vm.getLayers = getLayers;
   vm.renderFieldsForm = renderFieldsForm;
   vm.saveSite = saveSite;
@@ -22,18 +21,20 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
   vm.isUpdateSite = false;
   vm.imagesMimeData = {};
   vm.activeTab;
+  vm.isSiteInServer = false;
 
   function getLayers() {
     vm.showSpinner('templates/partials/loading.html');
     FormSiteService.fetch().then(function(layers){
       vm.hideSpinner();
       vm.layers = layers;
-      vm.activeTab = layers[0].id;
+      vm.activeTab = layers.length > 0 ? layers[0].id : '';
       vm.fields = layers.length > 0 ? FormSiteService.getBuiltFieldsByLayerId(layers[0].id) : [];
       var villageId = VillagesService.getSelectedVillageId();
       SiteService.getSiteByVillageIdInWeekYear(villageId).then(function(site){
         if(site.length > 0){
           vm.isUpdateSite = true;
+          vm.isSiteInServer = false;
           vm.site.properties = angular.fromJson(site[0].properties);
           vm.site.id = site[0].id;
           var dateFieldsId = FormSiteService.getDateFieldsId();
@@ -49,7 +50,27 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
               vm.imagesMimeData[id] = "data:image/jpeg;base64," + imageURI;
           });
         }else{
-          vm.isUpdateSite = false;
+          var week = WeeklyService.getSelectedWeek();
+          var year = WeeklyService.getSelectedYear();
+          var placeId = VillagesService.getSelectedVillageId();
+          FormSiteService.fetchSiteByWeekYearPlaceId(week, year, placeId).then(function (site) {
+            if(site){
+              vm.isSiteInServer = true;
+              vm.site.properties = site.properties;
+              var dateFieldsId = FormSiteService.getDateFieldsId();
+              var photoFieldsId = FormSiteService.getPhotoFieldsid()
+              angular.forEach(dateFieldsId, function(id) {
+                vm.propertiesDate[id] = new Date(vm.site.properties[id]);
+              });
+              angular.forEach(photoFieldsId, function(id) {
+                vm.site.files = site.properties[id];
+                if(vm.site.files)
+                  vm.imagesMimeData[id] = ENDPOINT.photo_path + site.properties[id];
+              });
+            }else{
+              vm.isUpdateSite = false;
+            }
+          });
         }
       });
     }, function(error){

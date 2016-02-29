@@ -1,8 +1,9 @@
 angular.module('app')
 .factory('FormSiteService', FormSiteService)
-FormSiteService.$inject = ["$q", "$http", "ENDPOINT", "API"]
+FormSiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "WeeklyService", "VillagesService"]
 
-function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
+function FormSiteService($q, $http, ENDPOINT, API, SessionsService,
+          WeeklyService, VillagesService) {
   var collection_id = "";
   var authToken = window.localStorage.getItem('authToken');
   var layers = [];
@@ -142,6 +143,19 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
     return photoFieldsId;
   }
 
+  function fetchSiteByWeekYearPlaceId(week, year, placeId) {
+    return $q(function(resolve, reject) {
+      var dataAttr = {"week" : week, "year" : year , "place_id" : placeId};
+      $http.get(ENDPOINT.api + API.get_site_by_week_year_placeId + authToken, {"params": dataAttr })
+        .success(function(site) {
+          resolve(site);
+        })
+        .error(function(error){
+          reject('error ' + error);
+        });
+    });
+  }
+
   return {
     fetch: fetch,
     getBuiltFieldsByLayerId: getBuiltFieldsByLayerId,
@@ -149,6 +163,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService) {
     getDateFieldsId: getDateFieldsId,
     getLastLayerId: getLastLayerId,
     getPicture: getPicture,
-    getPhotoFieldsid: getPhotoFieldsid
+    getPhotoFieldsid: getPhotoFieldsid,
+    fetchSiteByWeekYearPlaceId: fetchSiteByWeekYearPlaceId
   };
 }

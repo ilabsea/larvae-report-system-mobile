@@ -1,5 +1,6 @@
 /*jslint white: true */
 /*global angular */
+/*added custom attribute disabledClick in line 62 */
 
 (function () { // To stop JSHint/JSLint whing
 "use strict";
@@ -57,6 +58,9 @@ angular.module("ionic-fancy-select", ["ionic"])
       scope.noteImg = attrs.noteImg || "";
       scope.noteText = attrs.noteText || "";
       scope.noteImgClass = attrs.noteImgClass || "";
+
+      ///////////// custom attribute of fancy select added //////////////
+      scope.disabledClick = attrs.disabledClick || false;
 
       /* Initialise the modal
        * If a modal template URL has been provided, then use that,

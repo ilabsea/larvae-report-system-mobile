@@ -5,7 +5,7 @@
   </ion-nav-buttons>
 
   <ion-nav-buttons side="right">
-    <button class='button button-stable' ng-click="saveSite(site, propertiesDate)">
+    <button ng-if='!isSiteInServer' class='button button-stable' ng-click="saveSite(site, propertiesDate)">
       <span ng-if='isUpdateSite'>Update</span>
       <span ng-if='!isUpdateSite'>Save</span>
     </button>
@@ -25,7 +25,7 @@
         <div class="input-label">{{field.name}}
           <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
         </div>
-        <input type="{{field.type}}" required='{{field.required}}'
+        <input type="{{field.type}}" ng-disabled='isSiteInServer' required='{{field.required}}'
           placeholder="(no value)" ng-model="site.properties[field.id]">
       </label>
 
@@ -33,21 +33,25 @@
         <div class="input-label">{{field.name}}
           <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
         </div>
-        <input type="date" placeholder="(no value)" ng-model="propertiesDate[field.id]">
+        <input type="date" ng-disabled='isSiteInServer' placeholder="(no value)"
+                ng-model="propertiesDate[field.id]">
       </label>
 
       <div class='item item-toggle' ng-if="field.type == 'checkbox'" >
         {{field.name}}
         <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
        <label class="toggle">
-         <input type="checkbox" ng-model='site.properties[field.id]'>
+         <input type="checkbox" ng-disabled='isSiteInServer'
+                ng-model='site.properties[field.id]'>
          <div class="track">
            <div class="handle"></div>
          </div>
        </label>
       </div>
 
-      <fancy-select ng-if="field.type === 'select'" header-text="Select option"
+      <fancy-select ng-if="field.type === 'select'"
+        disabled-click='{{isSiteInServer}}'
+        header-text="Select option"
         items="field.config.options" value="site.properties[field.id]"
         value-property="id" text-property="label"
         multi-select="{{field.multiSelect}}" text="(no value)"
@@ -61,11 +65,11 @@
         <div class="input-label">{{field.name}}
           <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
         </div>
-        <div ng-click='showChoiceCameraPopup({{field.id}})'>
-          <img ng-if='imagesMimeData[field.id]'
+        <div ng-click='isSiteInServer || showChoiceCameraPopup({{field.id}})'>
+          <img style='width: 50px' ng-if='imagesMimeData[field.id]'
                ng-src="{{imagesMimeData[field.id]}}"
                ng-model='site.properties[field.id]'>
-          <img ng-if='!imagesMimeData[field.id]'
+          <img style='width: 50px' ng-if='!imagesMimeData[field.id]'
               ng-src="{{field.defaultImageSrc}}"
               ng-model='site.properties[field.id]'>
         </div>
@@ -77,6 +81,7 @@
         </div>
         <div class='item'>
           <ion-tree-list items="field.config.hierarchy"
+                         disabled-click='{{isSiteInServer}}'
                          value="site.properties[field.id]"
                          value-property="id"
                          collapsed="site.properties[field.id] ? false : true">
@@ -84,10 +89,12 @@
         </div>
       </div>
     </div>
-    <button ng-if='isLastTab' class='button button-block default-button' ng-click="saveSite(site, propertiesDate)">
-      <span ng-if='isUpdateSite'>Update</span>
-      <span ng-if='!isUpdateSite'>Save</span>
-    </button>
+    <div ng-if='!isSiteInServer'>
+      <button ng-if='isLastTab' class='button button-block default-button' ng-click="saveSite(site, propertiesDate)">
+        <span ng-if='isUpdateSite'>Update</span>
+        <span ng-if='!isUpdateSite'>Save</span>
+      </button>
+    </div>
 
   </ion-content>
 </ion-view>

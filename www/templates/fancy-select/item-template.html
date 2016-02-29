@@ -1,4 +1,9 @@
-<ion-item ng-click="showItems($event)">
+<ion-item ng-if='!disabledClick' ng-click="showItems($event)">
+  {{noteText}}
+  <span class="item-note">{{text}}
+  </span>
+</ion-item>
+<ion-item ng-if='disabledClick'>
   {{noteText}}
   <span class="item-note">{{text}}
   </span>

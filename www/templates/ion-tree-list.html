@@ -7,9 +7,15 @@
 </script>
 
 <script type="text/ng-template" id="items_renderer">
-    <ion-item class="item custom-item"
+    <ion-item ng-if="!disabledClick"
+              class="item custom-item"
               style="padding-left: calc({{item.depth}} * 15px)"
-              ng-click="toggleCollapse(item);setSelected(item);"
+              ng-click="disabledClick || toggleCollapse(item);setSelected(item);"
+              ng-include="'item_default_renderer'"
+              ng-class="(item == selectedItem || item.id == value)? 'custom-selected-item' : ''">
+    </ion-item>
+    <ion-item ng-if="disabledClick" class="item custom-item"
+              style="padding-left: calc({{item.depth}} * 15px)"
               ng-include="'item_default_renderer'"
               ng-class="(item == selectedItem || item.id == value)? 'custom-selected-item' : ''">
     </ion-item>
@@ -21,9 +27,14 @@
 </script>
 
 <div class="list" ng-model="items">
-  <ion-item class="item custom-item"
+  <ion-item ng-if="!disabledClick" class="item custom-item"
             style="padding-left: 15px"
             ng-click="setSelected(item);"
+            ng-class="item == selectedItem ? 'custom-selected-item' : ''">
+            (no value)
+  </ion-item>
+  <ion-item ng-if="disabledClick" class="item custom-item"
+            style="padding-left: 15px"
             ng-class="item == selectedItem ? 'custom-selected-item' : ''">
             (no value)
   </ion-item>

@@ -49,7 +49,9 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
   function uploadSites(week, year) {
     getSitesInWeekYear(week, year).then(function(sites){
       angular.forEach(sites, function(site){
-        var prepareSite = {"properties": angular.fromJson(site.properties),
+        var prepareSite = { "week": site.week_number, "year" : site.year,
+                            "place_id" : site.village_id,
+                            "properties": angular.fromJson(site.properties),
                             "files": angular.fromJson(site.files)
                           }
         FormSiteService.saveSite(prepareSite).then(function(response){

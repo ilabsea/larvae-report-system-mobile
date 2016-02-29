@@ -50,6 +50,7 @@ angular.module('ion-tree-list', [], function($rootScopeProvider){
 //******* Add custom function for select item and get selected value ********
             $scope.selectedItem = '';
             $scope.valueProperty = attrs.valueProperty || "id";
+            $scope.disabledClick = attrs.disabledClick || false;
 
             $scope.setSelected = function (item) {
               $scope.selectedItem = item;
