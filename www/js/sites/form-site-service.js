@@ -11,7 +11,8 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService,
   var dateFieldsId = [];
   var photoFieldsId = [];
 
-  function buildFields(fields){
+  function buildFields(fields, site){
+    console.log('fields : ', site);
     angular.forEach(fields, function(field) {
       field.isInputType = false;
       field.required = field.is_mandatory;
@@ -73,12 +74,12 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService,
   }
 
   function setBuiltLayers(layersResponse){
-    builtLayers = [];
-    angular.forEach(layersResponse, function(layer) {
-      builtFields = buildFields(layer.fields);
-      builtLayers.push({id: layer.id, name: layer.name , ord: layer.ord, fields: builtFields});
-    })
-  }
+     builtLayers = [];
+     angular.forEach(layersResponse, function(layer) {
+       builtFields = buildFields(layer.fields);
+       builtLayers.push({id: layer.id, name: layer.name , ord: layer.ord, fields: builtFields});
+     })
+   }
 
   function getBuiltFieldsByLayerId(layerId){
     var fields;

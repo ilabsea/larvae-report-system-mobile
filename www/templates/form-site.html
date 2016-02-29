@@ -50,7 +50,7 @@
       </div>
 
       <fancy-select ng-if="field.type === 'select'"
-        disabled-click='{{isSiteInServer}}'
+        disabled-click={{isSiteInServer}}
         header-text="Select option"
         items="field.config.options" value="site.properties[field.id]"
         value-property="id" text-property="label"
@@ -81,7 +81,7 @@
         </div>
         <div class='item'>
           <ion-tree-list items="field.config.hierarchy"
-                         disabled-click='{{isSiteInServer}}'
+                         disabled-click={{isSiteInServer}}
                          value="site.properties[field.id]"
                          value-property="id"
                          collapsed="site.properties[field.id] ? false : true">

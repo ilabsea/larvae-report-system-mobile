@@ -26,12 +26,11 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
   function getLayers() {
     vm.showSpinner('templates/partials/loading.html');
     FormSiteService.fetch().then(function(layers){
-      vm.hideSpinner();
       vm.layers = layers;
       vm.activeTab = layers.length > 0 ? layers[0].id : '';
-      vm.fields = layers.length > 0 ? FormSiteService.getBuiltFieldsByLayerId(layers[0].id) : [];
       var villageId = VillagesService.getSelectedVillageId();
       SiteService.getSiteByVillageIdInWeekYear(villageId).then(function(site){
+        vm.hideSpinner();
         if(site.length > 0){
           vm.isUpdateSite = true;
           vm.isSiteInServer = false;
@@ -49,11 +48,13 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
             if(imageURI)
               vm.imagesMimeData[id] = "data:image/jpeg;base64," + imageURI;
           });
+          vm.fields = layers.length > 0 ? FormSiteService.getBuiltFieldsByLayerId(layers[0].id) : [];
         }else{
           var week = WeeklyService.getSelectedWeek();
           var year = WeeklyService.getSelectedYear();
           var placeId = VillagesService.getSelectedVillageId();
           FormSiteService.fetchSiteByWeekYearPlaceId(week, year, placeId).then(function (site) {
+            vm.hideSpinner();
             if(site){
               vm.isSiteInServer = true;
               vm.site.properties = site.properties;
@@ -67,9 +68,9 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
                 if(vm.site.files)
                   vm.imagesMimeData[id] = ENDPOINT.photo_path + site.properties[id];
               });
-            }else{
-              vm.isUpdateSite = false;
             }
+            vm.isUpdateSite = false;
+            vm.fields = layers.length > 0 ? FormSiteService.getBuiltFieldsByLayerId(layers[0].id) : [];
           });
         }
       });

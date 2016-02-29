@@ -1,5 +1,5 @@
 angular.module('app')
-.factory('CameraService', FormSiteService)
+.factory('CameraService', CameraService)
 CameraService.$inject = ["$q"]
 
 function CameraService($q) {

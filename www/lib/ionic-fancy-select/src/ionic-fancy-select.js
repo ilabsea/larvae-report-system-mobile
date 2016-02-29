@@ -60,7 +60,7 @@ angular.module("ionic-fancy-select", ["ionic"])
       scope.noteImgClass = attrs.noteImgClass || "";
 
       ///////////// custom attribute of fancy select added //////////////
-      scope.disabledClick = attrs.disabledClick || false;
+      scope.disabledClick = attrs.disabledClick === 'false' ? false : true;
 
       /* Initialise the modal
        * If a modal template URL has been provided, then use that,
