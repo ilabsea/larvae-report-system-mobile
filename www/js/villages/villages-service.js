@@ -4,7 +4,8 @@ angular.module('app')
 VillagesService.$inject = ["$q", "$http", "ENDPOINT", "API", "SessionsService"];
 
 function VillagesService($q, $http, ENDPOINT, API, SessionsService) {
-  var village_id;
+  var villageId;
+  var villageName;
   var villages;
 
   function setVillages(villagesResponse) {
@@ -31,16 +32,26 @@ function VillagesService($q, $http, ENDPOINT, API, SessionsService) {
   }
 
   function setSelectedVillageId(id){
-    village_id = id;
+    villageId = id;
   }
 
   function getSelectedVillageId() {
-    return village_id;
+    return villageId;
+  }
+
+  function setSelectedVillageName(name){
+    villageName = name;
+  }
+
+  function getSelectedVillageName() {
+    return villageName;
   }
 
   return {
     getVillages: getVillages,
     setSelectedVillageId: setSelectedVillageId,
-    getSelectedVillageId: getSelectedVillageId
+    getSelectedVillageId: getSelectedVillageId,
+    setSelectedVillageName: setSelectedVillageName,
+    getSelectedVillageName: getSelectedVillageName
   };
 }

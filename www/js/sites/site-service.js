@@ -1,21 +1,21 @@
 angular.module('app')
 .factory('SiteService', SiteService)
-SiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "SessionsService", "FormSiteService",
+SiteService.$inject = ["$q", "SessionsService" , "FormSiteService",
                       "$cordovaSQLite", "WeeklyService", "VillagesService", "$rootScope", "$state"]
 
-function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService, $cordovaSQLite,
+function SiteService($q, SessionsService, FormSiteService, $cordovaSQLite,
   WeeklyService, VillagesService, $rootScope, $state) {
-  var authToken = window.localStorage.getItem('authToken');
 
   function insertSite(site){
     var query = "INSERT INTO sites" +
-                "(user_id, village_id , week_number, year, properties, files)" +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+                "(user_id, village_id , name,  week_number, year, properties, files)" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
     var userId = SessionsService.getUserId();
     var villageId = VillagesService.getSelectedVillageId();
     var weekNumber = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
-    var siteData = [userId, villageId, weekNumber, year,
+    var name = VillagesService.getSelectedVillageName() + "_" + weekNumber + "_" + year;
+    var siteData = [userId, villageId, name, weekNumber, year,
           angular.toJson(site.properties), angular.toJson(site.files)];
     $cordovaSQLite.execute(db, query, siteData)
       .then(function(res){
@@ -49,7 +49,8 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
   function uploadSites(week, year) {
     getSitesInWeekYear(week, year).then(function(sites){
       angular.forEach(sites, function(site, key){
-        var prepareSite = { "week": site.week_number, "year" : site.year,
+        var prepareSite = { "name": site.name,
+                            "week": site.week_number, "year" : site.year,
                             "place_id" : site.village_id,
                             "properties": angular.fromJson(site.properties),
                             "files": angular.fromJson(site.files)
@@ -109,11 +110,13 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
   }
 
   function getSiteByVillageIdInWeekYear(id) {
+    console.log('getSiteByVillageIdInWeekYear : ', id);
     var query = "SELECT * FROM sites WHERE village_id=? AND week_number=? AND year=? AND user_id=?";
     var userId = SessionsService.getUserId();
     var week = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
     var site = $cordovaSQLite.execute(db, query, [id, week, year, userId]).then(function(site){
+      console.log('site : ', site);
       var result = [];
       if(site.rows.length > 0) {
         for(var i = 0; i < site.rows.length; i++) {
@@ -121,6 +124,8 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
         }
       }
       return result;
+    }, function(error){
+      console.log('error : ', error);
     });
     return site;
   }

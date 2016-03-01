@@ -12,7 +12,7 @@
     <div class="list list-inset">
       <a class="item"
          ui-sref="form-site" ng-repeat="village in villages"
-         ng-click='setVillageId({{village.id}})'>
+         ng-click='setVillageIdName(village.id, village.name)'>
         {{village.name}}
         <i class="icon" ng-class="village.hasData ? 'ion-checkmark' : ''"></i>
       </a>

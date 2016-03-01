@@ -1,11 +1,10 @@
 angular.module('app')
 .factory('FormSiteService', FormSiteService)
-FormSiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "WeeklyService", "VillagesService"]
+FormSiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "SessionsService", "WeeklyService", "VillagesService"]
 
 function FormSiteService($q, $http, ENDPOINT, API, SessionsService,
           WeeklyService, VillagesService) {
   var collection_id = "";
-  var authToken = window.localStorage.getItem('authToken');
   var layers = [];
   var builtLayers = [];
   var dateFieldsId = [];
@@ -93,6 +92,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService,
 
   function fetch() {
     return $q(function(resolve, reject) {
+      var authToken = SessionsService.getAuthToken();
       $http.get(ENDPOINT.api + API.layers + authToken)
         .success(function(response) {
           setLayers(response);
@@ -108,6 +108,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService,
 
   function saveSite(site) {
     return $q(function(resolve, reject) {
+      var authToken = SessionsService.getAuthToken();
       $http.post(ENDPOINT.api + API.sites + authToken, {"site": site})
         .success(function(response) {
           resolve(response);
@@ -145,6 +146,7 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService,
 
   function fetchSiteByWeekYearPlaceId(week, year, placeId) {
     return $q(function(resolve, reject) {
+      var authToken = SessionsService.getAuthToken();
       var dataAttr = {"week" : week, "year" : year , "place_id" : placeId};
       $http.get(ENDPOINT.api + API.get_site_by_week_year_placeId + authToken, {"params": dataAttr })
         .success(function(site) {
