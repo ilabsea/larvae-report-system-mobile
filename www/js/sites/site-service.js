@@ -1,10 +1,10 @@
 angular.module('app')
 .factory('SiteService', SiteService)
 SiteService.$inject = ["$q", "$http", "ENDPOINT", "API", "SessionsService", "FormSiteService",
-                      "$cordovaSQLite", "WeeklyService", "VillagesService"]
+                      "$cordovaSQLite", "WeeklyService", "VillagesService", "$rootScope", "$state"]
 
 function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService, $cordovaSQLite,
-  WeeklyService, VillagesService) {
+  WeeklyService, VillagesService, $rootScope, $state) {
   var authToken = window.localStorage.getItem('authToken');
 
   function insertSite(site){
@@ -48,7 +48,7 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
 
   function uploadSites(week, year) {
     getSitesInWeekYear(week, year).then(function(sites){
-      angular.forEach(sites, function(site){
+      angular.forEach(sites, function(site, key){
         var prepareSite = { "week": site.week_number, "year" : site.year,
                             "place_id" : site.village_id,
                             "properties": angular.fromJson(site.properties),
@@ -56,6 +56,10 @@ function SiteService($q, $http, ENDPOINT, API, SessionsService, FormSiteService,
                           }
         FormSiteService.saveSite(prepareSite).then(function(response){
           removeSiteById(site.id);
+          if(key == sites.length -1){
+            $rootScope.hideSpinner();
+            $state.go('weeks-calendar')
+          }
         });
       });
     });

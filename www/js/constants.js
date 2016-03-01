@@ -12,8 +12,8 @@ angular.module('app')
 .constant("API", {
   sign_in: 'users/sign_in.json',
   collections: "collections?auth_token=",
-  layers: 'v1/collections/7/fields?auth_token=',
-  sites: 'v1/collections/7/sites?auth_token=',
-  get_site_by_week_year_placeId: 'v1/collections/7/sites/get_site_by_week_year_place.json?auth_token=',
-  villages: 'v1/collections/7/places/my_supervision_place.json?auth_token='
+  layers: 'v1/collections/9/fields?auth_token=',
+  sites: 'v1/collections/9/sites?auth_token=',
+  get_site_by_week_year_placeId: 'v1/collections/9/sites/get_site_by_week_year_place.json?auth_token=',
+  villages: 'v1/collections/9/places/my_supervision_place.json?auth_token='
 })

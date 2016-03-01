@@ -54,8 +54,8 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup, $state,
     });
     confirmPopup.then(function (res) {
       if(res){
+        vm.showSpinner('templates/partials/loading.html');
         SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
-        $state.go('weeks-calendar')
       }
     });
   }
