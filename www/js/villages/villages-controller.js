@@ -25,7 +25,7 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup, $state,
     vm.showSpinner('templates/partials/loading.html');
     VillagesService.getVillages().then(function (villages) {
       vm.hideSpinner();
-      vm.villages = villages;
+      vm.villages = generateClassInVillages(villages);
     });
   }
 
@@ -57,7 +57,7 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup, $state,
         SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
         $state.go('weeks-calendar')
       }
-    })
+    });
   }
 
   function setSelectedVillageId(id) {

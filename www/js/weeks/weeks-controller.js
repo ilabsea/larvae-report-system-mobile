@@ -5,8 +5,9 @@ WeeksCalendarCtrl.$inject = ["$scope", "$state", "$filter", "SiteService", "Week
 
 function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   var vm = $scope, index = 1;
-  currentYear = $filter('date')(new Date(), "yyyy");
-  vm.selectedYear = currentYear;
+  var todayWeek = $filter('date')(new Date(), 'w');
+  var todayYear = $filter('date')(new Date(), 'yyyy');
+  vm.selectedYear = todayYear;
   vm.isDisabledPreviousButton = true;
   vm.isDisabledNextButton = false;
   vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);;
@@ -24,9 +25,8 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
 
   function setYears() {
     var startYear = 2014;
-    var currentYear = $filter('date')(new Date(), "yyyy");
     var years = [];
-    for(var i= startYear ; i <= currentYear ; i++){
+    for(var i= startYear ; i <= todayYear ; i++){
       years.push(i);
     }
     return years;
@@ -64,6 +64,10 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
         highlightClass = 'week-calendar-error';
         break;
       }
+      if(isAdvancedCurrentWeekSites(weeksMissingSend[i], weekNumber)){
+        highlightClass = 'week-calendar-advanced';
+        break;
+      }
     }
     if(isCurrentWeek(weekNumber))
       highlightClass = 'calendar-current-week';
@@ -71,17 +75,25 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   };
 
   function isCurrentWeek(week) {
-    var todayWeek = $filter('date')(new Date(), 'w');
-    var todayYear = $filter('date')(new Date(), 'yyyy');
     if(vm.selectedYear == todayYear && week == todayWeek){
       return true;
     }
     return false;
   }
 
+  function isAdvancedCurrentWeekSites(weeksMissingSend, weekNumber) {
+    var isAdvanced = false;
+    if(vm.selectedYear == weeksMissingSend.year){
+      if(weeksMissingSend.week_number == weekNumber){
+        if(weeksMissingSend.year >= todayYear){
+          isAdvanced = true;
+        }
+      }
+    }
+    return  isAdvanced;
+  }
+
   function isMissingUploadSites(weeksMissingSend, weekNumber) {
-    var todayWeek = $filter('date')(new Date(), 'w');
-    var todayYear = $filter('date')(new Date(), 'yyyy');
     var isMissing = false;
     if(vm.selectedYear == weeksMissingSend.year){
       if(weeksMissingSend.week_number == weekNumber){

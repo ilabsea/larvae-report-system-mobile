@@ -3,18 +3,8 @@
   color: #fff;
 }
 
-.login{
+.login-background{
   background-color: #176F88;
-}
-
-.default-button{
-  background-color: #1984A4;
-  color: #fff;
-}
-
-.default-button:hover{
-  background-color: #1984A4;
-  color: #fff;
 }
 
 .login-title{
@@ -25,6 +15,11 @@
 
 .login-container{
   padding-top: 35%;
+}
+
+.default-button, .default-button:hover, .default-button:active, .default-button:visited{
+  background-color: #1984A4;
+  color: #fff;
 }
 
 h1.title-select{
@@ -38,6 +33,16 @@ h1.title-select{
 
 .week-calendar-error:hover {
   color: #cc2511;
+  font-weight: bold;
+}
+
+.week-calendar-advanced {
+  color: #3d8b3d;
+  font-weight: bold;
+}
+
+.week-calendar-advanced:hover {
+  color: #3d8b3d;
   font-weight: bold;
 }
 

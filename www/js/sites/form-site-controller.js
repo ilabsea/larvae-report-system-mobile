@@ -94,7 +94,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
 
   function saveSite(site, propertiesDate) {
     angular.forEach(propertiesDate, function (date, key) {
-      site.properties[key] = date? new moment(date).format('MM/DD/YYYY') : ""
+      site.properties[key] = new moment(date).isValid()? new moment(date).format('MM/DD/YYYY') : ""
     });
     if(vm.isUpdateSite)
       SiteService.updateSite(site, vm.site.id);

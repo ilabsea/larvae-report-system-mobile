@@ -5,10 +5,12 @@
   </ion-nav-buttons>
 
   <ion-nav-buttons side="right">
-    <button ng-if='!isSiteInServer' class='button button-stable' ng-click="saveSite(site, propertiesDate)">
-      <span ng-if='isUpdateSite'>Update</span>
-      <span ng-if='!isUpdateSite'>Save</span>
-    </button>
+    <div ng-if='!isSiteInServer'>
+      <button class='button button-stable' ng-click="saveSite(site, propertiesDate)">
+        <span ng-if='isUpdateSite'>Update</span>
+        <span ng-if='!isUpdateSite'>Save</span>
+      </button>
+    </div>
   </ion-nav-buttons>
 
   <div class="bar-positive tab-nav tabs tabs-color-active-positive pane tabs-top tabs-striped">

@@ -12,7 +12,6 @@ function FormSiteService($q, $http, ENDPOINT, API, SessionsService,
   var photoFieldsId = [];
 
   function buildFields(fields, site){
-    console.log('fields : ', site);
     angular.forEach(fields, function(field) {
       field.isInputType = false;
       field.required = field.is_mandatory;
