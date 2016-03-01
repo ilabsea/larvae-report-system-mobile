@@ -31,7 +31,14 @@ function SessionsCtrl($scope, $state, $ionicPopup, SessionsService) {
   };
 
   function logout() {
-    SessionsService.logout();
-    $state.go("login");
+    SessionsService.logout().then(function() {
+      $state.go("login");
+    }, function(err) {
+      $ionicPopup.alert({
+        title: 'Sign out failed!',
+        template: 'Please check your internet connection',
+        okType: 'default-button'
+      });
+    });
   };
 }

@@ -11,6 +11,7 @@ angular.module('app')
 
 .constant("API", {
   sign_in: 'users/sign_in.json',
+  sign_out: 'users/sign_out?auth_token=',
   collections: "collections?auth_token=",
   layers: 'v1/collections/9/fields?auth_token=',
   sites: 'v1/collections/9/sites?auth_token=',

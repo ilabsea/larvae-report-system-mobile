@@ -42,22 +42,28 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
         .success(function(response) {
           setAuthToken(response.auth_token);
           setUserId(response.user_id);
-          resolve('Login success.');
+          resolve(response);
         })
         .error(function(error){
-          reject('Login Failed.');
+          reject('Sign in Failed.');
         });
     });
   };
 
   function logout() {
-    removeAuthToken();
-    removeUserId();
+    isLogout = $http.post(ENDPOINT.api + API.sign_out + getAuthToken()).success(function(response) {
+      removeAuthToken();
+      removeUserId();
+    }, function(error){
+      reject('Sign out failed.');
+    });
+    return isLogout;
   };
 
   return {
     login: login,
     logout: logout,
-    getUserId: getUserId
+    getUserId: getUserId,
+    getAuthToken: getAuthToken
   };
 }
