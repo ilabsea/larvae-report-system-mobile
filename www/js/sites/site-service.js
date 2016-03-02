@@ -110,13 +110,11 @@ function SiteService($q, SessionsService, FormSiteService, $cordovaSQLite,
   }
 
   function getSiteByVillageIdInWeekYear(id) {
-    console.log('getSiteByVillageIdInWeekYear : ', id);
     var query = "SELECT * FROM sites WHERE village_id=? AND week_number=? AND year=? AND user_id=?";
     var userId = SessionsService.getUserId();
     var week = WeeklyService.getSelectedWeek();
     var year = WeeklyService.getSelectedYear();
     var site = $cordovaSQLite.execute(db, query, [id, week, year, userId]).then(function(site){
-      console.log('site : ', site);
       var result = [];
       if(site.rows.length > 0) {
         for(var i = 0; i < site.rows.length; i++) {
@@ -124,8 +122,6 @@ function SiteService($q, SessionsService, FormSiteService, $cordovaSQLite,
         }
       }
       return result;
-    }, function(error){
-      console.log('error : ', error);
     });
     return site;
   }

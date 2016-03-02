@@ -4,20 +4,17 @@
       <h4 class='login-title'>Weekly report</h4>
       <form name="loginForm" novalidate ng-submit='login(user)'>
         <div class="list list-inset">
-            <label class="item item-input" ng-class="{ 'has-errors' : loginForm.email.$invalid
-              && loginForm.email.$touched}">
-              <!-- <div class="input-label">{{"email" | translate}}</div> -->
+            <label class="item item-input">
               <input type="email" name='email' placeholder='{{"email" | translate}}'
                     ng-model="user.email" required>
             </label>
-            <label class="item item-input" ng-class="{ 'has-errors' : loginForm.password.$invalid
-              && loginForm.password.$touched}">
-              <!-- <div class="input-label">{{"password" | translate}}</div> -->
+            <label class="item item-input">
               <input type="password" name='password' placeholder='{{"password" | translate}}'
                   ng-model="user.password" required="">
             </label>
         </div>
-        <button id='login-button' class="button button-block default-button">Sign in</button>
+        <button id='login-button' ng-disabled="loginForm.$invalid"
+          class="button button-block default-button">Sign in</button>
       </form>
     </div>
   </ion-content>
