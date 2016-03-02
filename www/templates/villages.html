@@ -1,0 +1,27 @@
+<ion-view title='List weekly report' name="villages-view" ng-init='getVillages()'>
+  <ion-nav-buttons side="left">
+    <button class="button icon-left ion-android-arrow-back button-stable"
+            ng-click="backToWeeksCalendar()">Back</button>
+  </ion-nav-buttons>
+
+  <ion-content class="padding">
+    <span>
+      weekly report of week {{selectedWeek}} in {{selectedYear}}
+    </span>
+
+    <div class="list list-inset">
+      <a class="item"
+         ui-sref="form-site" ng-repeat="village in villages"
+         ng-click='setVillage(village)'>
+        {{village.name}}
+        <i class="icon" ng-class="village.hasData ? 'ion-checkmark' : ''"></i>
+      </a>
+    </div>
+
+    <button ng-disabled="numberOfSites == 0" class='button button-block default-button'
+            ng-click="uploadSites()">
+      Send report to malaria station
+    </button>
+
+  </ion-content>
+</ion-view>

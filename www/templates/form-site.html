@@ -1,0 +1,113 @@
+<ion-view title='New weekly report' name="form-site-view" ng-controller='FormSiteCtrl' ng-init='getLayers()'>
+  <ion-nav-buttons side="left">
+    <button class="button icon-left ion-android-arrow-back button-stable"
+      ng-click="backToVillage()">Back</button>
+  </ion-nav-buttons>
+
+  <div class="bar-positive tab-nav tabs tabs-color-active-positive pane tabs-top tabs-striped">
+    <div ng-repeat="layer in layers" ng-click="renderFieldsForm({{layer.id}})"
+      ng-class="activeTab == layer.id ? 'tab-item tab-item-active' : 'tab-item'">
+       {{layer.name}}
+    </div>
+  </div>
+
+  <ion-content class="padding has-subheader">
+    <div ng-if="activeTab == layers[0].id">
+      <label class='item-input-inset item-stacked-label'>
+        <div class='input-label'>District name </div>
+        <div class="item-input-wrapper">
+          <input type="text" ng-model="districtName" disabled>
+        </div>
+      </label>
+      <label class='item-input-inset item-stacked-label'>
+        <div class='input-label'>Village name </div>
+        <div class="item-input-wrapper">
+          <input type="text" ng-model="villageName" disabled>
+        </div>
+      </label>
+    </div>
+    <div ng-repeat="field in fields">
+      <label class='item-input-inset item-stacked-label' ng-if="field.isInputType">
+        <div class='input-label'>{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
+        <div class="item-input-wrapper">
+          <input type="{{field.type}}" ng-disabled='isSiteInServer' required='{{field.required}}'
+            ng-model="site.properties[field.id]">
+        </div>
+      </label>
+
+      <label class='item-input-inset item-stacked-label' ng-if="field.type == 'date'">
+        <div class="input-label">{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
+        <div class="item-input-wrapper">
+          <input type="date" class='input-date' ng-disabled='isSiteInServer' ng-model="propertiesDate[field.id]">
+        </div>
+      </label>
+
+      <div class='div-toggle' ng-if="field.type == 'checkbox'" >
+        <div class="input-label">{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
+         <label class="toggle">
+           <input type="checkbox" ng-disabled='isSiteInServer'
+                  ng-model='site.properties[field.id]'>
+           <div class="track">
+             <div class="handle"></div>
+           </div>
+         </label>
+      </div>
+
+      <fancy-select ng-if="field.type === 'select'"
+        disabled-click={{isSiteInServer}}
+        header-text="Select option"
+        items="field.config.options" value="site.properties[field.id]"
+        value-property="id" text-property="label"
+        multi-select="{{field.multiSelect}}" text="(no value)"
+        modal-template-url="templates/fancy-select/fancy-select.html"
+        template-url="templates/fancy-select/item-template.html"
+        note-text="{{field.name}}" value-changed="onValueChanged(value)"
+        get-custom-text="getCustomText(value)">
+      </fancy-select>
+
+      <div class='item-input-inset item-stacked-label' ng-if="field.type === 'photo'">
+        <div class="input-label">{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
+        <div class="item-input-wrapper">
+          <div ng-click='isSiteInServer || showChoiceCameraPopup({{field.id}})'>
+            <img style='width: 50px' ng-if='imagesMimeData[field.id]'
+                 ng-src="{{imagesMimeData[field.id]}}"
+                 ng-model='site.properties[field.id]'>
+            <img style='width: 50px' ng-if='!imagesMimeData[field.id]'
+                ng-src="{{field.defaultImageSrc}}"
+                ng-model='site.properties[field.id]'>
+          </div>
+        </div>
+      </div>
+
+      <div class='item-input-inset item-stacked-label' ng-if="field.type === 'hierarchy'">
+        <div class="input-label">{{field.name}}
+          <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+        </div>
+        <div class="item">
+          <ion-tree-list items="field.config.hierarchy"
+                         disabled-click={{isSiteInServer}}
+                         value="site.properties[field.id]"
+                         value-property="id"
+                         collapsed="site.properties[field.id] ? false : true">
+          </ion-tree-list>
+        </div>
+      </div>
+    </div>
+    <div ng-if='!isSiteInServer'>
+      <button ng-if='isLastTab' class='button button-block default-button' ng-click="saveSite(site, propertiesDate)">
+        <span ng-if='isUpdateSite'>Update</span>
+        <span ng-if='!isUpdateSite'>Save</span>
+      </button>
+    </div>
+    </br>
+
+  </ion-content>
+</ion-view>

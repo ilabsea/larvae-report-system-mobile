@@ -1,0 +1,88 @@
+.bar-custom-header{
+  background-color: #176F88;
+  color: #fff;
+}
+
+.login-background{
+  background-color: #176F88;
+}
+
+.login-title{
+  color: #333B4B;
+  text-align: center;
+  color: #fff;
+}
+
+.login-container{
+  padding-top: 35%;
+}
+
+.default-button, .default-button:hover, .default-button:active, .default-button:visited{
+  background-color: #1984A4;
+  color: #fff;
+}
+
+h1.title-select{
+  color: #fff;
+}
+
+.week-calendar-error {
+  color: #cc2511;
+  font-weight: bold;
+}
+
+.week-calendar-error:hover {
+  color: #cc2511;
+  font-weight: bold;
+}
+
+.week-calendar-advanced {
+  font-weight: bold;
+}
+
+.week-calendar-advanced:hover {
+  font-weight: bold;
+}
+
+.calendar-current-week {
+  border: 2px solid #3d8b3d;
+}
+
+.calendar-current-week:hover {
+  border: 2px solid #3d8b3d;
+}
+
+.icon.ion-checkmark{
+  float: right;
+  color: #3d8b3d;
+}
+
+.popup{
+  background-color: #E5E5E5 !important;
+}
+
+.custom-class .popup-body{
+  padding: 25px;
+}
+
+.custom-class .popup-head {
+  display: none;
+}
+
+.tabs-top.tabs-striped .tab-item.tab-item-active,
+.tabs-top.tabs-striped .tab-item.active,
+.tabs-top.tabs-striped .tab-item.activated{
+  margin-top: 1px;
+  border-width: 0px 0px 3px 0px !important;
+  border-style: solid;
+  border-color: #1984A4;
+}
+
+.spinner.spinner-login {
+  stroke: #fff;
+  fill: #fff;
+}
+
+.loading-container .loading {
+  background-color: transparent;
+}

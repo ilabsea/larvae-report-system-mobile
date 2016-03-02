@@ -1,0 +1,12 @@
+<div class='item-input-inset item-stacked-label'>
+  <div class='input-label'>{{noteText}}
+  </div>
+  <ion-item class='item-select item-input-wrapper' ng-if="!disabledClick" ng-click="showItems($event)">
+    <span class="item-note">{{text}}
+    </span>
+  </ion-item>
+  <ion-item class='item-select item-input-wrapper' ng-if="disabledClick">
+    <span class="item-note">{{text}}
+    </span>
+  </ion-item>
+</div>

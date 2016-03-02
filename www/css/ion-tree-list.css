@@ -1,0 +1,22 @@
+.custom-item{
+  border: 0px;
+}
+
+.custom-selected-item{
+  background-color: #9D9C9C !important;
+}
+.icon.ion-custom-folder:before{
+  content: url('../img/folder.png') !important;
+}
+.icon.ion-custom-open-folder:before {
+  content: url('../img/folder_open.png') !important;
+}
+.icon.ion-custom-blank-doc:before{
+  content: url('../img/doc_blank.png') !important;
+}
+
+.icon.ion-custom-folder,
+.icon.ion-custom-open-folder,
+.icon.ion-custom-blank-doc{
+  padding-right: 5px;
+}

@@ -1,0 +1,18 @@
+.input-label {
+  padding-bottom: 5px !important;
+  width: 100%;
+  max-width: 100%;
+}
+
+.div-toggle{
+  margin-left: 10px;
+}
+
+.item-select{
+  padding-top: 5px;
+  padding-bottom:5px;
+}
+
+.input-date{
+  width: 100%;
+}
