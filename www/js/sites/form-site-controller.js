@@ -29,9 +29,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
       vm.layers = layers;
       vm.activeTab = layers.length > 0 ? layers[0].id : '';
       var villageId = VillagesService.getSelectedVillageId();
-      console.log('villageId getLayers : ', villageId);
       SiteService.getSiteByVillageIdInWeekYear(villageId).then(function(site){
-        console.log('site : ', site);
         vm.hideSpinner();
         if(site.length > 0){
           vm.isUpdateSite = true;
@@ -52,7 +50,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
           });
           vm.fields = layers.length > 0 ? FormSiteService.getBuiltFieldsByLayerId(layers[0].id) : [];
         }else{
-          console.log('no data');
           var week = WeeklyService.getSelectedWeek();
           var year = WeeklyService.getSelectedYear();
           var placeId = VillagesService.getSelectedVillageId();
