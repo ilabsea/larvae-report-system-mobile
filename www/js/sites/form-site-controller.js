@@ -22,9 +22,12 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
   vm.imagesMimeData = {};
   vm.activeTab;
   vm.isSiteInServer = false;
+  vm.districtName = "";
+  vm.villageName = VillagesService.getSelectedVillageName();
 
   function getLayers() {
     vm.showSpinner('templates/partials/loading.html');
+    getDistrictName();
     FormSiteService.fetch().then(function(layers){
       vm.layers = layers;
       vm.activeTab = layers.length > 0 ? layers[0].id : '';
@@ -151,6 +154,12 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory,
         console.err(err);
       });
     }
+  }
+
+  function getDistrictName() {
+    VillagesService.fetchPlaceParent().then(function(place) {
+      vm.districtName = place ? place.name : "";
+    });
   }
 
   function backToVillage(){

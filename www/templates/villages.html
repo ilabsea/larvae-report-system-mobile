@@ -1,4 +1,4 @@
-<ion-view title='List weekly report' name="villages-view" ng-controller='VillagesCtrl' ng-init='getVillages()'>
+<ion-view title='List weekly report' name="villages-view" ng-init='getVillages()'>
   <ion-nav-buttons side="left">
     <button class="button icon-left ion-android-arrow-back button-stable"
             ng-click="backToWeeksCalendar()">Back</button>
@@ -12,7 +12,7 @@
     <div class="list list-inset">
       <a class="item"
          ui-sref="form-site" ng-repeat="village in villages"
-         ng-click='setVillageIdName(village.id, village.name)'>
+         ng-click='setVillage(village)'>
         {{village.name}}
         <i class="icon" ng-class="village.hasData ? 'ion-checkmark' : ''"></i>
       </a>

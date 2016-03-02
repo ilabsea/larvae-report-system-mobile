@@ -12,7 +12,7 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup, $state,
   vm.selectedYear = WeeklyService.getSelectedYear();
   vm.selectedWeek = WeeklyService.getSelectedWeek();
   vm.uploadSites = uploadSites;
-  vm.setVillageIdName = setSelectedVillageIdName;
+  vm.setVillage = setSelectedVillage;
   vm.numberOfSites = 0;
 
   function setNumberOfSitesInWeekYear() {
@@ -60,9 +60,10 @@ function VillagesCtrl($scope, $ionicHistory, WeeklyService, $ionicPopup, $state,
     });
   }
 
-  function setSelectedVillageIdName(id , name) {
-    VillagesService.setSelectedVillageId(id);
-    VillagesService.setSelectedVillageName(name);
+  function setSelectedVillage(village) {
+    VillagesService.setSelectedVillageId(village.id);
+    VillagesService.setSelectedVillageName(village.name);
+    VillagesService.setSelectedVillage(village);
   }
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {

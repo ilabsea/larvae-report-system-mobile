@@ -6,6 +6,7 @@ VillagesService.$inject = ["$q", "$http", "ENDPOINT", "API", "SessionsService"];
 function VillagesService($q, $http, ENDPOINT, API, SessionsService) {
   var villageId;
   var villageName;
+  var selectedVillage;
   var villages;
 
   function setVillages(villagesResponse) {
@@ -47,11 +48,37 @@ function VillagesService($q, $http, ENDPOINT, API, SessionsService) {
     return villageName;
   }
 
+  function setSelectedVillage(village) {
+    selectedVillage = village;
+  }
+
+  function getSelectedVillage() {
+    return selectedVillage;
+  }
+
+  function fetchPlaceParent() {
+    return $q(function(resolve, reject) {
+      var ancestry = getSelectedVillage().ancestry;
+      var authToken = SessionsService.getAuthToken();
+      var dataAttr = {"ancestry" : ancestry};
+      $http.get(ENDPOINT.api + API.get_parent_place_by_village_ancestry + authToken, {"params": dataAttr} )
+        .success(function (place) {
+          resolve(place);
+        })
+        .error(function(error){
+          reject(error);
+        });
+    });
+  }
+
   return {
     getVillages: getVillages,
     setSelectedVillageId: setSelectedVillageId,
     getSelectedVillageId: getSelectedVillageId,
     setSelectedVillageName: setSelectedVillageName,
-    getSelectedVillageName: getSelectedVillageName
+    getSelectedVillageName: getSelectedVillageName,
+    setSelectedVillage: setSelectedVillage,
+    getSelectedVillage: getSelectedVillage,
+    fetchPlaceParent: fetchPlaceParent
   };
 }

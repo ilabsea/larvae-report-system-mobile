@@ -12,6 +12,20 @@
   </div>
 
   <ion-content class="padding has-subheader">
+    <div ng-if="activeTab == layers[0].id">
+      <label class='item-input-inset item-stacked-label'>
+        <div class='input-label'>District name </div>
+        <div class="item-input-wrapper">
+          <input type="text" ng-model="districtName" disabled>
+        </div>
+      </label>
+      <label class='item-input-inset item-stacked-label'>
+        <div class='input-label'>Village name </div>
+        <div class="item-input-wrapper">
+          <input type="text" ng-model="villageName" disabled>
+        </div>
+      </label>
+    </div>
     <div ng-repeat="field in fields">
       <label class='item-input-inset item-stacked-label' ng-if="field.isInputType">
         <div class='input-label'>{{field.name}}
