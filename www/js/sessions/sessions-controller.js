@@ -1,9 +1,11 @@
 angular.module('app')
 .controller('SessionsCtrl', SessionsCtrl)
 
-SessionsCtrl.$inject = ["$scope", "$state", "$ionicPopup", "SessionsService"]
+SessionsCtrl.$inject = ["$scope", "$state", "$ionicPopup", "SessionsService",
+        "ApiService"]
 
-function SessionsCtrl($scope, $state, $ionicPopup, SessionsService) {
+function SessionsCtrl($scope, $state, $ionicPopup, SessionsService, ApiService) {
+  
   var vm = $scope, loadingSpinner;
   vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
   // vm.user = {};
@@ -15,6 +17,7 @@ function SessionsCtrl($scope, $state, $ionicPopup, SessionsService) {
     SessionsService.login(user).then(function(authenticated) {
       vm.hideSpinner();
       $state.go("weeks-calendar");
+      ApiService.setApi();
     }, function(err) {
       vm.hideSpinner();
       $ionicPopup.alert({

@@ -14,13 +14,13 @@ function routes($stateProvider, $urlRouterProvider, $compileProvider) {
 
   .state('weeks-calendar', {
     url: '/weeks-calendar',
-    templateUrl: 'templates/weeks-calendar.html'
+    templateUrl: 'templates/weeks.html'
   })
 
-  .state('villages', {
-    url: '/villages',
-    templateUrl: 'templates/villages.html',
-    controller: 'VillagesCtrl'
+  .state('places', {
+    url: '/places',
+    templateUrl: 'templates/places.html',
+    controller: 'PlacesCtrl'
   })
 
   .state('form-site', {

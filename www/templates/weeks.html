@@ -3,7 +3,7 @@
     <button class="button icon-left ion-log-out button-stable"
             ng-controller='SessionsCtrl' ng-click="logout()">Sign out</button>
   </ion-nav-buttons>
-  <ion-content class="padding" ng-controller='WeeksCalendarCtrl'>
+  <ion-content class="padding" ng-controller='WeeksCtrl'>
     <label class="item item-input item-select item-balance">
       <div class="input-label">Select year</div>
       <select ng-model="selectedYear" ng-change='setWeeks()'>

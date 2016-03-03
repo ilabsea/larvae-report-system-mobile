@@ -1,9 +1,9 @@
 angular.module('app')
-.factory('WeeklyService', WeeklyService)
+.factory('WeeksService', WeeksService)
 
-WeeklyService.$inject = ["$filter"];
+WeeksService.$inject = ["$filter"];
 
-function WeeklyService($filter) {
+function WeeksService($filter) {
   isDisabledNextButton = false;
   isDisabledPreviousButton = false;
   selectedWeekNumber = '';

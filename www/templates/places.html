@@ -1,4 +1,4 @@
-<ion-view title='List weekly report' name="villages-view" ng-init='getVillages()'>
+<ion-view title='List weekly report' name="places-view" ng-init='getPlaces()'>
   <ion-nav-buttons side="left">
     <button class="button icon-left ion-android-arrow-back button-stable"
             ng-click="backToWeeksCalendar()">Back</button>
@@ -11,10 +11,10 @@
 
     <div class="list list-inset">
       <a class="item"
-         ui-sref="form-site" ng-repeat="village in villages"
-         ng-click='setVillage(village)'>
-        {{village.name}}
-        <i class="icon" ng-class="village.hasData ? 'ion-checkmark' : ''"></i>
+         ui-sref="form-site" ng-repeat="place in places"
+         ng-click='setPlace(place)'>
+        {{place.name}}
+        <i class="icon" ng-class="place.hasData ? 'ion-checkmark' : ''"></i>
       </a>
     </div>
 

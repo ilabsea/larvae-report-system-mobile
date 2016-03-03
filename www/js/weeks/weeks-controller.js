@@ -1,16 +1,16 @@
 angular.module('app')
-.controller('WeeksCalendarCtrl', WeeksCalendarCtrl)
+.controller('WeeksCtrl', WeeksCtrl)
 
-WeeksCalendarCtrl.$inject = ["$scope", "$state", "$filter", "SiteService", "WeeklyService"]
+WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteService", "WeeksService"]
 
-function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
+function WeeksCtrl($scope, $state, $filter, SiteService, WeeksService){
   var vm = $scope, index = 1;
   var todayWeek = $filter('date')(new Date(), 'w');
   var todayYear = $filter('date')(new Date(), 'yyyy');
   vm.selectedYear = todayYear;
   vm.isDisabledPreviousButton = true;
   vm.isDisabledNextButton = false;
-  vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);;
+  vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);;
   vm.next = goNext;
   vm.previous = goPrevious;
   vm.getWeekNumber = setWeekNumber;
@@ -19,8 +19,8 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   vm.years = setYears();
 
   vm.setWeeks = function() {
-    WeeklyService.setSelectedYear(vm.selectedYear);
-    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
+    WeeksService.setSelectedYear(vm.selectedYear);
+    vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
   }
 
   function setYears() {
@@ -34,20 +34,20 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
 
   function goPrevious(){
     index -= 9;
-    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
-    vm.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
-    vm.isDisabledNextButton = WeeklyService.isDisabledNextButton();
+    vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
+    vm.isDisabledPreviousButton = WeeksService.isDisabledPreviousButton();
+    vm.isDisabledNextButton = WeeksService.isDisabledNextButton();
   }
   function goNext(){
     index += 9;
-    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
-    vm.isDisabledNextButton = WeeklyService.isDisabledNextButton();
-    vm.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
+    vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
+    vm.isDisabledNextButton = WeeksService.isDisabledNextButton();
+    vm.isDisabledPreviousButton = WeeksService.isDisabledPreviousButton();
   }
 
   function setWeekNumber(weekNumber) {
-    WeeklyService.setSelectedWeek(weekNumber);
-    $state.go('villages')
+    WeeksService.setSelectedWeek(weekNumber);
+    $state.go('places')
   }
 
   function setWeeksMissingSend(){
@@ -110,7 +110,7 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   }
 
   function setSelectedYear(year){
-    WeeklyService.setSelectedYear(year);
+    WeeksService.setSelectedYear(year);
   }
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
