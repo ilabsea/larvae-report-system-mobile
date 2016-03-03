@@ -3,6 +3,8 @@ angular.module('app')
 FieldsService.$inject = []
 
 function FieldsService(LayersService) {
+  var dateFieldsId = [];
+  var photoFieldsId = [];
 
   function buildFields(fields){
     angular.forEach(fields, function(field) {
@@ -53,7 +55,17 @@ function FieldsService(LayersService) {
     return fields;
   }
 
+  function getDateFieldsId() {
+    return dateFieldsId;
+  }
+
+  function getPhotoFieldsid() {
+    return photoFieldsId;
+  }
+
   return {
-    buildFields: buildFields
+    buildFields: buildFields,
+    getDateFieldsId: getDateFieldsId,
+    getPhotoFieldsid: getPhotoFieldsid,
   }
 }

@@ -13,7 +13,7 @@ function ApiService(ENDPOINT, API, SessionsService) {
     var authToken = SessionsService.getAuthToken();
     layers = ENDPOINT.api + API.layers + authToken;
     places = ENDPOINT.api + API.places + authToken;
-    placeParent = ENDPOINT.api + API.get_parent_place_by_village_ancestry + authToken;
+    placeParent = ENDPOINT.api + API.get_parent_place_by_ancestry + authToken;
     site = ENDPOINT.api + API.sites + authToken;
     siteWeekYearPlaceId = ENDPOINT.api + API.get_site_by_week_year_placeId + authToken;
   }

@@ -2,10 +2,10 @@ angular.module('app')
 .controller('PlacesCtrl', PlacesCtrl)
 
 PlacesCtrl.$inject = ["$scope", "$ionicHistory", "WeeksService", "$ionicPopup",
-      "$state", "PlacesService", "SiteService", "$controller"]
+      "$state", "PlacesService", "SiteSQLiteService", "$controller"]
 
 function PlacesCtrl($scope, $ionicHistory, WeeksService, $ionicPopup, $state,
-    PlacesService, SiteService) {
+    PlacesService, SiteSQLiteService) {
   var vm = $scope;
   vm.backToWeeksCalendar = goBack;
   vm.getPlaces = getPlaces;
@@ -16,7 +16,7 @@ function PlacesCtrl($scope, $ionicHistory, WeeksService, $ionicPopup, $state,
   vm.numberOfSites = 0;
 
   function setNumberOfSitesInWeekYear() {
-    SiteService.getNumberOfSitesInWeekYear().then(function(l){
+    SiteSQLiteService.getNumberOfSitesInWeekYear().then(function(l){
       vm.numberOfSites = l.number_sites;
     })
   }
@@ -31,7 +31,7 @@ function PlacesCtrl($scope, $ionicHistory, WeeksService, $ionicPopup, $state,
 
   function generateClassInPlaces(places){
     angular.forEach(places, function(place){
-      SiteService.getSiteByPlaceIdInWeekYear(place.id).then(function(site){
+      SiteSQLiteService.getSiteByPlaceIdInWeekYear(place.id).then(function(site){
         place.hasData = site.length > 0 ;
       })
     });
@@ -55,7 +55,7 @@ function PlacesCtrl($scope, $ionicHistory, WeeksService, $ionicPopup, $state,
     confirmPopup.then(function (res) {
       if(res){
         vm.showSpinner('templates/partials/loading.html');
-        SiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
+        SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
       }
     });
   }

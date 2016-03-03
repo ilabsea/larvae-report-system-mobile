@@ -1,9 +1,9 @@
 angular.module('app')
 .controller('WeeksCtrl', WeeksCtrl)
 
-WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteService", "WeeksService"]
+WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService"]
 
-function WeeksCtrl($scope, $state, $filter, SiteService, WeeksService){
+function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
   var vm = $scope, index = 1;
   var todayWeek = $filter('date')(new Date(), 'w');
   var todayYear = $filter('date')(new Date(), 'yyyy');
@@ -51,7 +51,7 @@ function WeeksCtrl($scope, $state, $filter, SiteService, WeeksService){
   }
 
   function setWeeksMissingSend(){
-    SiteService.getWeeksMissingSend().then(function(weeks){
+    SiteSQLiteService.getWeeksMissingSend().then(function(weeks){
       vm.weeksMissingSend = weeks;
     })
   }
@@ -113,7 +113,7 @@ function WeeksCtrl($scope, $state, $filter, SiteService, WeeksService){
     WeeksService.setSelectedYear(year);
   }
 
-  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+  $scope.$on('$stateChangeSuccess', function(event, toState) {
     if (toState.url== "/weeks-calendar") {
       setSelectedYear(vm.selectedYear);
       setWeeksMissingSend();
