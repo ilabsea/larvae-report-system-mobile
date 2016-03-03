@@ -1,11 +1,9 @@
 angular.module('app')
 
 .constant("ENDPOINT", {
-  // api: 'http://cam-monitoring.info:8080/api/'
-  // api: 'http://192.168.56.102:3000/api/',
-  // photo_path: "http://192.168.56.102:3000/photo_field/"
-  api: 'http://192.168.1.116:3000/api/',
-  photo_path: "http://192.168.1.116:3000/photo_field/"
+  // api: 'http://cam-monitoring.info:8080/api/',
+  api: 'http://192.168.1.136:3000/api/',
+  photo_path: "http://192.168.1.136:3000/photo_field/"
   // api: 'http://localhost:8100/api/'
 })
 
