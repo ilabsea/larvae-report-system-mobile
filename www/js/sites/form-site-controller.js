@@ -65,11 +65,17 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, ApiService, We
     SiteService.fetchSiteByWeekYearPlaceId(week, year, placeId).then(function (site) {
       vm.hideSpinner();
       vm.isUpdateSite = false;
+      var builtFields = LayersService.getBuiltFieldsByLayerId(vm.layers[0].id)
       if(site){
         vm.isSiteInServer = true;
         prepareFormRender(site, vm.isSiteInServer);
+      }else{
+        angular.forEach(builtFields, function (field) {
+          if(field.remember_last_input)
+            vm.site.properties[field.id] = field.default_value;
+        });
       }
-      vm.fields = vm.layers.length > 0 ? LayersService.getBuiltFieldsByLayerId(vm.layers[0].id) : [];
+      vm.fields = vm.layers.length > 0 ? builtFields : [];
     });
   }
 
