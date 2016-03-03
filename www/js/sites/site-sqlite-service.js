@@ -1,9 +1,9 @@
 angular.module('app')
 .factory('SiteSQLiteService', SiteSQLiteService)
-SiteSQLiteService.$inject = ["SiteService", "$cordovaSQLite", "WeeksService",
+SiteSQLiteService.$inject = ["SessionsService", "SiteService", "$cordovaSQLite", "WeeksService",
       "PlacesService", "$rootScope", "$state"]
 
-function SiteSQLiteService(SiteService, $cordovaSQLite, WeeksService, PlacesService,
+function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksService, PlacesService,
     $rootScope, $state) {
 
   function insertSite(site){
