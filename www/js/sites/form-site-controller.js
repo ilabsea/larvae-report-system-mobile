@@ -70,10 +70,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, ApiService, We
         vm.isSiteInServer = true;
         prepareFormRender(site, vm.isSiteInServer);
       }else{
-        angular.forEach(builtFields, function (field) {
-          if(field.remember_last_input)
-            vm.site.properties[field.id] = field.default_value;
-        });
+        renderFormRememberLastInput(builtFields);
       }
       vm.fields = vm.layers.length > 0 ? builtFields : [];
     });
@@ -101,9 +98,22 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, ApiService, We
     });
   }
 
+  function renderFormRememberLastInput(builtFields) {
+    angular.forEach(builtFields, function (field) {
+      if(field.remember_last_input){
+        if(angular.isObject(field.default_value)){
+          vm.site.properties[field.id] = field.default_value[field.id];
+        }else{
+          vm.site.properties[field.id] = field.default_value;
+        }
+      }
+    });
+  }
+
   function renderFieldsForm(layerId){
     vm.activeTab = layerId;
     vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
+    renderFormRememberLastInput(vm.fields);
     if(layerId == LayersService.getLastLayerId())
       vm.isLastTab = true;
     else
