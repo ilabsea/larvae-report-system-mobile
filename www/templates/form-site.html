@@ -32,8 +32,9 @@
           <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
         </div>
         <div class="item-input-wrapper">
-          <input type="{{field.type}}" ng-disabled='isSiteInServer' required='{{field.required}}'
-            ng-model="site.properties[field.id]">
+          <input type="{{field.type}}" ng-disabled='field.disabled || isSiteInServer'
+            required='{{field.required}}' ng-model="site.properties[field.id]"
+            ng-keyup='prepareCalculationFields()'>
         </div>
       </label>
 

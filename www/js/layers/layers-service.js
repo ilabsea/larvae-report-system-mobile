@@ -21,7 +21,7 @@ function LayersService($q, $http, ApiService, FieldsService) {
    function getBuiltFieldsByLayerId(layerId){
      var fields;
      var builtLayers = getBuiltLayers();
-     angular.forEach(builtLayers, function(layer) {
+     angular.forEach(builtLayers , function (layer) {
        if(layer.id == layerId){
          fields = layer.fields;
          return;

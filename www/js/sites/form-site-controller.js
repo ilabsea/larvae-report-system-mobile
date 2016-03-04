@@ -1,12 +1,12 @@
 angular.module('app')
 .controller("FormSiteCtrl", FormSiteCtrl)
-FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "ApiService", "WeeksService",
+FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
-                "SiteSQLiteService", "CameraService", "moment", "ApiService"]
+                "SiteSQLiteService", "CameraService", "moment", "CalculationService"]
 
-function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, ApiService, WeeksService,
+function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
-                SiteSQLiteService, CameraService, moment, ApiService) {
+                SiteSQLiteService, CameraService, moment, CalculationService) {
   var vm = $scope, currentPhotoFieldId;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
@@ -23,6 +23,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, ApiService, We
   vm.getPhoto = getPhoto;
   vm.backToPlace = backToPlace;
   vm.villageName = PlacesService.getSelectedPlace().name;
+  vm.prepareCalculationFields = prepareCalculationFields;
 
   function renderForm() {
     vm.showSpinner('templates/partials/loading.html');
@@ -38,6 +39,18 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, ApiService, We
         template: 'Please try aggain!'
       });
     })
+  }
+
+  function prepareCalculationFields() {
+    var builtFields = LayersService.getBuiltFieldsByLayerId(vm.layers[1].id);
+    console.log('builtFields  : ', builtFields);
+    angular.forEach(builtFields, function (field) {
+      if(field.kind == 'calculation'){
+        var calSyn = CalculationService.generateSyntax(field);
+        vm.site.properties[field.id] = vm.$eval(calSyn);
+        console.log("value : ", vm.site.properties[field.id] );
+      }
+    });
   }
 
   function renderFormSiteInDbOrServer() {
@@ -131,6 +144,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, ApiService, We
     $state.go('places');
     vm.fields = [];
   }
+
+
   var CameraOptionsPopup;
 
   function showChoiceCameraPopup(photoFieldId){
