@@ -5,7 +5,7 @@ SessionsCtrl.$inject = ["$scope", "$state", "$ionicPopup", "SessionsService",
         "ApiService"]
 
 function SessionsCtrl($scope, $state, $ionicPopup, SessionsService, ApiService) {
-  
+
   var vm = $scope, loadingSpinner;
   vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
   // vm.user = {};

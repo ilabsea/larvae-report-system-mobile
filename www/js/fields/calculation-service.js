@@ -36,11 +36,11 @@ function CalculationService() {
         codeCalculation = codeCalculation.replace(new RegExp(fieldName.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1"), 'g'), fieldValue);
       });
     }
-    console.log('generateSyntax : ', codeCalculation);
     return codeCalculation;
   }
 
   return{
+    getDependentFields: restructureDependentFields,
     generateSyntax: generateSyntax
   }
 }

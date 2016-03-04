@@ -34,7 +34,7 @@
         <div class="item-input-wrapper">
           <input type="{{field.type}}" ng-disabled='field.disabled || isSiteInServer'
             required='{{field.required}}' ng-model="site.properties[field.id]"
-            ng-keyup='prepareCalculationFields()'>
+            ng-keyup='!dependFields[field.id] || prepareCalculationFields()'>
         </div>
       </label>
 

@@ -24,6 +24,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   vm.backToPlace = backToPlace;
   vm.villageName = PlacesService.getSelectedPlace().name;
   vm.prepareCalculationFields = prepareCalculationFields;
+  vm.dependFields = {};
 
   function renderForm() {
     vm.showSpinner('templates/partials/loading.html');
@@ -41,18 +42,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     })
   }
 
-  function prepareCalculationFields() {
-    var builtFields = LayersService.getBuiltFieldsByLayerId(vm.layers[1].id);
-    console.log('builtFields  : ', builtFields);
-    angular.forEach(builtFields, function (field) {
-      if(field.kind == 'calculation'){
-        var calSyn = CalculationService.generateSyntax(field);
-        vm.site.properties[field.id] = vm.$eval(calSyn);
-        console.log("value : ", vm.site.properties[field.id] );
-      }
-    });
-  }
-
   function renderFormSiteInDbOrServer() {
     var placeId = PlacesService.getSelectedPlaceId();
     SiteSQLiteService.getSiteByPlaceIdInWeekYear(placeId).then(function(site){
@@ -65,6 +54,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                         "files" : angular.fromJson(site[0].files)}
         prepareFormRender(siteData, vm.isSiteInServer);
         vm.fields = vm.layers.length > 0 ? LayersService.getBuiltFieldsByLayerId(vm.layers[0].id) : [];
+        setDependentFields(vm.fields);
       }else{
         renderFormSiteInServer();
       }
@@ -84,6 +74,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
         prepareFormRender(site, vm.isSiteInServer);
       }else{
         renderFormRememberLastInput(builtFields);
+        setDependentFields(builtFields);
       }
       vm.fields = vm.layers.length > 0 ? builtFields : [];
     });
@@ -127,10 +118,33 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     vm.activeTab = layerId;
     vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
     renderFormRememberLastInput(vm.fields);
+    setDependentFields(vm.fields);
     if(layerId == LayersService.getLastLayerId())
       vm.isLastTab = true;
     else
       vm.isLastTab = false;
+  }
+
+  function prepareCalculationFields() {
+    angular.forEach(vm.layers, function (layer) {
+      angular.forEach(layer.fields, function (field) {
+        if(field.kind == 'calculation'){
+          var calSyn = CalculationService.generateSyntax(field);
+          vm.site.properties[field.id] = vm.$eval(calSyn);
+        }
+      });
+    });
+  }
+
+  function setDependentFields(builtFields) {
+    angular.forEach(builtFields, function (field) {
+      if(field.kind == 'calculation'){
+        var dependFields = CalculationService.getDependentFields(field);
+        angular.forEach(dependFields, function (dependField) {
+          vm.dependFields[dependField.id] = true;
+        });
+      }
+    });
   }
 
   function saveSite(site, propertiesDate) {
