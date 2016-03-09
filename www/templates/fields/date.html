@@ -1,0 +1,15 @@
+<label class='item-input-inset item-stacked-label'>
+  <div class="input-label">{{field.name}}
+    <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+  </div>
+  <div class="item-input-wrapper"
+      ng-class="{ 'has-errors' : formSite['{{field.id}}'].$touched && formSite['{{field.id}}'].$invalid}">
+    <input type="date" name='{{field.id}}' class='input-date' ng-disabled='isSiteInServer'
+      ng-required='{{field.required}}' ng-model="propertiesDate[field.id]">
+  </div>
+  <div class="error-message" ng-show="formSite['{{field.id}}'].$touched"
+       ng-messages="formSite['{{field.id}}'].$error">
+     <div ng-message="required">This field is required!
+     </div>
+  </div>
+</label>

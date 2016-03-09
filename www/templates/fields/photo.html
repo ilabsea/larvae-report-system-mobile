@@ -1,0 +1,21 @@
+<div class='item-input-inset item-stacked-label'>
+  <div class="input-label">{{field.name}}
+    <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+  </div>
+  <input type="hidden" ng-required="{{field.required}}"
+       name="{{field.id}}" ng-model="site.properties[field.id]">
+  <div ng-click='isSiteInServer || showChoiceCameraPopup({{field.id}})' style='width: 50px'
+    ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid, 'ng-untouched': customValidate(field.id)}">
+    <img style='width: 50px' ng-if='imagesMimeData[field.id]'
+         ng-src="{{imagesMimeData[field.id]}}"
+         ng-model='site.properties[field.id]'>
+    <img style='width: 50px' ng-if='!imagesMimeData[field.id]'
+        ng-src="{{field.defaultImageSrc}}"
+        ng-model='site.properties[field.id]'>
+  </div>
+  <div class="error-message" ng-show="formSite['{{field.id}}'].$invalid && !customValidate(field.id)"
+        ng-messages="formSite['{{field.id}}'].$error">
+     <div ng-message='required'>This field is required!
+     </div>
+  </div>
+</div>

@@ -43,7 +43,7 @@ angular.module('ion-tree-list', [], function($rootScopeProvider){
             templateUrl: '@'
         },
         // templateUrl: CONF.baseUrl + '/ion-tree-list.tmpl.html',
-        templateUrl: 'templates/ion-tree-list.html',
+        templateUrl: 'templates/fields/ion-tree-list.html',
         link: function($scope, element, attrs, ctrl){ // change from comment to link
             $scope.baseUrl = CONF.baseUrl;
             $scope.toggleCollapse = toggleCollapse;

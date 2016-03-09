@@ -22,7 +22,7 @@ function PlacesCtrl($scope, $ionicHistory, WeeksService, $ionicPopup, $state,
   }
 
   function getPlaces() {
-    vm.showSpinner('templates/partials/loading.html');
+    vm.showSpinner('templates/loading/loading.html');
     PlacesService.fetch().then(function (places) {
       vm.hideSpinner();
       vm.places = generateClassInPlaces(places);
@@ -54,7 +54,7 @@ function PlacesCtrl($scope, $ionicHistory, WeeksService, $ionicPopup, $state,
     });
     confirmPopup.then(function (res) {
       if(res){
-        vm.showSpinner('templates/partials/loading.html');
+        vm.showSpinner('templates/loading/loading.html');
         SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
       }
     });

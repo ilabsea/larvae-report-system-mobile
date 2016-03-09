@@ -13,7 +13,7 @@ function SessionsCtrl($scope, $state, $ionicPopup, SessionsService, ApiService) 
   vm.logout = logout;
 
   function login(user) {
-    vm.showSpinner('templates/partials/loading-login.html');
+    vm.showSpinner('templates/loading/loading-login.html');
     SessionsService.login(user).then(function(authenticated) {
       vm.hideSpinner();
       $state.go("weeks-calendar");

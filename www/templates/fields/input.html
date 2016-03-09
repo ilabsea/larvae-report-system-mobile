@@ -1,0 +1,19 @@
+<label class='item-input-inset item-stacked-label'>
+  <div class='input-label'>{{field.name}}
+    <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
+  </div>
+  <div class="item-input-wrapper"
+      ng-class="{ 'has-errors' : formSite['{{field.id}}'].$touched && formSite['{{field.id}}'].$invalid}">
+    <input type="{{field.type}}" name='{{field.id}}'
+      ng-disabled='field.disabled || isSiteInServer'
+      ng-required='{{field.required}}' ng-model="site.properties[field.id]"
+      ng-keyup='!dependFields[field.id] || prepareCalculationFields()'>
+  </div>
+  <div class="error-message"
+       ng-show="formSite['{{field.id}}'].$touched"
+       ng-messages="formSite['{{field.id}}'].$error">
+     <div ng-message="required">This field is required!
+     </div>
+     <div ng-message="email">Field email is invalid</div>
+  </div>
+</label>

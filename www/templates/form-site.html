@@ -12,138 +12,15 @@
   </div>
 
   <ion-content class="padding has-subheader">
-    <div ng-if="activeTab == layers[0].id">
-      <label class='item-input-inset item-stacked-label'>
-        <div class='input-label'>District name </div>
-        <div class="item-input-wrapper">
-          <input type="text" ng-model="districtName" disabled>
-        </div>
-      </label>
-      <label class='item-input-inset item-stacked-label'>
-        <div class='input-label'>Village name </div>
-        <div class="item-input-wrapper">
-          <input type="text" ng-model="villageName" disabled>
-        </div>
-      </label>
-    </div>
+    <div ng-include="'templates/fields/default-fields.html'" ng-if="activeTab == layers[0].id"></div>
     <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)">
       <div ng-repeat="field in fields">
-        <label class='item-input-inset item-stacked-label' ng-if="field.isInputType">
-          <div class='input-label'>{{field.name}}
-            <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
-          </div>
-          <div class="item-input-wrapper"
-              ng-class="{ 'has-errors' : formSite['{{field.id}}'].$touched && formSite['{{field.id}}'].$invalid}">
-            <input type="{{field.type}}" name='{{field.id}}'
-              ng-disabled='field.disabled || isSiteInServer'
-              ng-required='{{field.required}}' ng-model="site.properties[field.id]"
-              ng-keyup='!dependFields[field.id] || prepareCalculationFields()'>
-          </div>
-          <div class="error-message"
-               ng-show="formSite['{{field.id}}'].$touched"
-               ng-messages="formSite['{{field.id}}'].$error">
-             <div ng-message="required">This field is required!
-             </div>
-             <div ng-message="email">Field email is invalid</div>
-          </div>
-        </label>
-
-        <label class='item-input-inset item-stacked-label' ng-if="field.type == 'date'">
-          <div class="input-label">{{field.name}}
-            <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
-          </div>
-          <div class="item-input-wrapper"
-              ng-class="{ 'has-errors' : formSite['{{field.id}}'].$touched && formSite['{{field.id}}'].$invalid}">
-            <input type="date" name='{{field.id}}' class='input-date' ng-disabled='isSiteInServer'
-              ng-required='{{field.required}}' ng-model="propertiesDate[field.id]">
-          </div>
-          <div class="error-message" ng-show="formSite['{{field.id}}'].$touched"
-               ng-messages="formSite['{{field.id}}'].$error">
-             <div ng-message="required">This field is required!
-             </div>
-          </div>
-        </label>
-
-        <div class='div-toggle' ng-if="field.type == 'checkbox'" >
-          <div class="input-label">{{field.name}}
-            <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
-          </div>
-           <label class="toggle">
-             <input type="checkbox" ng-disabled='isSiteInServer'
-                    ng-model='site.properties[field.id]'>
-             <div class="track">
-               <div class="handle"></div>
-             </div>
-           </label>
-        </div>
-
-        <div class='item-input-inset item-stacked-label' ng-if="field.type === 'select'" >
-          <input type="hidden" ng-required="{{field.required}}"
-                   name="{{field.id}}" ng-model="site.properties[field.id]">
-          <fancy-select
-            invalid = "formSite[field.id].$invalid"
-            untouched="customValidate(field.id)"
-            is-required="{{field.required}}"
-            disabled-click={{isSiteInServer}}
-            header-text="Select option"
-            items="field.config.options" value="site.properties[field.id]"
-            value-property="id" text-property="label"
-            multi-select="{{field.multiSelect}}" text="(no value)"
-            modal-template-url="templates/fancy-select/fancy-select.html"
-            template-url="templates/fancy-select/item-template.html"
-            note-text="{{field.name}}" value-changed="onValueChanged(value)"
-            get-custom-text="getCustomText(value)">
-          </fancy-select>
-          <div class="error-message" ng-show="formSite['{{field.id}}'].$invalid && !customValidate(field.id)"
-                ng-messages="formSite['{{field.id}}'].$error">
-             <div ng-message='required'>This field is required!
-             </div>
-          </div>
-        </div>
-
-        <div class='item-input-inset item-stacked-label' ng-if="field.type === 'photo'">
-          <div class="input-label">{{field.name}}
-            <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
-          </div>
-          <input type="hidden" ng-required="{{field.required}}"
-               name="{{field.id}}" ng-model="site.properties[field.id]">
-          <div ng-click='isSiteInServer || showChoiceCameraPopup({{field.id}})' style='width: 50px'
-            ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid, 'ng-untouched': customValidate(field.id)}">
-            <img style='width: 50px' ng-if='imagesMimeData[field.id]'
-                 ng-src="{{imagesMimeData[field.id]}}"
-                 ng-model='site.properties[field.id]'>
-            <img style='width: 50px' ng-if='!imagesMimeData[field.id]'
-                ng-src="{{field.defaultImageSrc}}"
-                ng-model='site.properties[field.id]'>
-          </div>
-          <div class="error-message" ng-show="formSite['{{field.id}}'].$invalid && !customValidate(field.id)"
-                ng-messages="formSite['{{field.id}}'].$error">
-             <div ng-message='required'>This field is required!
-             </div>
-          </div>
-        </div>
-
-        <div class='item-input-inset item-stacked-label' ng-if="field.type === 'hierarchy'">
-          <div class="input-label">{{field.name}}
-            <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
-          </div>
-          <div class="item"
-               ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid, 'ng-untouched': customValidate(field.id)}">
-            <input type="hidden" ng-required="{{field.required}}"
-                  name="{{field.id}}" ng-model="site.properties[field.id]">
-            <ion-tree-list items="field.config.hierarchy"
-                           disabled-click={{isSiteInServer}}
-                           value="site.properties[field.id]"
-                           value-property="id"
-                           collapsed="site.properties[field.id] ? false : true">
-            </ion-tree-list>
-          </div>
-          <div class="error-message" ng-show="formSite['{{field.id}}'].$invalid && !customValidate(field.id)"
-                ng-messages="formSite['{{field.id}}'].$error">
-             <div ng-message='required'>This field is required!
-             </div>
-          </div>
-        </div>
+        <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
+        <div ng-include="'templates/fields/date.html'" ng-if="field.type == 'date'"></div>
+        <div ng-include="'templates/fields/yesno.html'" ng-if="field.type == 'checkbox'"></div>
+        <div ng-include="'templates/fields/select.html'" ng-if="field.type == 'select'"></div>
+        <div ng-include="'templates/fields/photo.html'" ng-if="field.type == 'photo'"></div>
+        <div ng-include="'templates/fields/photo.html'" ng-if="field.type == 'hierarchy'"></div>
       </div>
       <div ng-if='!isSiteInServer'>
         <button ng-if='isLastTab' class='button button-block default-button' type='submit' ng-click='isSubmit()'>
