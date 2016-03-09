@@ -2,7 +2,7 @@
   border: 1px solid #cc2511;
 }
 
-div.has-errors.ng-untouched {
+.has-errors.ng-untouched {
   border-color: #ddd
 }
 

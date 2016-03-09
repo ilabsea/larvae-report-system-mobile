@@ -27,6 +27,8 @@ angular.module("ionic-fancy-select", ["ionic"])
     scope: {
       items: "=", // Needs to have a value
       value: "=", // Needs to have a value
+      invalid: "=",
+      untouched: "=",
       valueChangedCallback: "&valueChanged", // The callback used to signal that the value has changed
       getCustomTextCallback: "&getCustomText" // The callback used to get custom text based on the selected value
     },
@@ -62,7 +64,6 @@ angular.module("ionic-fancy-select", ["ionic"])
       ///////////// custom attribute of fancy select added //////////////
       scope.disabledClick = attrs.disabledClick === 'false' ? false : true;
       scope.isRequired = attrs.isRequired === 'false' ? false : true;
-      scope.isValid = true;
 
       /* Initialise the modal
        * If a modal template URL has been provided, then use that,
@@ -184,7 +185,6 @@ angular.module("ionic-fancy-select", ["ionic"])
         if (scope.multiSelect) {
           // Need to scan the list for selected items and push them into the value list
           scope.value = [];
-
           if (scope.items) {
             angular.forEach(scope.items, function(item, key) {
               if (item[scope.checkedProperty]) {
@@ -192,6 +192,10 @@ angular.module("ionic-fancy-select", ["ionic"])
               }
             });
           }
+
+          ///////////////////// added for validation ///////////////////////
+          if(scope.value.length == 0)
+            scope.value = "";
 
         } else {
           // Just use the current item
