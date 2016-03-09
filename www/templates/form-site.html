@@ -1,7 +1,7 @@
-<ion-view title='New weekly report' name="form-site-view" ng-controller='FormSiteCtrl' ng-init='renderForm()'>
+<ion-view title='{{"form.new_weekly_report" | translate}}' name="form-site-view" ng-controller='FormSiteCtrl' ng-init='renderForm()'>
   <ion-nav-buttons side="left">
     <button class="button icon-left ion-android-arrow-back button-stable"
-      ng-click="backToPlace()">Back</button>
+      ng-click="backToPlace()">{{"global.back" | translate}}</button>
   </ion-nav-buttons>
 
   <div class="bar-positive tab-nav tabs tabs-color-active-positive pane tabs-top tabs-striped">
@@ -24,8 +24,8 @@
       </div>
       <div ng-if='!isSiteInServer'>
         <button ng-if='isLastTab' class='button button-block default-button' type='submit' ng-click='isSubmit()'>
-          <span ng-if='isUpdateSite'>Update</span>
-          <span ng-if='!isUpdateSite'>Save</span>
+          <span ng-if='isUpdateSite'>{{"form.save" | translate}}</span>
+          <span ng-if='!isUpdateSite'>{{"form.update" | translate}}</span>
         </button>
       </div>
       </br>

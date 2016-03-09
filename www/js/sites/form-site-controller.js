@@ -42,7 +42,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
       vm.hideSpinner();
       $ionicPopup.alert({
         title: 'Fetch data failed',
-        template: 'Please try aggain!'
+        template: 'Please try aggain!',
+        okType: 'default-button'
       });
     })
   }

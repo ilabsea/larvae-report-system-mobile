@@ -1,0 +1,38 @@
+{
+  "global":{
+    "ok": "ຕົກ​ລົງ",
+    "sign_out": "ອອກ​ຈາກ​ລະ​ບົບ",
+    "back":"ກັບຄືນໄປບ່ອນ"
+  },
+  "login": {
+    "weekly_report": "ບົດລາຍງານປະຈໍາອາທິດ",
+    "email": "ອີເມວ",
+    "password": "ລະຫັດຜ່ານ",
+    "sign_in" : "ເຂົ້າ​ສູ່​ລະ​ບົບ"
+  },
+  "login_validation" : {
+    "invalid_email_or_password" : "ອີເມວທີ່ບໍ່ຖືກຕ້ອງຫລືລະຫັດຜ່ານ.",
+    "sign_in_failed": "ເຂົ້າສູ່ລະບົບສົບຜົນສໍາເລັດ!",
+    "sign_out_failed": "ອອກຈາກລະບົບສົບຜົນສໍາເລັດ",
+    "please_check_your_internet_connection" :"ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ."
+  },
+  "week" : {
+    "weekly_report_calendar" : "ປະຕິທິນບົດລາຍງານປະຈໍາອາທິດ",
+    "select_year" : "ເລືອກປີ",
+    "week": "ອາທິດ",
+    "showing_week_from": "ສະແດງໃຫ້ເຫັນອາທິດຈາກ",
+    "to": "ການ",
+    "of": "ຂອງ"
+  },
+  "place":{
+    "list_weekly_report": "ບັນຊີລາຍຊື່ບົດລາຍງານປະຈໍາອາທິດ",
+    "weekly_report_of_week": "ບົດລາຍງານປະຈໍາອາທິດຂອງອາທິດ",
+    "in" : "ໃນ",
+    "send_report_to_malaria_station": "ສົ່ງບົດລາຍງານທີ່ຈະສະຖານີພະຍາດໄຂ້ຍຸງ"
+  },
+  "form":{
+    "save":"ຊ່ວຍປະຢັດ",
+    "update": "ການປັບປຸງ",
+    "new_weekly_report": "ບົດລາຍງານປະຈໍາອາທິດໃຫມ່"
+  }
+}

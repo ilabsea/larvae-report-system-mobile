@@ -1,0 +1,38 @@
+{
+  "global":{
+    "ok": "Ok",
+    "sign_out": "Sign out",
+    "back": "Back"
+  },
+  "login": {
+    "weekly_report": "Weekly report",
+    "email": "Email",
+    "password": "Password",
+    "sign_in" : "Sign in",
+  },
+  "login_validation" : {
+    "invalid_email_or_password" : "Invalid email or password.",
+    "sign_in_failed": "Sign in failed",
+    "sign_out_failed": "Sign out failed",
+    "please_check_your_internet_connection" :"Please check your internet connection."
+  },
+  "week" : {
+    "weekly_report_calendar" : "Weekly report calendar",
+    "select_year" : "Select year",
+    "week": "Week",
+    "showing_week_from": "Showing week from",
+    "to": "to",
+    "of": "of"
+  },
+  "place":{
+    "list_weekly_report": "List weekly report",
+    "weekly_report_of_week": "Weekly report of week",
+    "in" : "in",
+    "send_report_to_malaria_station": "Send report to malaria station"
+  },
+  "form":{
+    "save":"Save",
+    "update": "Update",
+    "new_weekly_report": "New weekly report"
+  }
+}

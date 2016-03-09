@@ -5,14 +5,10 @@ angular
 translation.$inject = ['$translateProvider'];
 
 function translation($translateProvider){
-  $translateProvider.translations('en', {
-    email: "Email",
-    password: "Password"
-  });
-  $translateProvider.translations('lao', {
-    email: "ອີເມວ",
-    password: "ລະຫັດຜ່ານ"
-  });
-  $translateProvider.preferredLanguage("en");
+  $translateProvider.useStaticFilesLoader({
+    prefix: 'js/locales/',
+    suffix: '.json'
+  })
+  $translateProvider.preferredLanguage("lao");
   $translateProvider.fallbackLanguage("lao");
 }
