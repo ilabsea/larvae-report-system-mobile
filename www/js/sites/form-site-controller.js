@@ -7,7 +7,7 @@ FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "Wee
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService) {
-  var vm = $scope, currentPhotoFieldId;
+  var vm = $scope, currentPhotoFieldId, isSubmit;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
   vm.fields = [];
@@ -15,6 +15,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   vm.isSiteInServer = false;
   vm.imagesMimeData = {};
   vm.activeTab;
+  vm.isLastTab = isLastTab;
   vm.districtName = "";
   vm.renderForm = renderForm;
   vm.renderFieldsForm = renderFieldsForm;
@@ -25,6 +26,10 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   vm.villageName = PlacesService.getSelectedPlace().name;
   vm.prepareCalculationFields = prepareCalculationFields;
   vm.dependFields = {};
+  vm.customValidate = customValidate;
+  vm.isSubmit = function () {
+    isSubmit = true;
+  }
 
   function renderForm() {
     vm.showSpinner('templates/partials/loading.html');
@@ -119,10 +124,10 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
     renderFormRememberLastInput(vm.fields);
     setDependentFields(vm.fields);
-    if(layerId == LayersService.getLastLayerId())
-      vm.isLastTab = true;
-    else
-      vm.isLastTab = false;
+  }
+
+  function isLastTab() {
+    return vm.activeTab == LayersService.getLastLayerId()
   }
 
   function prepareCalculationFields() {
@@ -159,6 +164,10 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     vm.fields = [];
   }
 
+  function customValidate(fieldId) {
+    value = vm.site.properties[fieldId]
+    return angular.isUndefined(value) && !isSubmit;
+  }
 
   var CameraOptionsPopup;
 

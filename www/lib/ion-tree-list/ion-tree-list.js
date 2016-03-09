@@ -44,7 +44,7 @@ angular.module('ion-tree-list', [], function($rootScopeProvider){
         },
         // templateUrl: CONF.baseUrl + '/ion-tree-list.tmpl.html',
         templateUrl: 'templates/ion-tree-list.html',
-        link: function($scope, element, attrs){ // change from comment to link
+        link: function($scope, element, attrs, ctrl){ // change from comment to link
             $scope.baseUrl = CONF.baseUrl;
             $scope.toggleCollapse = toggleCollapse;
 //******* Add custom function for select item and get selected value ********

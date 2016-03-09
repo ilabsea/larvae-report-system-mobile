@@ -1,11 +1,14 @@
 .has-errors {
-    border-left: 3px solid #cc2511;
-    border-right: 3px solid #cc2511;
+  border: 1px solid #cc2511;
 }
 
-.no-errors {
-    border-left: 3px solid #3d8b3d;
-    border-right: 3px solid #3d8b3d;
+div.has-errors.ng-untouched {
+  border-color: #ddd
+}
+
+.error-message{
+  color: #cc2511;
+  padding-top: 5px;
 }
 
 span.error{

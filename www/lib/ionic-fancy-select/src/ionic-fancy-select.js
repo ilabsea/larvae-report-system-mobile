@@ -61,6 +61,8 @@ angular.module("ionic-fancy-select", ["ionic"])
 
       ///////////// custom attribute of fancy select added //////////////
       scope.disabledClick = attrs.disabledClick === 'false' ? false : true;
+      scope.isRequired = attrs.isRequired === 'false' ? false : true;
+      scope.isValid = true;
 
       /* Initialise the modal
        * If a modal template URL has been provided, then use that,
@@ -136,6 +138,11 @@ angular.module("ionic-fancy-select", ["ionic"])
       // Hides the list
       scope.hideItems = function(event) {
         scope.modal.hide();
+        if (angular.isArray(scope.value)) {
+          scope.isValid = scope.value.length > 0 ? true : false;
+        }else{
+          scope.isValid = scope.value ? true : false;
+        }
       };
 
       // Raised by watch when the value changes
@@ -169,7 +176,6 @@ angular.module("ionic-fancy-select", ["ionic"])
             }
           });
         }
-
         scope.modal.show();
       };
 
@@ -192,7 +198,6 @@ angular.module("ionic-fancy-select", ["ionic"])
           scope.value = scope.getItemValue(item);
 
         }
-
         scope.hideItems();
       };
 

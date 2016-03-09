@@ -1,7 +1,9 @@
-<div class='item-input-inset item-stacked-label'>
+<div class='item-input-inset item-stacked-label' >
   <div class='input-label'>{{noteText}}
+    <span ng-if="isRequired" ng-class="{'error' : isRequired}"> * </span>
   </div>
-  <ion-item class='item-select item-input-wrapper' ng-if="!disabledClick" ng-click="showItems($event)">
+  <ion-item class='item-select item-input-wrapper' ng-class='{"has-errors": !isValid}'
+    ng-if="!disabledClick" ng-click="showItems($event)">
     <span class="item-note">{{text}}
     </span>
   </ion-item>
@@ -9,4 +11,8 @@
     <span class="item-note">{{text}}
     </span>
   </ion-item>
+  <div class="error-message" ng-show="!isValid">
+     <div>This field is required!
+     </div>
+  </div>
 </div>

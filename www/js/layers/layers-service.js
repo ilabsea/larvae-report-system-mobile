@@ -32,7 +32,7 @@ function LayersService($q, $http, ApiService, FieldsService) {
 
    var getLastLayerId = function () {
      var layerLength = builtLayers.length;
-     return builtLayers[layerLength-1].id;
+     return layerLength > 0 ? builtLayers[layerLength-1].id : '';
    }
 
   function fetch(layersUrl) {

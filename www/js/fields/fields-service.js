@@ -5,6 +5,7 @@ FieldsService.$inject = []
 function FieldsService(LayersService) {
   var dateFieldsId = [];
   var photoFieldsId = [];
+  var fieldsRequired = [];
 
   function buildFields(fields){
     angular.forEach(fields, function(field) {
@@ -34,18 +35,22 @@ function FieldsService(LayersService) {
         case "select_one":
           field.type = 'select';
           field.multiSelect = false;
+          fieldsRequired.push(field.id);
           break;
         case "select_many":
           field.type = 'select';
           field.multiSelect = true;
+          fieldsRequired.push(field.id);
           break;
         case "hierarchy":
           field.type = field.kind;
+          fieldsRequired.push(field.id);
           break;
         case "photo":
           field.type = field.kind;
           field.defaultImageSrc = 'img/camera.png'
           photoFieldsId.push(field.id);
+          fieldsRequired.push(field.id);
           break;
         default:
           field.type = field.kind;
@@ -64,9 +69,14 @@ function FieldsService(LayersService) {
     return photoFieldsId;
   }
 
+  function getRequiredFieldsId(){
+    return fieldsRequired;
+  }
+
   return {
     buildFields: buildFields,
     getDateFieldsId: getDateFieldsId,
     getPhotoFieldsid: getPhotoFieldsid,
+    getRequiredFieldsId: getRequiredFieldsId
   }
 }
