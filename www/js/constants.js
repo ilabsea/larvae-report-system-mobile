@@ -11,9 +11,9 @@ angular.module('app')
   sign_in: 'users/sign_in.json',
   sign_out: 'users/sign_out?auth_token=',
   collections: "collections?auth_token=",
-  layers: 'v1/collections/11/fields?auth_token=',
-  sites: 'v1/collections/11/sites?auth_token=',
-  get_site_by_week_year_placeId: 'v1/collections/11/sites/get_site_by_week_year_place.json?auth_token=',
-  get_parent_place_by_ancestry: 'v1/collections/11/places/get_parent_place_by_ancestry_id.json?auth_token=',
+  layers: 'v1/collections/9/fields?auth_token=',
+  sites: 'v1/collections/9/sites?auth_token=',
+  get_site_by_week_year_placeId: 'v1/collections/9/sites/get_site_by_week_year_place.json?auth_token=',
+  get_parent_place_by_ancestry: 'v1/collections/9/places/get_parent_place_by_ancestry_id.json?auth_token=',
   places: 'v1/collections/9/places/my_supervision_place.json?auth_token='
 })

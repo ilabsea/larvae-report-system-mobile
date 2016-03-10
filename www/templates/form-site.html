@@ -14,22 +14,23 @@
   <ion-content class="padding has-subheader">
     <div ng-include="'templates/fields/default-fields.html'" ng-if="activeTab == layers[0].id"></div>
     <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)">
-      <div ng-repeat="field in fields">
-        <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
-        <div ng-include="'templates/fields/date.html'" ng-if="field.type == 'date'"></div>
-        <div ng-include="'templates/fields/yesno.html'" ng-if="field.type == 'checkbox'"></div>
-        <div ng-include="'templates/fields/select.html'" ng-if="field.type == 'select'"></div>
-        <div ng-include="'templates/fields/photo.html'" ng-if="field.type == 'photo'"></div>
-        <div ng-include="'templates/fields/photo.html'" ng-if="field.type == 'hierarchy'"></div>
+      <div ng-form="form_{{layer.id}}">
+        <div ng-repeat="field in fields">
+          <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
+          <div ng-include="'templates/fields/date.html'" ng-if="field.type == 'date'"></div>
+          <div ng-include="'templates/fields/yesno.html'" ng-if="field.type == 'checkbox'"></div>
+          <div ng-include="'templates/fields/select.html'" ng-if="field.type == 'select'"></div>
+          <div ng-include="'templates/fields/photo.html'" ng-if="field.type == 'photo'"></div>
+          <div ng-include="'templates/fields/photo.html'" ng-if="field.type == 'hierarchy'"></div>
+        </div>
+        <div ng-if='!isSiteInServer'>
+          <button ng-if='isLastTab()' class='button button-block default-button' type='submit' ng-click='isSubmit()'>
+            <span ng-if='isUpdateSite'>Update</span>
+            <span ng-if='!isUpdateSite'>Save</span>
+          </button>
+        </div>
+        </br>
       </div>
-      <div ng-if='!isSiteInServer'>
-        <button ng-if='isLastTab' class='button button-block default-button' type='submit' ng-click='isSubmit()'>
-          <span ng-if='isUpdateSite'>Update</span>
-          <span ng-if='!isUpdateSite'>Save</span>
-        </button>
-      </div>
-      </br>
     </form>
-
   </ion-content>
 </ion-view>
