@@ -8,7 +8,7 @@
     "weekly_report": "Weekly report",
     "email": "Email",
     "password": "Password",
-    "sign_in" : "Sign in",
+    "sign_in" : "Sign in"
   },
   "login_validation" : {
     "invalid_email_or_password" : "Invalid email or password.",
@@ -33,6 +33,8 @@
   "form":{
     "save":"Save",
     "update": "Update",
-    "new_weekly_report": "New weekly report"
+    "new_weekly_report": "New weekly report",
+    "cannot_get_data_from_server": "Cannot get data from server.",
+    "please_check_internet_connection": "Please check your internet connection."
   }
 }

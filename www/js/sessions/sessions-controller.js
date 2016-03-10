@@ -1,10 +1,10 @@
 angular.module('app')
 .controller('SessionsCtrl', SessionsCtrl)
 
-SessionsCtrl.$inject = ["$scope", "$state", "$ionicPopup", "SessionsService",
+SessionsCtrl.$inject = ["$scope", "$state", "SessionsService",
         "ApiService", "PopupService"]
 
-function SessionsCtrl($scope, $state, $ionicPopup, SessionsService, ApiService, PopupService) {
+function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService) {
 
   var vm = $scope;
   vm.user = {'email': 'mouyleng+1@instedd.org', 'password':'mouyleng123'};

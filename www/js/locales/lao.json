@@ -33,6 +33,8 @@
   "form":{
     "save":"ຊ່ວຍປະຢັດ",
     "update": "ການປັບປຸງ",
-    "new_weekly_report": "ບົດລາຍງານປະຈໍາອາທິດໃຫມ່"
+    "new_weekly_report": "ບົດລາຍງານປະຈໍາອາທິດໃຫມ່",
+    "cannot_get_data_from_server": "ບໍ່ສາມາດໄດ້ຮັບຂໍ້ມູນຈາກເຄື່ອງແມ່ຂ່າຍ.",
+    "please_check_internet_connection": "ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ."
   }
 }
