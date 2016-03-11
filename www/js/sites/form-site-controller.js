@@ -109,10 +109,12 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   function renderFormRememberLastInput(builtFields) {
     angular.forEach(builtFields, function (field) {
       if(field.remember_last_input){
-        if(angular.isObject(field.default_value)){
-          vm.site.properties[field.id] = field.default_value[field.id];
-        }else{
-          vm.site.properties[field.id] = field.default_value;
+        if(!vm.site.properties[field.id]){
+          if(angular.isObject(field.default_value)){
+            vm.site.properties[field.id] = field.default_value[field.id];
+          }else{
+            vm.site.properties[field.id] = field.default_value;
+          }
         }
       }
     });
