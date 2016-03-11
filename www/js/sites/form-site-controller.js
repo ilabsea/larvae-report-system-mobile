@@ -2,11 +2,13 @@ angular.module('app')
 .controller("FormSiteCtrl", FormSiteCtrl)
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
-                "SiteSQLiteService", "CameraService", "moment", "CalculationService"]
+                "SiteSQLiteService", "CameraService", "moment", "CalculationService",
+                "ValidationService"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
-                SiteSQLiteService, CameraService, moment, CalculationService) {
+                SiteSQLiteService, CameraService, moment, CalculationService,
+                ValidationService) {
   var vm = $scope, currentPhotoFieldId, isSubmit;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
@@ -156,12 +158,21 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     angular.forEach(propertiesDate, function (date, key) {
       site.properties[key] = new moment(date).isValid()? new moment(date).format('MM/DD/YYYY') : ""
     });
-    if(vm.isUpdateSite)
-      SiteSQLiteService.updateSite(site, vm.site.id);
-    else
-      SiteSQLiteService.insertSite(site);
-    $state.go('places');
-    vm.fields = [];
+    var layerWithInvalidData = ValidationService.getLayersWithInvalidData(site);
+    if(layerWithInvalidData.length == 0){
+      if(vm.isUpdateSite)
+        SiteSQLiteService.updateSite(site, vm.site.id);
+      else
+        SiteSQLiteService.insertSite(site);
+      $state.go('places');
+      vm.fields = [];
+    }else{
+      $ionicPopup.alert({
+        title: 'Invalid data',
+        template: 'Please fill all the required fields in layers <span style="color: red">' + layerWithInvalidData + "</span>",
+        okType: 'default-button'
+      });
+    }
   }
 
   function customValidate(fieldId) {
