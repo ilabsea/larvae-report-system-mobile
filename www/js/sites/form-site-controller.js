@@ -3,12 +3,20 @@ angular.module('app')
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
+<<<<<<< HEAD
                 "ValidationService"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
                 ValidationService) {
+=======
+                "PopupService"]
+
+function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
+                PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
+                SiteSQLiteService, CameraService, moment, CalculationService, PopupService) {
+>>>>>>> translation
   var vm = $scope, currentPhotoFieldId, isSubmit;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
@@ -42,10 +50,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
       renderFormSiteInDbOrServer();
     }, function(error){
       vm.hideSpinner();
-      $ionicPopup.alert({
-        title: 'Fetch data failed',
-        template: 'Please try aggain!'
-      });
+      PopupService.alertPopup('form.cannot_get_data_from_server', 'form.please_check_internet_connection')
     })
   }
 

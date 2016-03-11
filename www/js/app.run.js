@@ -13,7 +13,6 @@ function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading) {
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-    setLanguge();
     createTables($cordovaSQLite);
 
     $rootScope.showSpinner = function(templateUrl) {
@@ -28,17 +27,4 @@ function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading) {
       $ionicLoading.hide();
     }
   });
-}
-
-function setLanguge() {
-  if(typeof navigator.globalization !== "undefined") {
-    navigator.globalization.getPreferredLanguage(function(language) {
-      console.log('language : ', language);
-      $translate.use((language.value).split("-")[0]).then(function(data) {
-        console.log("SUCCESS -> " + data);
-      }, function(error) {
-        console.log("ERROR -> " + error);
-      });
-    }, null);
-  }
 }
