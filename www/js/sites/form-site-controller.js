@@ -3,20 +3,12 @@ angular.module('app')
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
-<<<<<<< HEAD
-                "ValidationService"]
+                "ValidationService", "PopupService"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
-                ValidationService) {
-=======
-                "PopupService"]
-
-function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
-                PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
-                SiteSQLiteService, CameraService, moment, CalculationService, PopupService) {
->>>>>>> translation
+                ValidationService, PopupService) {
   var vm = $scope, currentPhotoFieldId, isSubmit;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
