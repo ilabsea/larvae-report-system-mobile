@@ -4,8 +4,8 @@
   </div>
   <div class="item-input-wrapper"
       ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid && !customValidate(field.id)}">
-    <input type="{{field.type}}" name='{{field.id}}'
-      ng-disabled='field.disabled || isSiteInServer'
+    <input class="item-input-wrapper" type="{{field.type}}" name='{{field.id}}'
+      ng-readonly='canReadOnlyLayer'
       ng-required='{{field.required}}' ng-model="site.properties[field.id]"
       ng-keyup='!dependFields[field.id] || prepareCalculationFields()'>
   </div>
