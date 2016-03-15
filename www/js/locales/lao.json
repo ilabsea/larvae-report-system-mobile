@@ -28,7 +28,8 @@
     "list_weekly_report": "ບັນຊີລາຍຊື່ບົດລາຍງານປະຈໍາອາທິດ",
     "weekly_report_of_week": "ບົດລາຍງານປະຈໍາອາທິດຂອງອາທິດ",
     "in" : "ໃນ",
-    "send_report_to_malaria_station": "ສົ່ງບົດລາຍງານທີ່ຈະສະຖານີພະຍາດໄຂ້ຍຸງ"
+    "send_report_to_malaria_station": "ສົ່ງບົດລາຍງານທີ່ຈະສະຖານີພະຍາດໄຂ້ຍຸງ",
+    "upload_failed": "ອັບໂຫລດລົ້ມເຫລວ !"
   },
   "form":{
     "save":"ຊ່ວຍປະຢັດ",

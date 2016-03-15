@@ -28,7 +28,8 @@
     "list_weekly_report": "List weekly report",
     "weekly_report_of_week": "Weekly report of week",
     "in" : "in",
-    "send_report_to_malaria_station": "Send report to malaria station"
+    "send_report_to_malaria_station": "Send report to malaria station",
+    "upload_failed": "Upload failed!"
   },
   "form":{
     "save":"Save",

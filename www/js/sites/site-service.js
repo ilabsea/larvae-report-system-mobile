@@ -11,7 +11,7 @@ function SiteService($q, $http, ApiService) {
           resolve(response);
         })
         .error(function(error){
-          reject('error ' + error);
+          reject(error);
         });
     });
   }

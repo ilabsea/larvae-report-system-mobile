@@ -1,10 +1,10 @@
 angular.module('app')
 .factory('SiteSQLiteService', SiteSQLiteService)
 SiteSQLiteService.$inject = ["SessionsService", "SiteService", "$cordovaSQLite", "WeeksService",
-      "PlacesService", "$rootScope", "$state"]
+      "PlacesService", "$rootScope", "$state", "PopupService"]
 
 function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksService, PlacesService,
-    $rootScope, $state) {
+    $rootScope, $state, PopupService) {
 
   function insertSite(site){
     var query = "INSERT INTO sites" +
@@ -61,6 +61,16 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
             $rootScope.hideSpinner();
             $state.go('weeks-calendar')
           }
+        }, function (error) {
+          $rootScope.hideSpinner();
+          var errMsg = site.name + " contains error : <ul style='list-style-type: circle'>" ;
+          angular.forEach(error.properties, function (properties) {
+            angular.forEach(properties, function(p){
+              errMsg += "<li> - " + p + "</li> ";
+            })
+          });
+          errMsg += "</ul>"
+          PopupService.alertPopup('place.upload_failed' , errMsg);
         });
       });
     });
