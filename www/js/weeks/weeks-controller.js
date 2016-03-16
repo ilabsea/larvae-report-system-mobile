@@ -4,12 +4,12 @@ angular.module('app')
 WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService"]
 
 function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
-  var vm = $scope, index = 1;
+  var vm = $scope, index = WeeksService.findIndexInCurrentWeek();
   var todayWeek = $filter('date')(new Date(), 'w');
   var todayYear = $filter('date')(new Date(), 'yyyy');
   vm.selectedYear = todayYear;
-  vm.isDisabledPreviousButton = true;
-  vm.isDisabledNextButton = false;
+  vm.isDisabledPreviousButton = index === 1 ? true : false;
+  vm.isDisabledNextButton;
   vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);;
   vm.next = goNext;
   vm.previous = goPrevious;

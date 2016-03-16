@@ -72,6 +72,12 @@ function WeeksService($filter) {
     return weeks;
   }
 
+  function findIndexInCurrentWeek() {
+    var currentWeek = $filter('date')(new Date(), 'ww');
+    var index = Math.ceil(currentWeek/9);
+    return index === 1 ? index : index + 8;
+  }
+
   function setSelectedWeek(weekNumber) {
     selectedWeek = weekNumber;
   }
@@ -95,7 +101,8 @@ function WeeksService($filter) {
     setSelectedWeek: setSelectedWeek,
     getSelectedWeek: getSelectedWeek,
     getSelectedYear: getSelectedYear,
-    setSelectedYear: setSelectedYear
+    setSelectedYear: setSelectedYear,
+    findIndexInCurrentWeek: findIndexInCurrentWeek
   }
 
 }
