@@ -3,12 +3,12 @@ angular.module('app')
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
-                "ValidationService", "PopupService" , "MembershipsService"]
+                "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
-                ValidationService, PopupService, MembershipsService) {
+                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate) {
   var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
@@ -154,6 +154,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   }
 
   function renderFieldsForm(layerId){
+    $ionicScrollDelegate.scrollTop(true);
     vm.activeTab = layerId;
     vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
     setCanReadonlyLayer(layersMembership);

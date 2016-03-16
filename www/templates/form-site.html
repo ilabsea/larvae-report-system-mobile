@@ -13,8 +13,9 @@
 
   <ion-content class="padding has-subheader">
     <div ng-include="'templates/fields/default-fields.html'" ng-if="activeTab == layers[0].id"></div>
-    <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)">
-      <div ng-repeat="field in fields track by field.id">
+    <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)" id='formSiteId'>
+      <div collection-repeat="field in fields track by field.id" item-width='95%'
+        item-height='90px'>
         <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
         <div ng-include="'templates/fields/date.html'" ng-if="field.type == 'date'"></div>
         <div ng-include="'templates/fields/yesno.html'" ng-if="field.type == 'checkbox'"></div>
@@ -22,20 +23,21 @@
         <div ng-include="'templates/fields/photo.html'" ng-if="field.type == 'photo'"></div>
         <div ng-include="'templates/fields/hierarchy.html'" ng-if="field.type == 'hierarchy'"></div>
       </div>
-      <div ng-if='!isSiteInServer'>
-        <button ng-if='isLastTab()' class='button button-block default-button'
-            type='submit' ng-click='isSubmit()'>
-          <span ng-if='isUpdateSite'>{{"form.update" | translate}}</span>
-          <span ng-if='!isUpdateSite'>{{"form.save" | translate}}</span>
-        </button>
-      </div>
-      <div ng-if='canUpdateSiteOnline'>
-        <button ng-if='isLastTab()' class='button button-block default-button'
-            type='submit' ng-click='isSubmit()'>
-          <span>{{"form.update" | translate}}</span>
-        </button>
-      </div>
-      </br>
     </form>
+    </br>
+    <div ng-if='!isSiteInServer'>
+      <button form='formSiteId' ng-if='isLastTab()' class='button button-block default-button'
+          type='submit' ng-click='isSubmit()'>
+        <span ng-if='isUpdateSite'>{{"form.update" | translate}}</span>
+        <span ng-if='!isUpdateSite'>{{"form.save" | translate}}</span>
+      </button>
+    </div>
+    <div ng-if='canUpdateSiteOnline'>
+      <button form='formSiteId' ng-if='isLastTab()' class='button button-block default-button'
+          type='submit' ng-click='isSubmit()'>
+        <span>{{"form.update" | translate}}</span>
+      </button>
+    </div>
+    </br>
   </ion-content>
 </ion-view>
