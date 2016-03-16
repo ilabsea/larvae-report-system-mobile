@@ -40,11 +40,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   function setCanReadonlyLayer(layersMembership) {
     angular.forEach(layersMembership, function(layerMembership){
       if(vm.activeTab == layerMembership.layer_id){
-        vm.canReadOnlyLayer = (!vm.isUpdateSite && !layerMembership.create) || (vm.isSiteInServer && !layerMembership.write);
-        console.log('vm.canOnlyReadLayer : ,', (!vm.isUpdateSite && !layerMembership.create));
-        console.log('vm.canOnlyReadLayer : ,', (vm.isSiteInServer && !layerMembership.write));
-        console.log('vm.isSiteInServer : ', vm.isSiteInServer);
-        console.log('vm.canOnlyReadLayer last : ', vm.canReadOnlyLayer);
+        vm.canReadOnlyLayer = (!vm.isUpdateSite && !layerMembership.create)
+                          || (vm.isSiteInServer && !layerMembership.write);
       }
     })
   }
@@ -219,7 +216,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   }
 
   function customValidate(fieldId) {
-    value = vm.site.properties[fieldId]
+    value = vm.site.properties[fieldId];
     return angular.isUndefined(value) && !isSubmit;
   }
 

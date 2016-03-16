@@ -12,7 +12,9 @@ function MembershipsService($q, $http, ApiService, PlacesService){
     if(membership.admin)
       canUpdate =  true;
     else {
-      for(var i = 0 ; i < membership.layers.length ; i++){
+      var i = 0,
+          len = membership.layers.length;
+      for(; i < len ; i++){
         var layer = membership.layers[i];
         if(layer.write){
           canUpdate = true;

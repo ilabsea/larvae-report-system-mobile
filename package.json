@@ -17,7 +17,12 @@
     "gulp-util": "^2.2.14",
     "shelljs": "^0.3.0"
   },
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    {
+      "locator": "https://github.com/Telerik-Verified-Plugins/NativePageTransitions#0.6.2",
+      "id": "com.telerik.plugins.nativepagetransitions"
+    }
+  ],
   "cordovaPlatforms": [
     "ios",
     "android"

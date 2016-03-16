@@ -55,7 +55,8 @@ function WeeksService($filter) {
     weeks = [];
     while(i < index + 9){
       row = [];
-      for (j = i; j < i + 3 ; j++){
+      var j = i
+      for (; j < i + 3 ; j++){
         if(j<= lastWeekOfYear)
           row.push(j);
         else

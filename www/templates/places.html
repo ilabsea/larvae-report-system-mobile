@@ -11,7 +11,7 @@
 
     <div class="list list-inset">
       <a class="item"
-         ui-sref="form-site" ng-repeat="place in places"
+         ui-sref="form-site" ng-repeat="place in places track by place.id"
          ng-click='setPlace(place)'>
         {{place.name}}
         <i class="icon" ng-class="place.hasData ? 'ion-checkmark' : ''"></i>

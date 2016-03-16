@@ -26,7 +26,8 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
   function setYears() {
     var startYear = 2014;
     var years = [];
-    for(var i= startYear ; i <= todayYear ; i++){
+    var i = startYear
+    for(; i <= todayYear ; i++){
       years.push(i);
     }
     return years;
@@ -59,7 +60,9 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
   function isErrorOrCurrentWeekNumber(weekNumber){
     var weeksMissingSend =  vm.weeksMissingSend;
     var highlightClass = '';
-    for(var i = 0; i < weeksMissingSend.length ; i++){
+    var i = 0,
+        l =  weeksMissingSend.length
+    for(; i < l ; i++){
       if(isMissingUploadSites(weeksMissingSend[i], weekNumber)){
         highlightClass = 'week-calendar-error';
         break;

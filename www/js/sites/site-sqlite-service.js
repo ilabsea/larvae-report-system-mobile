@@ -85,7 +85,9 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     weeksMissingSend = $cordovaSQLite.execute(db, query, [userId]).then(function(count){
       var result = [];
       if(count.rows.length > 0) {
-        for(var i = 0; i < count.rows.length; i++) {
+        var i = 0,
+            len = count.rows.length
+        for(; i < len; i++) {
           result.push(count.rows.item(i));
         }
       }
@@ -99,8 +101,10 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     var userId = SessionsService.getUserId();
     var sites = $cordovaSQLite.execute(db, query, [week, year, userId]).then(function(site){
       var result = [];
-      if(site.rows.length > 0) {
-        for(var i = 0; i < site.rows.length; i++) {
+      len = site.rows.length
+      if(len > 0) {
+        var i = 0
+        for(; i < len; i++) {
           result.push(site.rows.item(i));
         }
       }
@@ -116,8 +120,10 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     var year = WeeksService.getSelectedYear();
     var site = $cordovaSQLite.execute(db, query, [id, week, year, userId]).then(function(site){
       var result = [];
-      if(site.rows.length > 0) {
-        for(var i = 0; i < site.rows.length; i++) {
+      len = site.rows.length
+      if(len > 0) {
+        var i = 0
+        for(; i < len ; i++) {
           result.push(site.rows.item(i));
         }
       }

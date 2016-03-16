@@ -8,7 +8,7 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService)
 
   var vm = $scope;
   vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
-  // vm.user = {};
+  // vm.user = {'email': '', 'password':''};
   vm.login = login;
   vm.logout = logout;
 
@@ -26,6 +26,9 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService)
 
   function logout() {
     SessionsService.logout().then(function() {
+      // console.log('llll');
+      // vm.user = {password: ''};
+      console.log('vm.user : ', vm.user);
       $state.go("login");
     }, function(err) {
       PopupService.alertPopup("sign_in_failed", "invalid_email_or_password");

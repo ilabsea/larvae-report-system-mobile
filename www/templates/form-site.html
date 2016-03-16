@@ -5,7 +5,7 @@
   </ion-nav-buttons>
 
   <div class="bar-positive tab-nav tabs tabs-color-active-positive pane tabs-top tabs-striped">
-    <div ng-repeat="layer in layers" ng-click="renderFieldsForm({{layer.id}})"
+    <div ng-repeat="layer in layers track by layer.id" ng-click="renderFieldsForm({{layer.id}})"
       ng-class="activeTab == layer.id ? 'tab-item tab-item-active' : 'tab-item'">
        {{layer.name}}
     </div>
@@ -14,7 +14,7 @@
   <ion-content class="padding has-subheader">
     <div ng-include="'templates/fields/default-fields.html'" ng-if="activeTab == layers[0].id"></div>
     <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)">
-      <div ng-repeat="field in fields">
+      <div ng-repeat="field in fields track by field.id">
         <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
         <div ng-include="'templates/fields/date.html'" ng-if="field.type == 'date'"></div>
         <div ng-include="'templates/fields/yesno.html'" ng-if="field.type == 'checkbox'"></div>
