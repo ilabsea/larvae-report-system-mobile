@@ -162,7 +162,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
       setCanReadonlyLayer(layersMembership);
       renderFormRememberLastInput(vm.fields);
       setDependentFields(vm.fields);
-    }, 20);
+    }, 50);
 
   }
 

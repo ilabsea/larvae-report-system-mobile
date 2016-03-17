@@ -6,9 +6,9 @@
   },
   "login": {
     "weekly_report": "ບົດລາຍງານປະຈໍາອາທິດ",
-    "email": "ອີເມວ",
-    "password": "ລະຫັດຜ່ານ",
-    "sign_in" : "ເຂົ້າ​ສູ່​ລະ​ບົບ"
+    "email": "អីុមែល",
+    "password": "លេខសង្កាត់",
+    "sign_in" : "ចូលក្នុង"
   },
   "login_validation" : {
     "invalid_email_or_password" : "ອີເມວທີ່ບໍ່ຖືກຕ້ອງຫລືລະຫັດຜ່ານ.",

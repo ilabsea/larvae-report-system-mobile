@@ -9730,3 +9730,9 @@ a.button {
   opacity: 0;
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
+
+@font-face {
+  font-family: 'MyWebFont';
+  src: url("../lib/ionic/fonts/dhyana-regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal; }
