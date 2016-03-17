@@ -2,9 +2,11 @@ angular
 .module('app')
 .run(runBlock);
 
-runBlock.$inject = ['$ionicPlatform', '$cordovaSQLite', '$rootScope', '$ionicLoading'];
+runBlock.$inject = ['$ionicPlatform', '$cordovaSQLite', '$rootScope', '$ionicLoading',
+              '$location', '$ionicHistory'];
 
-function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading) {
+function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading,
+          $location, $ionicHistory) {
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
@@ -27,4 +29,13 @@ function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading) {
       $ionicLoading.hide();
     }
   });
+
+  $ionicPlatform.registerBackButtonAction(function() {
+    if ($location.path() === "/weeks-calendar" || $location.path() === "/login") {
+      navigator.app.exitApp();
+    }
+    else {
+      $ionicHistory.goBack();
+    }
+  }, 100);
 }

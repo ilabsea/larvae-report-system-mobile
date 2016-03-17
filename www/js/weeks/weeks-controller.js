@@ -1,9 +1,11 @@
 angular.module('app')
 .controller('WeeksCtrl', WeeksCtrl)
 
-WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService"]
+WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService",
+          "$ionicPlatform", "$location", "$ionicHistory"]
 
-function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
+function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $ionicPlatform,
+          $location, $ionicHistory){
   var vm = $scope, index = WeeksService.findIndexInCurrentWeek();
   var todayWeek = $filter('date')(new Date(), 'w');
   var todayYear = $filter('date')(new Date(), 'yyyy');
