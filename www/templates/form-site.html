@@ -14,8 +14,7 @@
   <ion-content class="padding has-subheader">
     <div ng-include="'templates/fields/default-fields.html'" ng-if="activeTab == layers[0].id"></div>
     <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)" id='formSiteId'>
-      <div collection-repeat="field in fields track by field.id" item-width='95%'
-        item-height='90px'>
+      <div ng-repeat="field in fields track by field.id">
         <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
         <div ng-include="'templates/fields/date.html'" ng-if="field.type == 'date'"></div>
         <div ng-include="'templates/fields/yesno.html'" ng-if="field.type == 'checkbox'"></div>
@@ -25,7 +24,7 @@
       </div>
     </form>
     </br>
-    <div ng-if='!isSiteInServer'>
+    <div ng-style="{'padding-top' : 'calc(100px * {{fields.length}})'}" ng-if='!isSiteInServer'>
       <button form='formSiteId' ng-if='isLastTab()' class='button button-block default-button'
           type='submit' ng-click='isSubmit()'>
         <span ng-if='isUpdateSite'>{{"form.update" | translate}}</span>

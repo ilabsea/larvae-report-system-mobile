@@ -3,12 +3,12 @@ angular.module('app')
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
-                "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate"]
+                "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate" , "$timeout"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
-                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate) {
+                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate, $timeout) {
   var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
@@ -154,12 +154,16 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   }
 
   function renderFieldsForm(layerId){
+    vm.fields = [];
     $ionicScrollDelegate.scrollTop(true);
     vm.activeTab = layerId;
-    vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
-    setCanReadonlyLayer(layersMembership);
-    renderFormRememberLastInput(vm.fields);
-    setDependentFields(vm.fields);
+    $timeout(function() {
+      vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
+      setCanReadonlyLayer(layersMembership);
+      renderFormRememberLastInput(vm.fields);
+      setDependentFields(vm.fields);
+    }, 20);
+
   }
 
   function isLastTab() {
