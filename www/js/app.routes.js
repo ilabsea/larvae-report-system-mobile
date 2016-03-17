@@ -9,7 +9,16 @@ function routes($stateProvider, $urlRouterProvider, $compileProvider) {
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    controller: 'SessionsCtrl'
+    controller: 'SessionsCtrl',
+    resolve:{
+      "firstStart": function(SessionsService, $location){
+        if(SessionsService.getAuthToken()){
+          $location.path('/weeks-calendar');
+        }else{
+          $location.path('/login');
+        }
+      }
+    }
   })
 
   .state('weeks-calendar', {

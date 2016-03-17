@@ -6,7 +6,7 @@ translation.$inject = ['$translateProvider'];
 
 function translation($translateProvider){
   $translateProvider.useStaticFilesLoader({
-    prefix: 'js/locales/',
+    prefix: 'locales/',
     suffix: '.json'
   })
   $translateProvider.preferredLanguage("lao");

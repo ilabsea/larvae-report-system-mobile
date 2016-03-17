@@ -5,7 +5,7 @@
     invalid = "formSite[field.id].$invalid"
     untouched="customValidate(field.id)"
     is-required="{{field.required}}"
-    disabled-click={{isSiteInServer}}
+    disabled-click='{{canReadOnlyLayer}}'
     header-text="Select option"
     items="field.config.options" value="site.properties[field.id]"
     value-property="id" text-property="label"

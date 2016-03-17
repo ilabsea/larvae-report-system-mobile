@@ -6,6 +6,7 @@ PlacesService.$inject = ["$q", "$http", "ApiService"];
 function PlacesService($q, $http, ApiService) {
   var placeId;
   var selectedPlace;
+  var parentPlaceId;
 
   function setSelectedPlaceId(id){
     placeId = id;
@@ -21,6 +22,14 @@ function PlacesService($q, $http, ApiService) {
 
   function getSelectedPlace() {
     return selectedPlace;
+  }
+
+  function setParentSelectedPlaceId(id) {
+    parentPlaceId = id;
+  }
+
+  function getParentSelectedPlaceId() {
+    return parentPlaceId;
   }
 
   function fetch(){
@@ -41,6 +50,7 @@ function PlacesService($q, $http, ApiService) {
       var dataAttr = {"ancestry" : ancestry};
       $http.get(ApiService.getPlaceParentUrl(), {"params": dataAttr} )
         .success(function (place) {
+          setParentSelectedPlaceId(place.id);
           resolve(place);
         })
         .error(function(error){
@@ -55,6 +65,7 @@ function PlacesService($q, $http, ApiService) {
     setSelectedPlace: setSelectedPlace,
     getSelectedPlace: getSelectedPlace,
     fetch: fetch,
-    fetchPlaceParent: fetchPlaceParent
+    fetchPlaceParent: fetchPlaceParent,
+    getParentSelectedPlaceId: getParentSelectedPlaceId
   };
 }

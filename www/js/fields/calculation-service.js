@@ -13,8 +13,10 @@ function CalculationService() {
       dependentFieldsCodelength++;
     });
     var tmp = "";
-    for (var i = 0; i < dependentFieldsCodelength - 1; i++) {
-      for (var j = i + 1; j < dependentFieldsCodelength; j++) {
+    var i = 0
+    for (; i < dependentFieldsCodelength - 1; i++) {
+      var j = i + 1
+      for (; j < dependentFieldsCodelength; j++) {
         if (dependentFields[i]["code"].length < dependentFields[j]["code"].length) {
           tmp = dependentFields[i];
           dependentFields[i] = dependentFields[j];

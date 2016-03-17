@@ -1,8 +1,17 @@
 angular.module('app')
 .factory('SiteService', SiteService)
-SiteService.$inject = ["$q", "$http", "ApiService"]
+SiteService.$inject = ["$q", "$http", "ApiService" , "SessionsService"]
 
-function SiteService($q, $http, ApiService) {
+function SiteService($q, $http, ApiService, SessionsService) {
+  var site;
+
+  function setSelectedSite(siteResult) {
+    site = siteResult;
+  }
+
+  function getSelectedSiteId() {
+    return site.id;
+  }
 
   function saveSite(site) {
     return $q(function(resolve, reject) {
@@ -21,7 +30,21 @@ function SiteService($q, $http, ApiService) {
       var dataAttr = {"week" : week, "year" : year , "place_id" : placeId};
       $http.get(ApiService.getSiteByWeekYearPlaceIdUrl(), {"params": dataAttr })
         .success(function(site) {
+          setSelectedSite(site);
           resolve(site);
+        })
+        .error(function(error){
+          reject('error ' + error);
+        });
+    });
+  }
+
+  function updateSite(siteData) {
+    return $q(function(resolve, reject) {
+      var authToken = SessionsService.getAuthToken();
+      $http.put(ApiService.getUpdateSiteUrl() + site.id + ".json?authToken=" + authToken,
+        {"site": siteData }).success(function(res) {
+          resolve(res);
         })
         .error(function(error){
           reject('error ' + error);
@@ -31,6 +54,7 @@ function SiteService($q, $http, ApiService) {
 
   return {
     saveSite: saveSite,
+    updateSite: updateSite,
     fetchSiteByWeekYearPlaceId: fetchSiteByWeekYearPlaceId
   };
 }

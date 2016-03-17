@@ -3,13 +3,13 @@ angular.module('app')
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
-                "ValidationService", "PopupService"]
+                "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate" , "$timeout"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
-                ValidationService, PopupService) {
-  var vm = $scope, currentPhotoFieldId, isSubmit;
+                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate, $timeout) {
+  var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
   vm.fields = [];
@@ -29,21 +29,51 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   vm.prepareCalculationFields = prepareCalculationFields;
   vm.dependFields = {};
   vm.customValidate = customValidate;
+  vm.layers;
+  vm.layerMembership = {};
+  vm.canUpdateSiteOnline = false;
+  vm.canReadOnlyLayer = false;
   vm.isSubmit = function () {
     isSubmit = true;
+  }
+
+  function setCanReadonlyLayer(layersMembership) {
+    angular.forEach(layersMembership, function(layerMembership){
+      if(vm.activeTab == layerMembership.layer_id){
+        vm.canReadOnlyLayer = (!vm.isUpdateSite && !layerMembership.create)
+                          || (vm.isSiteInServer && !layerMembership.write);
+      }
+    })
+  }
+
+  function setLayerMembership(membership) {
+    layersMembership = membership.layers;
+  }
+
+  function setLayers(layers) {
+    vm.layers = layers;
+  }
+
+  function setActiveTab(layer) {
+    vm.activeTab = layer.length > 0 ? layer[0].id : '';
   }
 
   function renderForm() {
     vm.showSpinner('templates/loading/loading.html');
     getDistrictName();
     LayersService.fetch().then(function(builtLayers){
-      vm.layers = builtLayers;
-      vm.activeTab = builtLayers.length > 0 ? builtLayers[0].id : '';
-      renderFormSiteInDbOrServer();
+      setLayers(builtLayers);
+      setActiveTab(builtLayers);
+      MembershipsService.fetch().then(function(membership) {
+        setLayerMembership(membership);
+        renderFormSiteInDbOrServer();
+      }, function() {
+        alert('Cannot get data from server.');
+      });
     }, function(error){
       vm.hideSpinner();
       PopupService.alertPopup('form.cannot_get_data_from_server', 'form.please_check_internet_connection')
-    })
+    });
   }
 
   function renderFormSiteInDbOrServer() {
@@ -59,6 +89,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
         prepareFormRender(siteData, vm.isSiteInServer);
         vm.fields = vm.layers.length > 0 ? LayersService.getBuiltFieldsByLayerId(vm.layers[0].id) : [];
         setDependentFields(vm.fields);
+        setCanReadonlyLayer(layersMembership);
       }else{
         renderFormSiteInServer();
       }
@@ -74,12 +105,14 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
       vm.isUpdateSite = false;
       var builtFields = LayersService.getBuiltFieldsByLayerId(vm.layers[0].id)
       if(site){
+        vm.canUpdateSiteOnline = MembershipsService.canUpdate();
         vm.isSiteInServer = true;
         prepareFormRender(site, vm.isSiteInServer);
       }else{
         renderFormRememberLastInput(builtFields);
         setDependentFields(builtFields);
       }
+      setCanReadonlyLayer(layersMembership)
       vm.fields = vm.layers.length > 0 ? builtFields : [];
     });
   }
@@ -121,10 +154,16 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   }
 
   function renderFieldsForm(layerId){
+    vm.fields = [];
+    $ionicScrollDelegate.scrollTop(true);
     vm.activeTab = layerId;
-    vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
-    renderFormRememberLastInput(vm.fields);
-    setDependentFields(vm.fields);
+    $timeout(function() {
+      vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
+      setCanReadonlyLayer(layersMembership);
+      renderFormRememberLastInput(vm.fields);
+      setDependentFields(vm.fields);
+    }, 20);
+
   }
 
   function isLastTab() {
@@ -153,18 +192,25 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     });
   }
 
+  function addOrUpdateSite(site) {
+    if(vm.canUpdateSiteOnline){
+      SiteService.updateSite(site);
+    }else{
+      if(vm.isUpdateSite)
+        SiteSQLiteService.updateSite(site, vm.site.id);
+      else
+        SiteSQLiteService.insertSite(site);
+    }
+  }
+
   function saveSite(site, propertiesDate) {
     angular.forEach(propertiesDate, function (date, key) {
       site.properties[key] = new moment(date).isValid()? new moment(date).format('MM/DD/YYYY') : ""
     });
     var layerWithInvalidData = ValidationService.getLayersWithInvalidData(site);
     if(layerWithInvalidData.length == 0){
-      if(vm.isUpdateSite)
-        SiteSQLiteService.updateSite(site, vm.site.id);
-      else
-        SiteSQLiteService.insertSite(site);
+      addOrUpdateSite(site);
       $state.go('places');
-      vm.fields = [];
     }else{
       $ionicPopup.alert({
         title: 'Invalid data',
@@ -175,7 +221,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   }
 
   function customValidate(fieldId) {
-    value = vm.site.properties[fieldId]
+    value = vm.site.properties[fieldId];
     return angular.isUndefined(value) && !isSubmit;
   }
 

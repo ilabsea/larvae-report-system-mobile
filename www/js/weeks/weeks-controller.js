@@ -1,15 +1,17 @@
 angular.module('app')
 .controller('WeeksCtrl', WeeksCtrl)
 
-WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService"]
+WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService",
+          "$ionicPlatform", "$location", "$ionicHistory", "ApiService"]
 
-function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
-  var vm = $scope, index = 1;
+function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $ionicPlatform,
+          $location, $ionicHistory, ApiService){
+  var vm = $scope, index = WeeksService.findIndexInCurrentWeek();
   var todayWeek = $filter('date')(new Date(), 'w');
   var todayYear = $filter('date')(new Date(), 'yyyy');
   vm.selectedYear = todayYear;
-  vm.isDisabledPreviousButton = true;
-  vm.isDisabledNextButton = false;
+  vm.isDisabledPreviousButton = index === 1 ? true : false;
+  vm.isDisabledNextButton;
   vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);;
   vm.next = goNext;
   vm.previous = goPrevious;
@@ -17,6 +19,8 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
   vm.weeksMissingSend = [];
   vm.isErrorOrCurrentWeekNumber = isErrorOrCurrentWeekNumber;
   vm.years = setYears();
+  ApiService.setApi();
+  console.log('hey');
 
   vm.setWeeks = function() {
     WeeksService.setSelectedYear(vm.selectedYear);
@@ -26,7 +30,8 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
   function setYears() {
     var startYear = 2014;
     var years = [];
-    for(var i= startYear ; i <= todayYear ; i++){
+    var i = startYear
+    for(; i <= todayYear ; i++){
       years.push(i);
     }
     return years;
@@ -59,7 +64,9 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService){
   function isErrorOrCurrentWeekNumber(weekNumber){
     var weeksMissingSend =  vm.weeksMissingSend;
     var highlightClass = '';
-    for(var i = 0; i < weeksMissingSend.length ; i++){
+    var i = 0,
+        l =  weeksMissingSend.length
+    for(; i < l ; i++){
       if(isMissingUploadSites(weeksMissingSend[i], weekNumber)){
         highlightClass = 'week-calendar-error';
         break;

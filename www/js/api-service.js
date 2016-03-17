@@ -8,14 +8,18 @@ function ApiService(ENDPOINT, API, SessionsService) {
   placeParent = "";
   site = "";
   siteWeekYearPlaceId = "";
+  memberships = "";
+  updateSite = "";
 
   function setApi(){
     var authToken = SessionsService.getAuthToken();
     layers = ENDPOINT.api + API.layers + authToken;
     places = ENDPOINT.api + API.places + authToken;
     placeParent = ENDPOINT.api + API.get_parent_place_by_ancestry + authToken;
-    site = ENDPOINT.api + API.sites + authToken;
     siteWeekYearPlaceId = ENDPOINT.api + API.get_site_by_week_year_placeId + authToken;
+    site = ENDPOINT.api + API.sites + authToken;
+    memberships = ENDPOINT.api + API.place_memberships + authToken;
+    updateSite = ENDPOINT.api + API.update_site;
   }
 
   function getLayersUrl() {
@@ -38,12 +42,22 @@ function ApiService(ENDPOINT, API, SessionsService) {
     return siteWeekYearPlaceId;
   }
 
+  function getPlaceMembershipsUrl() {
+    return memberships;
+  }
+
+  function getUpdateSiteUrl() {
+    return updateSite;
+  }
+
   return{
     setApi: setApi,
     getLayersUrl: getLayersUrl,
     getPlacesUrl: getPlacesUrl,
     getPlaceParentUrl: getPlaceParentUrl,
     getSiteUrl: getSiteUrl,
-    getSiteByWeekYearPlaceIdUrl: getSiteByWeekYearPlaceIdUrl
+    getSiteByWeekYearPlaceIdUrl: getSiteByWeekYearPlaceIdUrl,
+    getPlaceMembershipsUrl: getPlaceMembershipsUrl,
+    getUpdateSiteUrl: getUpdateSiteUrl
   }
 }
