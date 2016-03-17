@@ -2,10 +2,10 @@ angular.module('app')
 .controller('WeeksCtrl', WeeksCtrl)
 
 WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService",
-          "$ionicPlatform", "$location", "$ionicHistory"]
+          "$ionicPlatform", "$location", "$ionicHistory", "ApiService"]
 
 function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $ionicPlatform,
-          $location, $ionicHistory){
+          $location, $ionicHistory, ApiService){
   var vm = $scope, index = WeeksService.findIndexInCurrentWeek();
   var todayWeek = $filter('date')(new Date(), 'w');
   var todayYear = $filter('date')(new Date(), 'yyyy');
@@ -19,6 +19,8 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   vm.weeksMissingSend = [];
   vm.isErrorOrCurrentWeekNumber = isErrorOrCurrentWeekNumber;
   vm.years = setYears();
+  ApiService.setApi();
+  console.log('hey');
 
   vm.setWeeks = function() {
     WeeksService.setSelectedYear(vm.selectedYear);
