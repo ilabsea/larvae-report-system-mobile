@@ -14,7 +14,22 @@ function PopupService($translate, $ionicPopup){
     });
   }
 
+  function confirmPopup(title, template, callback) {
+    $ionicPopup.confirm({
+     title: $translate.instant(title),
+     template: $translate.instant(template),
+     buttons: [{
+        text: $translate.instant("global.no"),
+      }, {
+        text: $translate.instant("global.yes"),
+        type: 'default-button',
+        onTap: callback
+      }]
+    });
+  }
+
   return {
-    alertPopup : alertPopup
+    alertPopup : alertPopup,
+    confirmPopup: confirmPopup
   }
 }

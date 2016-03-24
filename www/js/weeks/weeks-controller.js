@@ -20,7 +20,6 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   vm.isErrorOrCurrentWeekNumber = isErrorOrCurrentWeekNumber;
   vm.years = setYears();
   ApiService.setApi();
-  console.log('hey');
 
   vm.setWeeks = function() {
     WeeksService.setSelectedYear(vm.selectedYear);

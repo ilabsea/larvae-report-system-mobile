@@ -1,12 +1,9 @@
-<ion-view title='{{"place.list_weekly_report" | translate}}' name="places-view" ng-init='getPlaces()'>
-  <ion-nav-buttons side="left">
-    <button class="button icon-left ion-android-arrow-back button-stable"
-            ng-click="backToWeeksCalendar()">{{"global.back" | translate}}</button>
-  </ion-nav-buttons>
-
+<ion-view ng-init='getPlaces()'
+  title='{{"place.report_week" | translate }} {{selectedWeek}}
+    {{"place.of" | translate }} {{selectedYear}}' name="places-view">
   <ion-content class="padding">
-    <span>
-      {{"place.weekly_report_of_week" | translate}} {{selectedWeek}} {{"place.in" | translate}} {{selectedYear}}
+    <span style="font-size: 16px;">
+      {{"place.please_select_place_to_report" | translate}}
     </span>
 
     <div class="list list-inset">

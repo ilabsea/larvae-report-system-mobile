@@ -1,8 +1,6 @@
-<ion-view title='{{"form.new_weekly_report" | translate}}' name="form-site-view" ng-controller='FormSiteCtrl' ng-init='renderForm()'>
-  <ion-nav-buttons side="left">
-    <button class="button icon-left ion-android-arrow-back button-stable"
-      ng-click="backToPlace()">{{"global.back" | translate}}</button>
-  </ion-nav-buttons>
+<ion-view title='{{"place.report_week" | translate }} {{selectedWeek}}
+  {{"place.of" | translate }} {{selectedYear}}' name="form-site-view"
+          ng-controller='FormSiteCtrl' ng-init='renderForm()'>
 
   <div class="bar-positive tab-nav tabs tabs-color-active-positive pane tabs-top tabs-striped">
     <div ng-repeat="layer in layers track by layer.id" ng-click="renderFieldsForm({{layer.id}})"

@@ -1,11 +1,15 @@
 {
   "global":{
     "ok": "Ok",
+    "yes": "Yes",
+    "no": "No",
     "sign_out": "Sign out",
-    "back": "Back"
+    "are_you_sure_you_want_to_sign_out": "Are you sure you want to sign out?",
+    "sign_out_failed": "Sign out failed!",
+    "please_check_internet_connection": "Please check your internet connection."
   },
   "login": {
-    "weekly_report": "Weekly report",
+    "larvae_weekly_report": "Larvae weekly report",
     "email": "Email",
     "password": "Password",
     "sign_in" : "Sign in"
@@ -17,17 +21,14 @@
     "please_check_your_internet_connection" :"Please check your internet connection."
   },
   "week" : {
-    "weekly_report_calendar" : "Weekly report calendar",
+    "weekly_calendar" : "Weekly calendar",
     "select_year" : "Select year",
-    "week": "Week",
-    "showing_week_from": "Showing week from",
-    "to": "to",
-    "of": "of"
+    "please_select_week_to_report": "Please select week to report"
   },
   "place":{
-    "list_weekly_report": "List weekly report",
-    "weekly_report_of_week": "Weekly report of week",
-    "in" : "in",
+    "report_week": "Report week",
+    "of": "of",
+    "please_select_place_to_report": "Please select place to report",
     "send_report_to_malaria_station": "Send report to malaria station"
   },
   "form":{

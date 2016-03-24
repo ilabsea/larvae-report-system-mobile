@@ -1,7 +1,8 @@
-<ion-view view-title='{{"week.weekly_report_calendar" | translate}}' name="week-calendar-view">
-  <ion-nav-buttons side="right" >
-    <button class="button icon-left ion-log-out button-stable"
-            ng-controller='SessionsCtrl' ng-click="logout()">{{"global.sign_out" | translate}}</button>
+<ion-view view-title='{{"week.weekly_calendar" | translate}}' name="week-calendar-view">
+  <ion-nav-buttons side="right">
+    <button class="icon ion-custom-user tranparent-button"
+            ng-click="logoutConfirmation()" ng-controller='SessionsCtrl'>
+    </button>
   </ion-nav-buttons>
   <ion-content class="padding" ng-controller='WeeksCtrl'>
     <label class="item item-input item-select item-balance">
@@ -11,10 +12,10 @@
       </select>
     </label>
     <br>
+    <div>
+      <span style="font-size: 16px;"> {{"week.please_select_week_to_report" | translate}} </span>
+    </div>
     <div style="width: 99%; background-color:#f4f4f4">
-      <div class="row">
-        <span>{{"week.week" | translate}}</span>
-      </div>
       <div class="row" ng-repeat="week in weeks">
         <div class="col-20 col-offset-10" ng-repeat="row in week.row" >
           <button class="button button-block"
@@ -36,13 +37,6 @@
       </div>
     </div>
     <br>
-    <div>
-      <span>{{"week.showing_week_from" | translate}}
-        <span> {{weeks[0].row[0]}} </span>
-        {{"week.to" | translate}}
-        <span> {{weeks[2].row[2]}} </span>
-        {{"week.of" | translate}} {{selectedYear}}</span>
-    </div>
 
   </ion-content>
 </ion-view>

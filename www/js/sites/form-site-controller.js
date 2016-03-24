@@ -9,6 +9,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
                 ValidationService, PopupService, MembershipsService, $ionicScrollDelegate, $timeout) {
+                  
   var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
@@ -33,6 +34,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   vm.layerMembership = {};
   vm.canUpdateSiteOnline = false;
   vm.canReadOnlyLayer = false;
+  vm.selectedYear = WeeksService.getSelectedYear();
+  vm.selectedWeek = WeeksService.getSelectedWeek();
   vm.isSubmit = function () {
     isSubmit = true;
   }

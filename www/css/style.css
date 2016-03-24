@@ -14,7 +14,7 @@
 }
 
 .login-container{
-  padding-top: 35%;
+  padding-top: 15%;
 }
 
 .default-button, .default-button:hover, .default-button:active, .default-button:visited{
@@ -85,4 +85,20 @@ h1.title-select{
 
 .loading-container .loading {
   background-color: transparent;
+}
+
+.custom-font: {
+  font-size: 16px !important;
+}
+
+.icon.ion-custom-back:before{
+  content: url('../img/arrow-left.png') !important;
+}
+
+.icon.ion-custom-user:before{
+  content: url('../img/user.png') !important;
+}
+.tranparent-button{
+  border: none;
+  background: none;
 }

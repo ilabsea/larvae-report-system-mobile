@@ -11,6 +11,7 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService)
   // vm.user = {'email': '', 'password':''};
   vm.login = login;
   vm.logout = logout;
+  vm.logoutConfirmation = logoutConfirmation;
 
   function login(user) {
     vm.showSpinner('templates/loading/loading-login.html');
@@ -27,7 +28,13 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService)
     SessionsService.logout().then(function() {
       $state.go("login");
     }, function(err) {
-      PopupService.alertPopup("sign_in_failed", "invalid_email_or_password");
+      PopupService.alertPopup("global.sign_out_failed", "global.please_check_internet_connection");
     });
   };
+
+  function logoutConfirmation() {
+    PopupService.confirmPopup('global.sign_out', 'global.are_you_sure_you_want_to_sign_out', function(){
+      logout();
+    });
+  }
 }
