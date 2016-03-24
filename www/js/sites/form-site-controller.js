@@ -3,18 +3,15 @@ angular.module('app')
 FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicTabsDelegate", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
-                "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate" ,
-                "$timeout", "$ionicNavBarDelegate"]
+                "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate",
+                "$timeout"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
-                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate, $timeout,
-                $ionicNavBarDelegate) {
+                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate, $timeout) {
 
-  $ionicNavBarDelegate.showBackButton(true);
-
-  var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership, currentLayerId;
+  var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
   vm.fields = [];
@@ -22,6 +19,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   vm.isSiteInServer = false;
   vm.imagesMimeData = {};
   vm.isLastTab = isLastTab;
+  vm.currentLayerId;
   vm.districtName = "";
   vm.renderForm = renderForm;
   vm.renderFieldsForm = renderFieldsForm;
@@ -47,7 +45,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
 
   function setCanReadonlyLayer(layersMembership) {
     angular.forEach(layersMembership, function(layerMembership){
-      if(currentLayerId == layerMembership.layer_id){
+      if(vm.currentLayerId == layerMembership.layer_id){
         vm.canReadOnlyLayer = (!vm.isUpdateSite && !layerMembership.create)
                           || (vm.isSiteInServer && !layerMembership.write);
       }
@@ -67,7 +65,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       $timeout(function(){
         $ionicTabsDelegate.select(0);
       },1);
-      currentLayerId = layer[0].id ;
+      vm.currentLayerId = layer[0].id ;
     }
   }
 
@@ -169,7 +167,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   function renderFieldsForm(layerId){
     vm.fields = [];
     $ionicScrollDelegate.scrollTop(true);
-    currentLayerId = layerId;
+    vm.currentLayerId = layerId;
     $timeout(function() {
       vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
       setCanReadonlyLayer(layersMembership);
@@ -179,7 +177,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function isLastTab() {
-    return currentLayerId == LayersService.getLastLayerId()
+    return vm.currentLayerId == LayersService.getLastLayerId()
   }
 
   function prepareCalculationFields() {

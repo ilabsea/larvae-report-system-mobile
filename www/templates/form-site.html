@@ -11,7 +11,7 @@
   </ion-tabs>
 
   <ion-content class="padding has-subheader">
-    <div ng-include="'templates/fields/default-fields.html'" ng-if="activeTab == layers[0].id"></div>
+    <div ng-include="'templates/fields/default-fields.html'" ng-if="currentLayerId == layers[0].id"></div>
     <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)" id='formSiteId'>
       <div ng-repeat="field in fields track by field.id" >
         <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
