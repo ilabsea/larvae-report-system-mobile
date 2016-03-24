@@ -1,19 +1,21 @@
 angular.module('app')
 .controller('PlacesCtrl', PlacesCtrl)
 
-PlacesCtrl.$inject = ["$scope", "$ionicHistory", "WeeksService", "$ionicPopup",
-      "$state", "PlacesService", "SiteSQLiteService", "$controller"]
+PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
+      "$state", "PlacesService", "SiteSQLiteService", "$ionicNavBarDelegate"]
 
-function PlacesCtrl($scope, $ionicHistory, WeeksService, $ionicPopup, $state,
-    PlacesService, SiteSQLiteService) {
+function PlacesCtrl($scope, WeeksService, $ionicPopup, $state,
+    PlacesService, SiteSQLiteService, $ionicNavBarDelegate) {
+
   var vm = $scope;
-  vm.backToWeeksCalendar = goBack;
   vm.getPlaces = getPlaces;
   vm.selectedYear = WeeksService.getSelectedYear();
   vm.selectedWeek = WeeksService.getSelectedWeek();
   vm.uploadSites = uploadSites;
   vm.setPlace = setSelectedPlace;
   vm.numberOfSites = 0;
+
+  $ionicNavBarDelegate.showBackButton(true);
 
   function setNumberOfSitesInWeekYear() {
     SiteSQLiteService.getNumberOfSitesInWeekYear().then(function(l){
@@ -36,10 +38,6 @@ function PlacesCtrl($scope, $ionicHistory, WeeksService, $ionicPopup, $state,
       })
     });
     return places;
-  }
-
-  function goBack(){
-    $ionicHistory.goBack();
   }
 
   function uploadSites(){

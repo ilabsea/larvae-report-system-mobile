@@ -1,23 +1,26 @@
 angular.module('app')
 .controller("FormSiteCtrl", FormSiteCtrl)
-FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicHistory", "WeeksService",
+FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicTabsDelegate", "WeeksService",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
-                "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate" , "$timeout"]
+                "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate" ,
+                "$timeout", "$ionicNavBarDelegate"]
 
-function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
+function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
-                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate, $timeout) {
-                  
-  var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership;
+                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate, $timeout,
+                $ionicNavBarDelegate) {
+
+  $ionicNavBarDelegate.showBackButton(true);
+
+  var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership, currentLayerId;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
   vm.fields = [];
   vm.isUpdateSite = false;
   vm.isSiteInServer = false;
   vm.imagesMimeData = {};
-  vm.activeTab;
   vm.isLastTab = isLastTab;
   vm.districtName = "";
   vm.renderForm = renderForm;
@@ -25,7 +28,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   vm.saveSite = saveSite;
   vm.showChoiceCameraPopup = showChoiceCameraPopup;
   vm.getPhoto = getPhoto;
-  vm.backToPlace = backToPlace;
   vm.villageName = PlacesService.getSelectedPlace().name;
   vm.prepareCalculationFields = prepareCalculationFields;
   vm.dependFields = {};
@@ -36,13 +38,16 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   vm.canReadOnlyLayer = false;
   vm.selectedYear = WeeksService.getSelectedYear();
   vm.selectedWeek = WeeksService.getSelectedWeek();
+  vm.goNext = goNext;
   vm.isSubmit = function () {
     isSubmit = true;
   }
 
+
+
   function setCanReadonlyLayer(layersMembership) {
     angular.forEach(layersMembership, function(layerMembership){
-      if(vm.activeTab == layerMembership.layer_id){
+      if(currentLayerId == layerMembership.layer_id){
         vm.canReadOnlyLayer = (!vm.isUpdateSite && !layerMembership.create)
                           || (vm.isSiteInServer && !layerMembership.write);
       }
@@ -57,8 +62,13 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     vm.layers = layers;
   }
 
-  function setActiveTab(layer) {
-    vm.activeTab = layer.length > 0 ? layer[0].id : '';
+  function setCurrentLayerId(layer) {
+    if(layer.length > 0){
+      $timeout(function(){
+        $ionicTabsDelegate.select(0);
+      },1);
+      currentLayerId = layer[0].id ;
+    }
   }
 
   function renderForm() {
@@ -66,7 +76,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     getDistrictName();
     LayersService.fetch().then(function(builtLayers){
       setLayers(builtLayers);
-      setActiveTab(builtLayers);
+      setCurrentLayerId(builtLayers);
       MembershipsService.fetch().then(function(membership) {
         setLayerMembership(membership);
         renderFormSiteInDbOrServer();
@@ -159,18 +169,17 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   function renderFieldsForm(layerId){
     vm.fields = [];
     $ionicScrollDelegate.scrollTop(true);
-    vm.activeTab = layerId;
+    currentLayerId = layerId;
     $timeout(function() {
       vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
       setCanReadonlyLayer(layersMembership);
       renderFormRememberLastInput(vm.fields);
       setDependentFields(vm.fields);
     }, 20);
-
   }
 
   function isLastTab() {
-    return vm.activeTab == LayersService.getLastLayerId()
+    return currentLayerId == LayersService.getLastLayerId()
   }
 
   function prepareCalculationFields() {
@@ -217,7 +226,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     }else{
       $ionicPopup.alert({
         title: 'Invalid data',
-        template: 'Please fill all the required fields in layers <span style="color: red">' + layerWithInvalidData + "</span>",
+        template: 'Please fill all the required fields in layers <span style="color: red">'
+                  + layerWithInvalidData + "</span>",
         okType: 'default-button'
       });
     }
@@ -241,30 +251,20 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
   }
 
   function getPhoto(value) {
-    if(!window.cordova){
-      var imageURI = "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCABkADwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwC+qhQAAABwAO1NkJC4HU8CpcVTv7pbS2luGGdgwo9TSA5bXbhrm/aKMgpENvOOves5ZLpYiiSSiPuoY4/KrMlxbSys8ttgscko5HP41H/oZU7ZZ429wGz/ACpgV2nfaFdIyB28sAn8QM1dsroTMLI28aRXDqGKZ3deOSTUDWsT7fLvIjn++GU/yNXNHsHGqxFjGyJlvllU5I6dD60AVr6Cyt7ySFZJiE4ztB5/MVXWKEjP2lR7FWz/ACqS+gnS6mlkgkRTITllOOvrVZ2LtuOMn0oA9Nc7VyOvaud8TtKFggWNjH94kDOT/n+ddBI6qGdzhIxk1yEupXbXEkqTOpY9Ae1IDMfyyWAVs9hnpVYg1snUJWTZIkUgPUtGMn8attDpr6Sl5PabCzlFWJiAx5/wNMDmqStUw6bJuO64iP8ACuAwpo0uKRlW3vYpJHOArKV/WgBuhSSDVIEEjBGb5lB4PFS6lqlyt/OitGFRyqjy1PA+oq/o+i3FpqKy3ATaoJBVs81i3NheC4fdbTFs8kIT+tAHY69P5NisAPzzHn6d65t48dwfpXWX1iL0L9oh3FfulGwRWbJoMO47JZ4hjoRuH50AYDDCk1o6unkW9lZr/wAsot7Y6En2/A/nVq30RvPjZ7yNkVgSFXBOKTVLa8OoTTx2/nI2CCpHAA9PwoEc+Qc1LaRCW8gjbOHkVTj61O7eWoE1u8YHRpIyB9Kn0RUl1aAqNwXLHHbAPP54oAq6/K7atMGPCYUflVGO7uYl2x3EqL6K5Aq1dp5+oXJkkC/O3J74NVJYdjABlYEA5BoGemjJp/1pop46UgGNEj8Min6iomtYuSAVJ9Cas+tNPSmBUNof4ZT/AMCANQrbPEzyJHFubqVGC31q+aaaQHP3eiWs8hdoJYnY5Zo26/zFZ7+HoS52Xbqvo0eSPxyK6w0z8aALAp4IqEGn5oGSZoPNN3UmaBASKa3pSk0wmgBrVGevApzGo80ASg0oaos0oagZNuoz+lQ7uaUtxQIkJ/GmFuaaWphagBzGmE800tTM0ASA0veiigYZoyaKKYhpJ5FNJNFFIY1jTMmiigD/2Q==";
+    var type = Camera.PictureSourceType.SAVEDPHOTOALBUM;
+    if(value == "CAMERA")
+      type = Camera.PictureSourceType.CAMERA;
+
+    CameraService.getPicture().then(function(imageURI) {
       var timeStampMoment = new moment().valueOf();
       fileName = timeStampMoment + "_" + currentPhotoFieldId +  ".jpg";
       vm.site.properties[currentPhotoFieldId]  = fileName;
       vm.site.files[fileName] = imageURI;
       vm.imagesMimeData[currentPhotoFieldId] = "data:image/jpeg;base64," + imageURI;
       CameraOptionsPopup.close();
-    }else{
-      var type = Camera.PictureSourceType.SAVEDPHOTOALBUM;
-      if(value == "CAMERA")
-        type = Camera.PictureSourceType.CAMERA;
-
-      CameraService.getPicture().then(function(imageURI) {
-        var timeStampMoment = new moment().valueOf();
-        fileName = timeStampMoment + "_" + currentPhotoFieldId +  ".jpg";
-        vm.site.properties[currentPhotoFieldId]  = fileName;
-        vm.site.files[fileName] = imageURI;
-        vm.imagesMimeData[currentPhotoFieldId] = "data:image/jpeg;base64," + imageURI;
-        CameraOptionsPopup.close();
-      }, function(err) {
-        console.err(err);
-      });
-    }
+    }, function(err) {
+      console.err(err);
+    });
   }
 
   function getDistrictName() {
@@ -273,7 +273,16 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicHistory, WeeksService,
     });
   }
 
-  function backToPlace(){
-    $ionicHistory.goBack();
+  function goNext() {
+    var selected = $ionicTabsDelegate.selectedIndex();
+    $ionicTabsDelegate.select(selected + 1);
   }
+
+  // function goPreviousLayer() {
+  //   var selected = $ionicTabsDelegate.selectedIndex();
+  //   console.log('selected previous : ', selected);
+  //   if (selected != -1 && selected != 0) {
+  //     $ionicTabsDelegate.select(selected - 1);
+  //   }
+  // }
 }

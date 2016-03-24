@@ -1,18 +1,19 @@
 <ion-view title='{{"place.report_week" | translate }} {{selectedWeek}}
   {{"place.of" | translate }} {{selectedYear}}' name="form-site-view"
           ng-controller='FormSiteCtrl' ng-init='renderForm()'>
+  <ion-nav-buttons>
+  </ion-nav-buttons>
 
-  <div class="bar-positive tab-nav tabs tabs-color-active-positive pane tabs-top tabs-striped">
-    <div ng-repeat="layer in layers track by layer.id" ng-click="renderFieldsForm({{layer.id}})"
-      ng-class="activeTab == layer.id ? 'tab-item tab-item-active' : 'tab-item'">
-       {{layer.name}}
-    </div>
-  </div>
+  <ion-tabs class="tabs-color-active-positive">
+    <ion-tab title="{{layer.name}}" ng-repeat="layer in layers track by layer.id"
+             on-select="renderFieldsForm({{layer.id}})">
+    </ion-tab>
+  </ion-tabs>
 
   <ion-content class="padding has-subheader">
     <div ng-include="'templates/fields/default-fields.html'" ng-if="activeTab == layers[0].id"></div>
     <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)" id='formSiteId'>
-      <div ng-repeat="field in fields track by field.id">
+      <div ng-repeat="field in fields track by field.id" >
         <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
         <div ng-include="'templates/fields/date.html'" ng-if="field.type == 'date'"></div>
         <div ng-include="'templates/fields/yesno.html'" ng-if="field.type == 'checkbox'"></div>
@@ -22,17 +23,24 @@
       </div>
     </form>
     </br>
-    <div ng-style="{'padding-top' : 'calc(100px * {{fields.length}})'}" ng-if='!isSiteInServer'>
-      <button form='formSiteId' ng-if='isLastTab()' class='button button-block default-button'
-          type='submit' ng-click='isSubmit()'>
-        <span ng-if='isUpdateSite'>{{"form.update" | translate}}</span>
-        <span ng-if='!isUpdateSite'>{{"form.save" | translate}}</span>
-      </button>
+    <div ng-if='isLastTab()'>
+      <div ng-style="{'padding-top' : 'calc(100px * {{fields.length}})'}" ng-if='!isSiteInServer'>
+        <button form='formSiteId' class='button button-block default-button'
+            type='submit' ng-click='isSubmit()'>
+          <span ng-if='isUpdateSite'>{{"form.update" | translate}}</span>
+          <span ng-if='!isUpdateSite'>{{"form.save" | translate}}</span>
+        </button>
+      </div>
+      <div ng-if='canUpdateSiteOnline'>
+        <button form='formSiteId' class='button button-block default-button'
+            type='submit' ng-click='isSubmit()'>
+          <span>{{"form.update" | translate}}</span>
+        </button>
+      </div>
     </div>
-    <div ng-if='canUpdateSiteOnline'>
-      <button form='formSiteId' ng-if='isLastTab()' class='button button-block default-button'
-          type='submit' ng-click='isSubmit()'>
-        <span>{{"form.update" | translate}}</span>
+    <div ng-if='!isLastTab()'>
+      <button class='button button-block default-button' ng-controller='FormSiteCtrl' ng-click='goNext()'>
+        <span>next</span>
       </button>
     </div>
     </br>
