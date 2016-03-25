@@ -10,7 +10,7 @@
     </ion-tab>
   </ion-tabs>
 
-  <ion-content class="padding has-subheader">
+  <ion-content class="padding has-subheader" on-swipe-right="goPrevious()" on-swipe-left="goForward()">
     <div ng-include="'templates/fields/default-fields.html'" ng-if="currentLayerId == layers[0].id"></div>
     <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)" id='formSiteId'>
       <div ng-repeat="field in fields track by field.id" >

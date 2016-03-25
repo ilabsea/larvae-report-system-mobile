@@ -1,3 +1,4 @@
+var db = null;
 function createTables($cordovaSQLite) {
   if (window.cordova) {
     console.log('database  device');

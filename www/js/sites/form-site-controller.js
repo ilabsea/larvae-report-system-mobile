@@ -37,11 +37,11 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   vm.selectedYear = WeeksService.getSelectedYear();
   vm.selectedWeek = WeeksService.getSelectedWeek();
   vm.goNext = goNext;
+  vm.goForward = goForward;
+  vm.goPrevious = goPrevious;
   vm.isSubmit = function () {
     isSubmit = true;
   }
-
-
 
   function setCanReadonlyLayer(layersMembership) {
     angular.forEach(layersMembership, function(layerMembership){
@@ -276,11 +276,17 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     $ionicTabsDelegate.select(selected + 1);
   }
 
-  // function goPreviousLayer() {
-  //   var selected = $ionicTabsDelegate.selectedIndex();
-  //   console.log('selected previous : ', selected);
-  //   if (selected != -1 && selected != 0) {
-  //     $ionicTabsDelegate.select(selected - 1);
-  //   }
-  // }
+  function goForward() {
+    var selected = $ionicTabsDelegate.selectedIndex();
+    if (selected != -1) {
+      $ionicTabsDelegate.select(selected + 1);
+    }
+  }
+
+  function goPrevious() {
+    var selected = $ionicTabsDelegate.selectedIndex();
+    if (selected != -1 && selected != 0) {
+      $ionicTabsDelegate.select(selected - 1);
+    }
+  }
 }
