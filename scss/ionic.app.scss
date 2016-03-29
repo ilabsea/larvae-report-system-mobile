@@ -20,10 +20,3 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
-@font-face {
-  font-family: 'MyWebFont';
-  src: url('../lib/ionic/fonts/dhyana-regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-$font-family-base: "MyWebFont" !default;

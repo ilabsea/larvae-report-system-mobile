@@ -1,40 +1,8 @@
-/*@media only screen and (max-width: 320px) {
-  @font-face {
-      font-family: 'open_sansbold';
-      src: url('../lib/ionic/fonts/saysetta.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-  }
-}
-
-@media only screen and (max-device-width: 720px) and (orientation:portrait) {
-  @font-face {
-    font-family: 'open_sansbold';
-    src: url('../lib/ionic/fonts/saysetta.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-}
-@media only screen and (max-device-width: 1280px) and (orientation:landscape) {
-  @font-face {
-    font-family: 'open_sansbold';
-    src: url('../lib/ionic/fonts/saysetta.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-}*/
-
-@font-face {
-  font-family: 'MyWebFont';
-  src: url('../lib/ionic/fonts/dhyana-regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+@import url(http://fonts.googleapis.com/earlyaccess/dhyana.css);
 
 body {
-    font-family: 'MyWebFont';
-  }
+  font-family: 'Dhyana', sans-serif;
+}
 
 .bar-custom-header{
   background-color: #176F88;
