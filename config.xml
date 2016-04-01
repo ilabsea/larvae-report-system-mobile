@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.larvaereportsystemmobile739906" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="org.instedd.larvaereportsystem" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>larvae-report-system-mobile</name>
   <description>
     Larvae report system mobile application for data collections
   </description>
   <author email="ilabsea@instedd.org" href="http://instedd.org/">
-      Your Name Here
+      InSTEDD iLabSEA
   </author>
   <content src="index.html"/>
   <access origin="*"/>

@@ -19,6 +19,7 @@ function FieldsService(LayersService) {
         case "calculation":
           field.type = "text";
           field.isInputType = true;
+          field.readonly = true;
           break;
         case "phone":
           field.type = "tel";

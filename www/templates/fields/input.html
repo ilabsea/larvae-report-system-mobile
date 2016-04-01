@@ -6,7 +6,7 @@
       ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid &&
         (formSite['{{field.id}}'].$touched ||!customValidate(field.id))}">
     <input class="item-input-wrapper" type="{{field.type}}" name='{{field.id}}'
-      ng-readonly='canReadOnlyLayer'
+      ng-readonly='canReadOnlyLayer || field.readonly'
       ng-required='{{field.required}}' ng-model="site.properties[field.id]"
       ng-keyup='!dependFields[field.id] || prepareCalculationFields()'>
   </div>

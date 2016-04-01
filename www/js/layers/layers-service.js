@@ -1,8 +1,8 @@
 angular.module('app')
 .factory('LayersService', LayersService)
-LayersService.$inject = ["$q", "$http", "ApiService", "FieldsService"]
+LayersService.$inject = ["$q", "$http", "ApiService", "FieldsService", "PlacesService"]
 
-function LayersService($q, $http, ApiService, FieldsService) {
+function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
   var builtLayers = [];
 
   function getBuiltLayers() {
@@ -37,7 +37,7 @@ function LayersService($q, $http, ApiService, FieldsService) {
 
   function fetch(layersUrl) {
     return $q(function(resolve, reject) {
-      $http.get(ApiService.getLayersUrl())
+      $http.get(ApiService.getLayersUrl(), {'params' : {'place_id' : PlacesService.getSelectedPlaceId()}})
         .success(function(response) {
           var builtData = buildLayers(response);
           resolve(builtData);

@@ -272,8 +272,10 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function goNext() {
-    var selected = $ionicTabsDelegate.selectedIndex();
-    $ionicTabsDelegate.select(selected + 1);
+    $timeout(function () {
+      var selected = $ionicTabsDelegate.selectedIndex();
+      $ionicTabsDelegate.select(selected + 1);
+    }, 10);
   }
 
   function goForward() {
