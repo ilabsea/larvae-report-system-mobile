@@ -16,7 +16,6 @@ function MembershipsService($q, $http, ApiService, PlacesService){
           len = membership.layers.length;
       for(; i < len ; i++){
         var layer = membership.layers[i];
-        console.log('layer : ', layer);
         if(layer.write){
           canUpdate = true;
           break;

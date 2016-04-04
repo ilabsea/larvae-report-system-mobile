@@ -3,10 +3,11 @@ angular
 .run(runBlock);
 
 runBlock.$inject = ['$ionicPlatform', '$cordovaSQLite', '$rootScope', '$ionicLoading',
-              '$location', '$ionicHistory'];
+              '$location', '$ionicHistory', 'SessionsService'];
 
 function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading,
-          $location, $ionicHistory) {
+          $location, $ionicHistory, SessionsService) {
+
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
@@ -15,8 +16,9 @@ function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading,
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-    createTables($cordovaSQLite);
 
+    createTables($cordovaSQLite);
+    
     $rootScope.showSpinner = function(templateUrl) {
       $ionicLoading.show({
         templateUrl: templateUrl,
