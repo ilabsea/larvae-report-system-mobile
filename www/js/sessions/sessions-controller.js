@@ -2,16 +2,17 @@ angular.module('app')
 .controller('SessionsCtrl', SessionsCtrl)
 
 SessionsCtrl.$inject = ["$scope", "$state", "SessionsService",
-        "ApiService", "PopupService"]
+        "ApiService", "PopupService", "$ionicPopup", "IonicClosePopupService"]
 
-function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService) {
+function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
+              $ionicPopup, IonicClosePopupService) {
 
   var vm = $scope;
   vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
   // vm.user = {'email': '', 'password':''};
   vm.login = login;
   vm.logout = logout;
-  vm.logoutConfirmation = logoutConfirmation;
+  vm.popupAccount = popupAccount;
 
   function login(user) {
     vm.showSpinner('templates/loading/loading-login.html');
@@ -26,15 +27,23 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService)
 
   function logout() {
     SessionsService.logout().then(function() {
+      popupAccount.close();
       $state.go("login");
     }, function(err) {
       PopupService.alertPopup("global.sign_out_failed", "global.please_check_internet_connection");
     });
   };
 
-  function logoutConfirmation() {
-    PopupService.confirmPopup('global.sign_out', 'global.are_you_sure_you_want_to_sign_out', function(){
-      logout();
+  var popupAccount;
+
+  function popupAccount() {
+    popupAccount = $ionicPopup.show({
+      templateUrl: 'templates/account.html',
+      scope: vm,
+      title: '<div class="tranparent-button icon-text-below"><i class="icon ion-custom-user-black"></i>'
+              + vm.user.email + '</div>'
     });
+
+    IonicClosePopupService.register(popupAccount);
   }
 }

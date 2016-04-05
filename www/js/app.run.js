@@ -18,7 +18,7 @@ function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading,
     }
 
     createTables($cordovaSQLite);
-    
+
     $rootScope.showSpinner = function(templateUrl) {
       $ionicLoading.show({
         templateUrl: templateUrl,

@@ -6,5 +6,6 @@ angular
   'ion-tree-list',
   'ngCordova',
   'angularMoment',
-  'ngMessages'
+  'ngMessages',
+  'ionic.closePopup'
 ]);

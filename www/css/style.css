@@ -71,7 +71,7 @@ h1.title-select{
 
 .tabs-top.tabs-striped .tab-item.tab-item-active,
 .tabs-top.tabs-striped .tab-item.active,
-.tabs-top.tabs-striped .tab-item.activated{
+.tabs-top.tabs-striped .tab-item.activated {
   margin-top: 1px;
   border-width: 0px 0px 3px 0px !important;
   border-style: solid;
@@ -87,18 +87,32 @@ h1.title-select{
   background-color: transparent;
 }
 
-.custom-font: {
+.custom-font {
   font-size: 16px !important;
 }
 
-.icon.ion-custom-back:before{
+.icon.ion-custom-back:before {
   content: url('../img/arrow-left.png') !important;
 }
 
-.icon.ion-custom-user:before{
+.icon.ion-custom-user:before {
   content: url('../img/user.png') !important;
 }
-.tranparent-button{
+
+.icon.ion-custom-user-black:before {
+  content: url('../img/user-black.png') !important;
+}
+
+.tranparent-button {
   border: none;
   background: none;
+}
+
+.icon-text-below .icon {
+  display: block;
+  font-size: 30px;
+}
+
+.icon .icon-padding {
+  padding-right: 5px !important;
 }
