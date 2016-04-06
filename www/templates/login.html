@@ -1,20 +1,23 @@
 <ion-view hide-nav-bar="true" name="login-view" ng-controller='AppCtrl' class='login-background'>
   <ion-content class="padding" has-header="false">
     <div class='login-container'>
-      <h4 class='login-title'>Weekly report</h4>
+      <center><img src='img/moh-lao.png' width="30%" height="30%"></center>
+      <h4 class='login-title'>{{"login.larvae_weekly_report" | translate}}</h4>
+      <div style='text-align: center;'><button ng-click='selectLanguage("lao")'>ລາວ</button>
+        | <button ng-click='selectLanguage("en")'>English</button></div>
       <form name="loginForm" novalidate ng-submit='login(user)'>
         <div class="list list-inset">
             <label class="item item-input">
-              <input type="email" name='email' placeholder='{{"email" | translate}}'
+              <input type="email" name='email' placeholder='{{"login.email" | translate}}'
                     ng-model="user.email" required>
             </label>
             <label class="item item-input">
-              <input type="password" name='password' placeholder='{{"password" | translate}}'
+              <input type="password" name='password' placeholder='{{"login.password" | translate}}'
                   ng-model="user.password" required="">
             </label>
         </div>
         <button id='login-button' ng-disabled="loginForm.$invalid"
-          class="button button-block default-button">Sign in</button>
+          class="button button-block default-button">{{"login.sign_in" | translate}}</button>
       </form>
     </div>
   </ion-content>

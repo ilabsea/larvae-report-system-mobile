@@ -1,32 +1,39 @@
 angular.module('app')
-.controller('WeeksCalendarCtrl', WeeksCalendarCtrl)
+.controller('WeeksCtrl', WeeksCtrl)
 
-WeeksCalendarCtrl.$inject = ["$scope", "$state", "$filter", "SiteService", "WeeklyService"]
+WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService",
+          "$ionicPlatform", "$location", "$ionicHistory", "ApiService", "$ionicNavBarDelegate",
+          "$ionicPlatform"]
 
-function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
-  var vm = $scope, index = 1;
+function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $ionicPlatform,
+          $location, $ionicHistory, ApiService, $ionicNavBarDelegate, $ionicPlatform){
+  var vm = $scope, index = WeeksService.findIndexInCurrentWeek();
   var todayWeek = $filter('date')(new Date(), 'w');
   var todayYear = $filter('date')(new Date(), 'yyyy');
   vm.selectedYear = todayYear;
-  vm.isDisabledPreviousButton = true;
-  vm.isDisabledNextButton = false;
-  vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);;
+  vm.isDisabledPreviousButton = index === 1 ? true : false;
+  vm.isDisabledNextButton;
+  vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);;
   vm.next = goNext;
   vm.previous = goPrevious;
   vm.getWeekNumber = setWeekNumber;
   vm.weeksMissingSend = [];
   vm.isErrorOrCurrentWeekNumber = isErrorOrCurrentWeekNumber;
   vm.years = setYears();
+  ApiService.setApi();
 
   vm.setWeeks = function() {
-    WeeklyService.setSelectedYear(vm.selectedYear);
-    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
+    WeeksService.setSelectedYear(vm.selectedYear);
+    vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
   }
+
+  $ionicNavBarDelegate.showBackButton(false);
 
   function setYears() {
     var startYear = 2014;
     var years = [];
-    for(var i= startYear ; i <= todayYear ; i++){
+    var i = startYear
+    for(; i <= todayYear ; i++){
       years.push(i);
     }
     return years;
@@ -34,24 +41,24 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
 
   function goPrevious(){
     index -= 9;
-    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
-    vm.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
-    vm.isDisabledNextButton = WeeklyService.isDisabledNextButton();
+    vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
+    vm.isDisabledPreviousButton = WeeksService.isDisabledPreviousButton();
+    vm.isDisabledNextButton = WeeksService.isDisabledNextButton();
   }
   function goNext(){
     index += 9;
-    vm.weeks = WeeklyService.getWeeks(vm.selectedYear, index);
-    vm.isDisabledNextButton = WeeklyService.isDisabledNextButton();
-    vm.isDisabledPreviousButton = WeeklyService.isDisabledPreviousButton();
+    vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
+    vm.isDisabledNextButton = WeeksService.isDisabledNextButton();
+    vm.isDisabledPreviousButton = WeeksService.isDisabledPreviousButton();
   }
 
   function setWeekNumber(weekNumber) {
-    WeeklyService.setSelectedWeek(weekNumber);
-    $state.go('villages')
+    WeeksService.setSelectedWeek(weekNumber);
+    $state.go('places')
   }
 
   function setWeeksMissingSend(){
-    SiteService.getWeeksMissingSend().then(function(weeks){
+    SiteSQLiteService.getWeeksMissingSend().then(function(weeks){
       vm.weeksMissingSend = weeks;
     })
   }
@@ -59,7 +66,9 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   function isErrorOrCurrentWeekNumber(weekNumber){
     var weeksMissingSend =  vm.weeksMissingSend;
     var highlightClass = '';
-    for(var i = 0; i < weeksMissingSend.length ; i++){
+    var i = 0,
+        l =  weeksMissingSend.length
+    for(; i < l ; i++){
       if(isMissingUploadSites(weeksMissingSend[i], weekNumber)){
         highlightClass = 'week-calendar-error';
         break;
@@ -110,13 +119,16 @@ function WeeksCalendarCtrl($scope, $state, $filter, SiteService, WeeklyService){
   }
 
   function setSelectedYear(year){
-    WeeklyService.setSelectedYear(year);
+    WeeksService.setSelectedYear(year);
   }
 
-  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+
+  $scope.$on('$stateChangeSuccess', function(event, toState) {
     if (toState.url== "/weeks-calendar") {
-      setSelectedYear(vm.selectedYear);
-      setWeeksMissingSend();
+      $ionicPlatform.ready(function () {
+        setSelectedYear(vm.selectedYear);
+        setWeeksMissingSend();
+      });
     }
   });
 }

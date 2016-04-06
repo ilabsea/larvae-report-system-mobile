@@ -9,18 +9,27 @@ function routes($stateProvider, $urlRouterProvider, $compileProvider) {
   .state('login', {
     url: '/login',
     templateUrl: 'templates/login.html',
-    controller: 'SessionsCtrl'
+    controller: 'SessionsCtrl',
+    resolve:{
+      "firstStart": function(SessionsService, $location){
+        if(SessionsService.getAuthToken()){
+          $location.path('/weeks-calendar');
+        }else{
+          $location.path('/login');
+        }
+      }
+    }
   })
 
   .state('weeks-calendar', {
     url: '/weeks-calendar',
-    templateUrl: 'templates/weeks-calendar.html'
+    templateUrl: 'templates/weeks.html'
   })
 
-  .state('villages', {
-    url: '/villages',
-    templateUrl: 'templates/villages.html',
-    controller: 'VillagesCtrl'
+  .state('places', {
+    url: '/places',
+    templateUrl: 'templates/places.html',
+    controller: 'PlacesCtrl'
   })
 
   .state('form-site', {

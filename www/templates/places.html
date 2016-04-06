@@ -1,0 +1,26 @@
+<ion-view ng-init='getPlaces()'
+  title='{{"place.report_week" | translate }} {{selectedWeek}}
+    {{"place.of" | translate }} {{selectedYear}}' name="places-view">
+  <ion-nav-buttons>
+  </ion-nav-buttons>
+  <ion-content class="padding">
+    <span style="font-size: 16px;">
+      {{"place.please_select_place_to_report" | translate}}
+    </span>
+
+    <div class="list list-inset">
+      <a class="item"
+         ui-sref="form-site" ng-repeat="place in places track by place.id"
+         ng-click='setPlace(place)'>
+        {{place.name}}
+        <i class="icon" ng-class="place.hasData ? 'ion-checkmark' : ''"></i>
+      </a>
+    </div>
+
+    <button ng-disabled="numberOfSites == 0" class='button button-block default-button'
+            ng-click="uploadSites()">
+      {{"place.send_report_to_malaria_station" | translate}}
+    </button>
+
+  </ion-content>
+</ion-view>

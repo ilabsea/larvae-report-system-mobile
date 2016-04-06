@@ -17,10 +17,13 @@
     <script src="cordova.js"></script>
 
     <script src="lib/angular-translate/angular-translate.min.js"></script>
+    <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
     <script src="lib/ionic-fancy-select/src/ionic-fancy-select.js"></script>
     <script src="lib/ion-tree-list/ion-tree-list.js"></script>
     <script src="lib/moment/moment.min.js"></script>
     <script src="lib/angular-moment/angular-moment.min.js"></script>
+    <script src="lib/angular-messages/angular-messages.min.js"></script>
+    <script src="lib/ionic-close-popup/ionic-close-popup.js"></script>
 
     <script src="js/app.module.js"></script>
     <script src="js/app.run.js"></script>
@@ -30,20 +33,30 @@
     <script src="js/app.database.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/constants.js"></script>
+    <script src="js/api-service.js"></script>
     <script src="js/sessions/sessions-controller.js"></script>
     <script src="js/sessions/sessions-service.js"></script>
     <script src="js/weeks/weeks-controller.js"></script>
     <script src="js/weeks/weeks-service.js"></script>
-    <script src="js/villages/villages-controller.js"></script>
-    <script src="js/villages/villages-service.js"></script>
+    <script src="js/places/places-controller.js"></script>
+    <script src="js/places/places-service.js"></script>
     <script src="js/sites/form-site-controller.js"></script>
-    <script src="js/sites/form-site-service.js"></script>
     <script src="js/sites/site-service.js"></script>
-    <script src="js/sites/camera-service.js"></script>
-
+    <script src="js/sites/site-sqlite-service.js"></script>
+    <script src="js/fields/camera-service.js"></script>
+    <script src="js/fields/fields-service.js"></script>
+    <script src="js/fields/calculation-service.js"></script>
+    <script src="js/fields/hidden-field-directive.js"></script>
+    <script src="js/layers/layers-service.js"></script>
+    <script src="js/validation/validation-service.js"></script>
+    <script src="js/popup/popup-service.js"></script>
+    <script src="js/memberships/memberships-service.js"></script>
   </head>
   <body ng-app="app">
     <ion-nav-bar class="bar-custom-header" align-title="left">
+      <ion-nav-back-button class="button-clear">
+        <i class="icon ion-custom-back"></i>
+      </ion-nav-back-button>
     </ion-nav-bar>
     <ion-nav-view></ion-nav-view>
   </body>

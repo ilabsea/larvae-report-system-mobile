@@ -5,5 +5,7 @@ angular
   'ionic-fancy-select',
   'ion-tree-list',
   'ngCordova',
-  'angularMoment'
+  'angularMoment',
+  'ngMessages',
+  'ionic.closePopup'
 ]);

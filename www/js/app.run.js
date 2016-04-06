@@ -2,9 +2,12 @@ angular
 .module('app')
 .run(runBlock);
 
-runBlock.$inject = ['$ionicPlatform', '$cordovaSQLite', '$rootScope', '$ionicLoading'];
+runBlock.$inject = ['$ionicPlatform', '$cordovaSQLite', '$rootScope', '$ionicLoading',
+              '$location', '$ionicHistory', 'SessionsService'];
 
-function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading) {
+function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading,
+          $location, $ionicHistory, SessionsService) {
+
   $ionicPlatform.ready(function() {
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
@@ -13,7 +16,7 @@ function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading) {
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-    setLanguge();
+
     createTables($cordovaSQLite);
 
     $rootScope.showSpinner = function(templateUrl) {
@@ -28,17 +31,13 @@ function runBlock($ionicPlatform, $cordovaSQLite, $rootScope, $ionicLoading) {
       $ionicLoading.hide();
     }
   });
-}
 
-function setLanguge() {
-  if(typeof navigator.globalization !== "undefined") {
-    navigator.globalization.getPreferredLanguage(function(language) {
-      console.log('language : ', language);
-      $translate.use((language.value).split("-")[0]).then(function(data) {
-        console.log("SUCCESS -> " + data);
-      }, function(error) {
-        console.log("ERROR -> " + error);
-      });
-    }, null);
-  }
+  $ionicPlatform.registerBackButtonAction(function() {
+    if ($location.path() === "/weeks-calendar" || $location.path() === "/login") {
+      navigator.app.exitApp();
+    }
+    else {
+      $ionicHistory.goBack();
+    }
+  }, 100);
 }

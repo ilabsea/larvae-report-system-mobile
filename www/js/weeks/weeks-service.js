@@ -1,9 +1,9 @@
 angular.module('app')
-.factory('WeeklyService', WeeklyService)
+.factory('WeeksService', WeeksService)
 
-WeeklyService.$inject = ["$filter"];
+WeeksService.$inject = ["$filter"];
 
-function WeeklyService($filter) {
+function WeeksService($filter) {
   isDisabledNextButton = false;
   isDisabledPreviousButton = false;
   selectedWeekNumber = '';
@@ -55,7 +55,8 @@ function WeeklyService($filter) {
     weeks = [];
     while(i < index + 9){
       row = [];
-      for (j = i; j < i + 3 ; j++){
+      var j = i
+      for (; j < i + 3 ; j++){
         if(j<= lastWeekOfYear)
           row.push(j);
         else
@@ -69,6 +70,12 @@ function WeeklyService($filter) {
       weeks.push({"row": row});
     }
     return weeks;
+  }
+
+  function findIndexInCurrentWeek() {
+    var currentWeek = $filter('date')(new Date(), 'ww');
+    var index = Math.ceil(currentWeek/9);
+    return index === 1 ? index : index + 8;
   }
 
   function setSelectedWeek(weekNumber) {
@@ -94,7 +101,8 @@ function WeeklyService($filter) {
     setSelectedWeek: setSelectedWeek,
     getSelectedWeek: getSelectedWeek,
     getSelectedYear: getSelectedYear,
-    setSelectedYear: setSelectedYear
+    setSelectedYear: setSelectedYear,
+    findIndexInCurrentWeek: findIndexInCurrentWeek
   }
 
 }

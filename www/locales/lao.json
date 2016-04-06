@@ -1,0 +1,41 @@
+{
+  "global":{
+    "ok": "ຕົກ​ລົງ",
+    "yes": "Yes",
+    "no": "No",
+    "sign_out": "ອອກ​ຈາກ​ລະ​ບົບ",
+    "are_you_sure_you_want_to_sign_out": "ທ່ານແນ່ໃຈວ່າທ່ານຕ້ອງການທີ່ຈະອອກຈາກລະບົບ?",
+    "sign_out_failed": "ອອກຈາກລະບົບສົບຜົນສໍາເລັດ!",
+    "please_check_internet_connection": "ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດ."
+  },
+  "login": {
+    "larvae_weekly_report": "ຕົວອ່ອນບົດລາຍງານປະຈໍາອາທິດ",
+    "email": "ອີເມວ",
+    "password": "ລະຫັດຜ່ານ",
+    "sign_in" : "ເຂົ້າ​ສູ່​ລະ​ບົບ"
+  },
+  "login_validation" : {
+    "invalid_email_or_password" : "ອີເມວທີ່ບໍ່ຖືກຕ້ອງຫລືລະຫັດຜ່ານ.",
+    "sign_in_failed": "ເຂົ້າສູ່ລະບົບສົບຜົນສໍາເລັດ!",
+    "sign_out_failed": "ອອກຈາກລະບົບສົບຜົນສໍາເລັດ",
+    "please_check_your_internet_connection" :"ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ."
+  },
+  "week" : {
+    "weekly_calendar" : "ປະຕິທິນປະຈໍາອາທິດ",
+    "select_year" : "ເລືອກປີ",
+    "please_select_week_to_report": "ອາທິດ"
+  },
+  "place":{
+    "report_week": "Report week",
+    "of": "of",
+    "please_select_place_to_report": "ກະລຸນາເລືອກສະຖານທີ່ລາຍງານ",
+    "send_report_to_malaria_station": "ສົ່ງບົດລາຍງານທີ່ຈະສະຖານີພະຍາດໄຂ້ຍຸງ"
+  },
+  "form":{
+    "save":"ຊ່ວຍປະຢັດ",
+    "update": "ການປັບປຸງ",
+    "new_weekly_report": "ບົດລາຍງານປະຈໍາອາທິດໃຫມ່",
+    "cannot_get_data_from_server": "ບໍ່ສາມາດໄດ້ຮັບຂໍ້ມູນຈາກເຄື່ອງແມ່ຂ່າຍ.",
+    "please_check_internet_connection": "ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ."
+  }
+}

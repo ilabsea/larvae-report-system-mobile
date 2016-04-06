@@ -1,3 +1,4 @@
+var db = null;
 function createTables($cordovaSQLite) {
   if (window.cordova) {
     console.log('database  device');
@@ -9,7 +10,7 @@ function createTables($cordovaSQLite) {
 
   var queryCreateSiteTable = "CREATE TABLE IF NOT EXISTS sites" +
                       "(id integer primary key, collection_id integer, " +
-                      "user_id integer, village_id integer, device_id text, " +
+                      "user_id integer, place_id integer, device_id text, " +
                       "name text, week_number integer, year integer, properties text, files text)";
 
   $cordovaSQLite.execute(db, queryCreateSiteTable);
