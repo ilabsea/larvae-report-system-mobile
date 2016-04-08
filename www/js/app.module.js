@@ -7,5 +7,6 @@ angular
   'ngCordova',
   'angularMoment',
   'ngMessages',
-  'ionic.closePopup'
+  'ionic.closePopup',
+  'monospaced.elastic'
 ]);

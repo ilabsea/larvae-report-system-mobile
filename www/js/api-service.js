@@ -13,7 +13,6 @@ function ApiService(ENDPOINT, API, SessionsService) {
   collections = "";
 
   function setApi(cId){
-    console.log('cId setApi : ', cId);
     var authToken = SessionsService.getAuthToken();
     layers = ENDPOINT.api + API.collectionsv1 + cId + API.layers + authToken;
     places = ENDPOINT.api + API.collectionsv1 + cId + API.places + authToken;

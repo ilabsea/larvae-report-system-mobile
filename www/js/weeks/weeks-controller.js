@@ -125,11 +125,9 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
     CollectionsService.fetch().then(function(collections){
       CollectionsService.setFirstCollectionId(collections);
       var cId = CollectionsService.getFirstCollectionId();
-      console.log('cId : ', cId);
       ApiService.setApi(cId);
     });
   }
-
 
   $scope.$on('$stateChangeSuccess', function(event, toState) {
     if (toState.url== "/weeks-calendar") {

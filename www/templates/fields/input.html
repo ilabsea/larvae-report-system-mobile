@@ -6,9 +6,18 @@
       ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid &&
         (formSite['{{field.id}}'].$touched ||!customValidate(field.id))}">
     <input class="item-input-wrapper" type="{{field.type}}" name='{{field.id}}'
+      ng-if='field.type != "text"'
       ng-readonly='canReadOnlyLayer || field.readonly'
       ng-required='{{field.required}}' ng-model="site.properties[field.id]"
       ng-keyup='!dependFields[field.id] || prepareCalculationFields()'>
+
+    <textarea ng-if='field.type == "text"'
+      class="item-input-wrapper" style='background-color: #EEE'
+      rows="1" msd-elastic
+      name='{{field.id}}'
+      ng-readonly='canReadOnlyLayer || field.readonly'
+      ng-required='{{field.required}}' ng-model="site.properties[field.id]"
+      ng-keyup='!dependFields[field.id] || prepareCalculationFields()'></textarea>
   </div>
   <div class="error-message"
        ng-show="formSite['{{field.id}}'].$invalid && (formSite['{{field.id}}'].$touched ||!customValidate(field.id))"
