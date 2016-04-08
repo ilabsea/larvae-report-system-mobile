@@ -2,10 +2,10 @@ angular.module('app')
 .controller('PlacesCtrl', PlacesCtrl)
 
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
-      "$state", "PlacesService", "SiteSQLiteService", "$ionicNavBarDelegate"]
+      "$state", "PlacesService", "SiteSQLiteService", "ApiService"]
 
 function PlacesCtrl($scope, WeeksService, $ionicPopup, $state,
-    PlacesService, SiteSQLiteService, $ionicNavBarDelegate) {
+    PlacesService, SiteSQLiteService, ApiService) {
 
   var vm = $scope;
   vm.getPlaces = getPlaces;
@@ -14,8 +14,6 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state,
   vm.uploadSites = uploadSites;
   vm.setPlace = setSelectedPlace;
   vm.numberOfSites = 0;
-
-  $ionicNavBarDelegate.showBackButton(true);
 
   function setNumberOfSitesInWeekYear() {
     SiteSQLiteService.getNumberOfSitesInWeekYear().then(function(l){

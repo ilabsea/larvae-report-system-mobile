@@ -10,16 +10,24 @@ function ApiService(ENDPOINT, API, SessionsService) {
   siteWeekYearPlaceId = "";
   memberships = "";
   updateSite = "";
+  collections = "";
 
-  function setApi(){
+  function setApi(cId){
+    console.log('cId setApi : ', cId);
     var authToken = SessionsService.getAuthToken();
-    layers = ENDPOINT.api + API.layers + authToken;
-    places = ENDPOINT.api + API.places + authToken;
-    placeParent = ENDPOINT.api + API.get_parent_place_by_ancestry + authToken;
-    siteWeekYearPlaceId = ENDPOINT.api + API.get_site_by_week_year_placeId + authToken;
-    site = ENDPOINT.api + API.sites + authToken;
-    memberships = ENDPOINT.api + API.place_memberships + authToken;
-    updateSite = ENDPOINT.api + API.update_site;
+    layers = ENDPOINT.api + API.collectionsv1 + cId + API.layers + authToken;
+    places = ENDPOINT.api + API.collectionsv1 + cId + API.places + authToken;
+    placeParent = ENDPOINT.api + API.collectionsv1 + cId + API.get_parent_place_by_ancestry + authToken;
+    siteWeekYearPlaceId = ENDPOINT.api + API.collectionsv1 + cId + API.get_site_by_week_year_placeId + authToken;
+    site = ENDPOINT.api + API.collectionsv1 + cId + API.sites + authToken;
+    memberships = ENDPOINT.api + API.collectionsv1 + cId + API.place_memberships + authToken;
+    updateSite = ENDPOINT.api + API.collectionsv1 + cId + API.update_site;
+  }
+
+  function getCollectionsURL() {
+    var authToken = SessionsService.getAuthToken();
+    collections = ENDPOINT.api + API.collections + authToken;
+    return collections;
   }
 
   function getLayersUrl() {
@@ -52,6 +60,7 @@ function ApiService(ENDPOINT, API, SessionsService) {
 
   return{
     setApi: setApi,
+    getCollectionsURL: getCollectionsURL,
     getLayersUrl: getLayersUrl,
     getPlacesUrl: getPlacesUrl,
     getPlaceParentUrl: getPlaceParentUrl,
