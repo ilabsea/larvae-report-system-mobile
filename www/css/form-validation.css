@@ -15,3 +15,9 @@ span.error{
   color: #cc2511;
   font-weight: bold;
 }
+
+ul li.bullet-list{
+  list-style: disc outside none;
+  display: list-item;
+  margin-left: 1em;
+}

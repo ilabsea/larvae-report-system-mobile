@@ -39,6 +39,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   vm.goNext = goNext;
   vm.goForward = goForward;
   vm.goPrevious = goPrevious;
+  vm.layersWithInvalidData;
   vm.isSubmit = function () {
     isSubmit = true;
   }
@@ -217,15 +218,15 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     angular.forEach(propertiesDate, function (date, key) {
       site.properties[key] = new moment(date).isValid()? new moment(date).format('MM/DD/YYYY') : ""
     });
-    var layerWithInvalidData = ValidationService.getLayersWithInvalidData(site);
-    if(layerWithInvalidData.length == 0){
+    vm.layersWithInvalidData = ValidationService.getLayersWithInvalidData(site);
+    if (vm.layersWithInvalidData.length == 0) {
       addOrUpdateSite(site);
       $state.go('places');
-    }else{
+    } else {
       $ionicPopup.alert({
-        title: 'Invalid data',
-        template: 'Please fill all the required fields in layers <span style="color: red">'
-                  + layerWithInvalidData + "</span>",
+        title: 'Error sending data!',
+        scope: vm,
+        templateUrl: 'templates/validation/save-site.html',
         okType: 'default-button'
       });
     }
