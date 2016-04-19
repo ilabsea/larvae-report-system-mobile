@@ -16,7 +16,8 @@
          ui-sref="form-site" ng-repeat="place in places track by place.id"
          ng-click='setPlace(place)'>
         {{place.name}}
-        <i class="icon" ng-class="place.hasData ? 'ion-checkmark' : ''"></i>
+        <i ng-if="place.siteOnServer" class="icon ion-clowd-checked"></i>
+        <i ng-if="!place.siteOnServer" class="icon" ng-class="place.hasData ? 'ion-checkmark' : ''"></i>
       </a>
     </div>
 

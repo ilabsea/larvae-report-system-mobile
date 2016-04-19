@@ -2,10 +2,11 @@ angular.module('app')
 .controller('PlacesCtrl', PlacesCtrl)
 
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
-      "$state", "$ionicHistory", "PlacesService", "SiteSQLiteService", "ApiService"]
+      "$state", "$ionicHistory", "PlacesService", "SiteService", "SiteSQLiteService",
+      "ApiService"]
 
 function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
-    PlacesService, SiteSQLiteService, ApiService) {
+    PlacesService, SiteService, SiteSQLiteService, ApiService) {
 
   var vm = $scope;
   vm.getPlaces = getPlaces;
@@ -26,7 +27,16 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     vm.showSpinner('templates/loading/loading.html');
     PlacesService.fetch().then(function (places) {
       vm.hideSpinner();
-      vm.places = generateClassInPlaces(places);
+      angular.forEach(places, function(place){
+        SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.id)
+          .then(function(site){
+            if(site){
+              place.siteOnServer = true;
+              vm.places = places;
+            }else
+              vm.places = generateClassInPlaces(places);
+        });
+      });
     });
   }
 

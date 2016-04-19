@@ -1,0 +1,30 @@
+.icon.ion-checkmark{
+  float: right;
+  color: #3d8b3d;
+}
+
+.icon.ion-clowd-checked{
+  float: right;
+  content: url('../img/clowd-checked.png') !important;
+}
+
+.icon.ion-custom-back:before {
+  content: url('../img/arrow-left.png') !important;
+}
+
+.icon.ion-custom-user:before {
+  content: url('../img/user.png') !important;
+}
+
+.icon.ion-custom-user-black:before {
+  content: url('../img/user-black.png') !important;
+}
+
+.icon .icon-padding {
+  padding-right: 5px !important;
+}
+
+.icon-text-below .icon {
+  display: block;
+  font-size: 30px;
+}
