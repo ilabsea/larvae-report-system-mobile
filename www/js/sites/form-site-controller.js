@@ -205,13 +205,12 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     });
   }
 
-  function addOrUpdateSite(site, propertiesDate, isClickBack) {
+  function addOrUpdateSite(site, propertiesDate) {
     angular.forEach(propertiesDate, function (date, key) {
       site.properties[key] = new moment(date).isValid()? new moment(date).format('MM/DD/YYYY') : ""
     });
     if(vm.canUpdateSiteOnline){
-      if(!isClickBack)
-        SiteService.updateSite(site);
+      SiteService.updateSite(site);
     }else{
       if(vm.isUpdateSite)
         SiteSQLiteService.updateSite(site, vm.site.id);
@@ -223,7 +222,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   function saveSite(site, propertiesDate) {
     vm.layersWithInvalidData = ValidationService.getLayersWithInvalidData(site);
     if (vm.layersWithInvalidData.length == 0) {
-      addOrUpdateSite(site, propertiesDate, isClickBack = false);
+      addOrUpdateSite(site, propertiesDate);
       $state.go('places');
     } else {
       $ionicPopup.alert({
@@ -298,7 +297,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
 
   function goBackAndSaveIfData() {
     $ionicHistory.goBack();
-    if(vm.site.properties)
-      addOrUpdateSite(vm.site, vm.propertiesDate, isClickBack = true);
+    if(vm.site.properties && !vm.canUpdateSiteOnline)
+      addOrUpdateSite(vm.site, vm.propertiesDate);
   }
 }
