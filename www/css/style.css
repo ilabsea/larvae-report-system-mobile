@@ -45,11 +45,22 @@ h1.title-select{
 }
 
 .calendar-current-week {
-  border: 2px solid #3d8b3d;
+  border: 2px solid #3d8b3d !important;
 }
 
 .calendar-current-week:hover {
   border: 2px solid #3d8b3d;
+}
+
+.info-week{
+  border: 1px solid;
+  float: left;
+  border-color: transparent;
+  background-color: #f8f8f8;
+  min-width: 35px;
+  border-radius: 4px;
+  text-align: center;
+  line-height: 32px;
 }
 
 .popup{
