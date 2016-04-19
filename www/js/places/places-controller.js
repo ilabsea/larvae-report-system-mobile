@@ -2,9 +2,9 @@ angular.module('app')
 .controller('PlacesCtrl', PlacesCtrl)
 
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
-      "$state", "PlacesService", "SiteSQLiteService", "ApiService"]
+      "$state", "$ionicHistory", "PlacesService", "SiteSQLiteService", "ApiService"]
 
-function PlacesCtrl($scope, WeeksService, $ionicPopup, $state,
+function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService, SiteSQLiteService, ApiService) {
 
   var vm = $scope;
@@ -14,6 +14,7 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state,
   vm.uploadSites = uploadSites;
   vm.setPlace = setSelectedPlace;
   vm.numberOfSites = 0;
+  vm.goBack = goBack;
 
   function setNumberOfSitesInWeekYear() {
     SiteSQLiteService.getNumberOfSitesInWeekYear().then(function(l){
@@ -59,6 +60,10 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state,
   function setSelectedPlace(place) {
     PlacesService.setSelectedPlaceId(place.id);
     PlacesService.setSelectedPlace(place);
+  }
+
+  function goBack() {
+    $ionicHistory.goBack();
   }
 
   $scope.$on('$stateChangeSuccess', function(event, toState) {

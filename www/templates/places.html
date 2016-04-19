@@ -1,7 +1,10 @@
 <ion-view ng-init='getPlaces()'
   title='{{"place.report_week" | translate }} {{selectedWeek}}
     {{"place.of" | translate }} {{selectedYear}}' name="places-view">
-  <ion-nav-buttons>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon tranparent-button" ng-click="goBack()">
+      <i class="icon ion-custom-back"></i>
+    </button>
   </ion-nav-buttons>
   <ion-content class="padding">
     <span style="font-size: 16px;">

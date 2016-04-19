@@ -1,7 +1,10 @@
 <ion-view title='{{"place.report_week" | translate }} {{selectedWeek}}
   {{"place.of" | translate }} {{selectedYear}}' name="form-site-view"
           ng-controller='FormSiteCtrl' ng-init='renderForm()'>
-  <ion-nav-buttons>
+  <ion-nav-buttons side="left">
+    <button class="button button-icon tranparent-button" ng-click="goBackAndSaveIfData()">
+      <i class="icon ion-custom-back"></i>
+    </button>
   </ion-nav-buttons>
 
   <ion-tabs class="tabs-color-active-positive">

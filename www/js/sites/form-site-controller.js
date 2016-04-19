@@ -4,12 +4,13 @@ FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicTabsDelegate",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
                 "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate",
-                "$timeout"]
+                "$timeout", "$ionicHistory"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
-                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate, $timeout) {
+                ValidationService, PopupService, MembershipsService, $ionicScrollDelegate,
+                $timeout, $ionicHistory) {
 
   var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership;
   vm.site = {properties : {}, id:'', files: {}};
@@ -40,6 +41,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   vm.goForward = goForward;
   vm.goPrevious = goPrevious;
   vm.layersWithInvalidData;
+  vm.goBackAndSaveIfData = goBackAndSaveIfData;
   vm.isSubmit = function () {
     isSubmit = true;
   }
@@ -203,7 +205,10 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     });
   }
 
-  function addOrUpdateSite(site) {
+  function addOrUpdateSite(site, propertiesDate) {
+    angular.forEach(propertiesDate, function (date, key) {
+      site.properties[key] = new moment(date).isValid()? new moment(date).format('MM/DD/YYYY') : ""
+    });
     if(vm.canUpdateSiteOnline){
       SiteService.updateSite(site);
     }else{
@@ -215,12 +220,9 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function saveSite(site, propertiesDate) {
-    angular.forEach(propertiesDate, function (date, key) {
-      site.properties[key] = new moment(date).isValid()? new moment(date).format('MM/DD/YYYY') : ""
-    });
     vm.layersWithInvalidData = ValidationService.getLayersWithInvalidData(site);
     if (vm.layersWithInvalidData.length == 0) {
-      addOrUpdateSite(site);
+      addOrUpdateSite(site, propertiesDate);
       $state.go('places');
     } else {
       $ionicPopup.alert({
@@ -291,5 +293,11 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     if (selected != -1 && selected != 0) {
       $ionicTabsDelegate.select(selected - 1);
     }
+  }
+
+  function goBackAndSaveIfData() {
+    $ionicHistory.goBack();
+    if(vm.site.properties)
+      addOrUpdateSite(vm.site, vm.propertiesDate);
   }
 }
