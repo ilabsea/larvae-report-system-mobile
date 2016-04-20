@@ -12,7 +12,8 @@
     "larvae_weekly_report": "Larvae weekly report",
     "email": "Email",
     "password": "Password",
-    "sign_in" : "Sign in"
+    "sign_in" : "Sign in",
+    "no_email_found_in_database": "No Email found in database"
   },
   "login_validation" : {
     "invalid_email_or_password" : "Invalid email or password.",
@@ -24,6 +25,10 @@
     "weekly_calendar" : "Weekly calendar",
     "select_year" : "Select year",
     "please_select_week_to_report": "Please select week to report"
+  },
+  "collection":{
+    "error_retriving_data": "Error retriving data",
+    "no_data_found_in_database": "No data found in database."
   },
   "place":{
     "report_week": "Report week",

@@ -3,7 +3,6 @@ angular.module('app')
 CollectionsService.$inject = ["$q", "$http", "ApiService"]
 
 function CollectionsService($q, $http, ApiService) {
-  var collectionFirstId;
 
   function fetch() {
     return $q(function(resolve, reject) {
@@ -17,18 +16,7 @@ function CollectionsService($q, $http, ApiService) {
     });
   }
 
-  function setFirstCollectionId(collections) {
-    var cId = collections.length > 0? collections[0].id : "" ;
-    collectionFirstId = cId;
-  }
-
-  function getFirstCollectionId() {
-    return collectionFirstId;
-  }
-
   return {
     fetch: fetch,
-    getFirstCollectionId: getFirstCollectionId,
-    setFirstCollectionId: setFirstCollectionId
   }
 }

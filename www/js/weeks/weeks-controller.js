@@ -3,10 +3,11 @@ angular.module('app')
 
 WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService",
           "$ionicPlatform", "$location", "$ionicHistory", "$ionicPlatform", "ApiService",
-          "CollectionsService"]
+          "CollectionsService", "CollectionsOfflineService", "SessionsService"]
 
 function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $ionicPlatform,
-          $location, $ionicHistory, $ionicPlatform, ApiService, CollectionsService){
+          $location, $ionicHistory, $ionicPlatform, ApiService, CollectionsService,
+          CollectionsOfflineService, SessionsService){
 
   var vm = $scope, index = WeeksService.findIndexInCurrentWeek();
   var todayWeek = $filter('date')(new Date(), 'w');
@@ -122,10 +123,35 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   }
 
   function loadCollections() {
+    isOnline() ? loadCollectionsOnline() : loadCollectionsOffline();
+  }
+
+  function loadCollectionsOnline() {
     CollectionsService.fetch().then(function(collections){
-      CollectionsService.setFirstCollectionId(collections);
-      var cId = CollectionsService.getFirstCollectionId();
+      var cId = collections.length > 0 ? collections[0].id : "";
       ApiService.setApi(cId);
+      CollectionsOfflineService.getByUserId(SessionsService.getUserId())
+        .then(function(res){
+          if(res.length > 0){
+            if(collections[0].name !== res.item(0).name){
+              CollectionsOfflineService.update(collections[0]);
+            }
+          }else{
+            CollectionsOfflineService.insert(collections[0]);
+          }
+      });
+    });
+  }
+
+  function loadCollectionsOffline() {
+    CollectionsOfflineService.getByUserId(SessionsService.getUserId())
+      .then(function(res){
+        if(res.length > 0){
+          var cId = res.item(0).collection_id ;
+          ApiService.setApi(cId);
+        }else{
+          PopupService.alertPopup("collection.error_retriving_data", "collection.no_data_found_in_database");
+        }
     });
   }
 

@@ -17,33 +17,18 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     var name = PlacesService.getSelectedPlace().name + "_" + weekNumber + "_" + year;
     var siteData = [userId, placeId, name, weekNumber, year,
           angular.toJson(site.properties), angular.toJson(site.files)];
-    $cordovaSQLite.execute(db, query, siteData)
-      .then(function(res){
-      console.log("INSERT : ", res);
-    }, function(error){
-      console.log('error : ', error);
-    });
+    $cordovaSQLite.execute(db, query, siteData);
   }
 
   function updateSite(site, siteId) {
     var query = "UPDATE sites SET properties=?, files=? WHERE id=?" ;
     var siteData = [angular.toJson(site.properties), angular.toJson(site.files), siteId];
-    $cordovaSQLite.execute(db, query, siteData)
-      .then(function(res){
-      console.log("update : ", res);
-    }, function(error){
-      console.log('error : ', error);
-    });
+    $cordovaSQLite.execute(db, query, siteData);
   }
 
   function removeSiteById(id) {
     var query = "DELETE FROM sites WHERE id = ?";
-    $cordovaSQLite.execute(db, query, [id])
-      .then(function(res){
-        console.log('remove : ', res);
-      }, function(error){
-        console.log('error : ', error);
-      });
+    $cordovaSQLite.execute(db, query, [id]);
   }
 
   function uploadSites(week, year) {

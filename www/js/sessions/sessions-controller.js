@@ -1,11 +1,11 @@
 angular.module('app')
 .controller('SessionsCtrl', SessionsCtrl)
 
-SessionsCtrl.$inject = ["$scope", "$state", "SessionsService",
-        "ApiService", "PopupService", "$ionicPopup", "IonicClosePopupService"]
+SessionsCtrl.$inject = ["$scope", "$state", "SessionsService", "ApiService",
+      "PopupService", "$ionicPopup", "IonicClosePopupService", "SessionsOfflineService"]
 
 function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
-              $ionicPopup, IonicClosePopupService) {
+              $ionicPopup, IonicClosePopupService, SessionsOfflineService) {
 
   var vm = $scope;
   vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
@@ -15,15 +15,37 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
   vm.popupAccount = popupAccount;
 
   function login(user) {
+    isOnline() ? loginOnline(user) : loginOffline(user);
+  };
+
+  function loginOnline(user) {
     vm.showSpinner('templates/loading/loading-login.html');
     SessionsService.login(user).then(function(authenticated) {
       vm.hideSpinner();
+      SessionsOfflineService.setCurrentUser(user, authenticated.user_id);
+      SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
+        SessionsOfflineService.insertOrUpdateUser(userRes);
+      });
       $state.go("weeks-calendar");
-    }, function(err) {
+    }, function() {
       vm.hideSpinner();
       PopupService.alertPopup("login_validation.sign_in_failed", "login_validation.invalid_email_or_password");
     });
-  };
+  }
+
+  function loginOffline(user) {
+    SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
+      if(userRes.length > 0){
+        if(userRes.item(0).password === user.password){
+          $state.go("weeks-calendar");
+        }else {
+          PopupService.alertPopup("login_validation.sign_in_failed", "login_validation.invalid_email_or_password");
+        }
+      }else{
+        PopupService.alertPopup("login_validation.sign_in_failed", "login_validation.no_email_found_in_database");
+      }
+    });
+  }
 
   function logout() {
     SessionsService.logout().then(function() {
