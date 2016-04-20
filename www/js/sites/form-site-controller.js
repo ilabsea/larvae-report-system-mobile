@@ -269,7 +269,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function getDistrictName() {
-    PlacesService.fetchPlaceParent().then(function(place) {
+    var place = PlacesService.getSelectedPlace();
+    PlacesService.fetchPlaceParent(place).then(function(place) {
       vm.districtName = place ? place.name : "";
     });
   }

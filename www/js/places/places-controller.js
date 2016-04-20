@@ -3,10 +3,11 @@ angular.module('app')
 
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
       "$state", "$ionicHistory", "PlacesService", "SiteService", "SiteSQLiteService",
-      "ApiService"]
+      "ApiService", "SessionsService", "PlacesOfflineService"]
 
 function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
-    PlacesService, SiteService, SiteSQLiteService, ApiService) {
+    PlacesService, SiteService, SiteSQLiteService, ApiService, SessionsService,
+    PlacesOfflineService) {
 
   var vm = $scope;
   vm.getPlaces = getPlaces;
@@ -24,18 +25,34 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
   }
 
   function getPlaces() {
-    vm.showSpinner('templates/loading/loading.html');
-    PlacesService.fetch().then(function (places) {
-      vm.hideSpinner();
-      angular.forEach(places, function(place){
-        SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.id)
-          .then(function(site){
-            if(site){
-              place.siteOnServer = true;
-              vm.places = places;
-            }else
-              vm.places = generateClassInPlaces(places);
+    if(isOnline()){
+      vm.showSpinner('templates/loading/loading.html');
+      PlacesService.fetch().then(function (places) {
+        vm.hideSpinner();
+        angular.forEach(places, function(place){
+          handleStorePlace(place);
+          SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.id)
+            .then(function(site){
+              if(site){
+                place.siteOnServer = true;
+                vm.places = places;
+              }else
+                vm.places = generateClassInPlaces(places);
+          });
         });
+      });
+    }
+  }
+
+  function handleStorePlace(place) {
+    PlacesService.fetchPlaceParent(place).then(function(parent){
+      PlacesOfflineService.getByUserIdPlaceId(SessionsService.getUserId(), place.id).then(function(res){
+        if(res.length > 0){
+          if((res.item(0).name != place.name) || (res.item(0).parent_place_id != parent.id)
+              || (res.item(0).parent_place_name!= parent.name))
+            PlacesOfflineService.update(place, parent);
+        }else
+          PlacesOfflineService.insert(place, parent);
       });
     });
   }

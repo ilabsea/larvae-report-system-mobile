@@ -10,9 +10,7 @@ function CollectionsOfflineService($cordovaSQLite, SessionsService){
     var userId = SessionsService.getUserId();
     console.log('userId : ', userId);
     var collectionData = [collection.id, userId ,collection.name];
-    $cordovaSQLite.execute(db, query, collectionData).then(function(res){
-      console.log('insertcollection ');
-    });
+    $cordovaSQLite.execute(db, query, collectionData);
   }
 
   function getByUserId(uId) {

@@ -44,18 +44,20 @@ function PlacesService($q, $http, ApiService) {
     });
   }
 
-  function fetchPlaceParent() {
+  function fetchPlaceParent(place) {
     return $q(function(resolve, reject) {
-      var ancestry = getSelectedPlace().ancestry;
+      var ancestry = place.ancestry;
       var dataAttr = {"ancestry" : ancestry};
-      $http.get(ApiService.getPlaceParentUrl(), {"params": dataAttr} )
-        .success(function (place) {
-          setParentSelectedPlaceId(place.id);
-          resolve(place);
-        })
-        .error(function(error){
-          reject(error);
-        });
+      if(ancestry){
+        $http.get(ApiService.getPlaceParentUrl(), {"params": dataAttr} )
+          .success(function (place) {
+            setParentSelectedPlaceId(place.id);
+            resolve(place);
+          })
+          .error(function(error){
+            reject(error);
+          });
+      }
     });
   }
 

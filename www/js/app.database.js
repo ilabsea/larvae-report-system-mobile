@@ -10,14 +10,22 @@ function createTables($cordovaSQLite) {
         "email text, password text)";
   var collection = "CREATE TABLE IF NOT EXISTS collections (id integer primary key, " +
         "collection_id integer, user_id integer, name text)";
-  var place = "CREATE TABLE IF NOT EXISTS places (id integer primary key, name text, place_id integer, "  +
-        "parent_place_id integer, parent_place_name text)";
+  var place = "CREATE TABLE IF NOT EXISTS places (id integer primary key, place_id integer, " +
+        "name text, user_id integer, parent_place_id integer, parent_place_name text)";
   var site = "CREATE TABLE IF NOT EXISTS sites (id integer primary key, collection_id integer, " +
         "user_id integer, place_id integer, device_id text, name text, week_number integer, " +
         "year integer, properties text, files text)";
+  var layer = "CREATE TABLE IF NOT EXISTS layers (id integer primary key, layer_id integer, " +
+        "collection_id integer, user_id integer, place_id integer, name text, field_offline_id integer,"+
+        "FOREIGN KEY(field_offline_id) REFERENCES fields (id))";
+  var field = "CREATE TABLE IF NOT EXISTS fields (id integer primary key, field_id integer, " +
+        "name text, code text, config text, is_mandatory boolean, is_enable_field_logic boolean, " +
+        "remember_last_input boolean, default_value text)";
 
   $cordovaSQLite.execute(db, user);
   $cordovaSQLite.execute(db, collection);
   $cordovaSQLite.execute(db, place);
   $cordovaSQLite.execute(db, site);
+  $cordovaSQLite.execute(db, layer);
+  $cordovaSQLite.execute(db, field);
 }
