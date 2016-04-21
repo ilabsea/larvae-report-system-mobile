@@ -25,23 +25,31 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
   }
 
   function getPlaces() {
-    if(isOnline()){
-      vm.showSpinner('templates/loading/loading.html');
-      PlacesService.fetch().then(function (places) {
-        vm.hideSpinner();
-        angular.forEach(places, function(place){
-          handleStorePlace(place);
-          SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.id)
-            .then(function(site){
-              if(site){
-                place.siteOnServer = true;
-                vm.places = places;
-              }else
-                vm.places = generateClassInPlaces(places);
-          });
+    isOnline() ? getPlacesOnline() : getPlacesOffline();
+  }
+
+  function getPlacesOnline() {
+    vm.showSpinner('templates/loading/loading.html');
+    PlacesService.fetch().then(function (places) {
+      vm.hideSpinner();
+      angular.forEach(places, function(place){
+        handleStorePlace(place);
+        SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.id)
+          .then(function(site){
+            if(site){
+              place.siteOnServer = true;
+              vm.places = places;
+            }else
+              vm.places = generateClassInPlaces(places);
         });
       });
-    }
+    });
+  }
+
+  function getPlacesOffline() {
+    PlacesOfflineService.getByUserId(SessionsService.getUserId()).then(function(places) {
+      vm.places = generateClassInPlaces(places);
+    });
   }
 
   function handleStorePlace(place) {

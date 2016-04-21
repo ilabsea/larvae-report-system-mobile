@@ -4,6 +4,16 @@ CollectionsService.$inject = ["$q", "$http", "ApiService"]
 
 function CollectionsService($q, $http, ApiService) {
 
+  var collectionId;
+
+  function setCollectionId(id) {
+    collectionId = id;
+  }
+
+  function getCollectionId() {
+    return collectionId;
+  }
+
   function fetch() {
     return $q(function(resolve, reject) {
       $http.get(ApiService.getCollectionsURL())
@@ -18,5 +28,7 @@ function CollectionsService($q, $http, ApiService) {
 
   return {
     fetch: fetch,
+    setCollectionId: setCollectionId,
+    getCollectionId: getCollectionId
   }
 }

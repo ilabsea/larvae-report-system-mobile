@@ -19,8 +19,11 @@ function createTables($cordovaSQLite) {
         "collection_id integer, user_id integer, place_id integer, name text, field_offline_id integer,"+
         "FOREIGN KEY(field_offline_id) REFERENCES fields (id))";
   var field = "CREATE TABLE IF NOT EXISTS fields (id integer primary key, field_id integer, " +
-        "name text, code text, config text, is_mandatory boolean, is_enable_field_logic boolean, " +
-        "remember_last_input boolean, default_value text)";
+        "name text, kind text, code text, config text, is_mandatory integer, is_enable_field_logic integer, " +
+        "remember_last_input integer, default_value text, layer_id integer, " +
+        "FOREIGN KEY(layer_id) REFERENCES layers (layer_id))";
+  var placeMembership  = "CREATE TABLE IF NOT EXISTS place_memberships (id integer primary key, user_id integer, " +
+        "admin integer, layers text, sites text)";
 
   $cordovaSQLite.execute(db, user);
   $cordovaSQLite.execute(db, collection);
@@ -28,4 +31,5 @@ function createTables($cordovaSQLite) {
   $cordovaSQLite.execute(db, site);
   $cordovaSQLite.execute(db, layer);
   $cordovaSQLite.execute(db, field);
+  $cordovaSQLite.execute(db, placeMembership);
 }

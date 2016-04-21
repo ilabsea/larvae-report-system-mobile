@@ -4,13 +4,15 @@ FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicTabsDelegate",
                 "PlacesService", "ENDPOINT", "LayersService", "FieldsService", "SiteService",
                 "SiteSQLiteService", "CameraService", "moment", "CalculationService",
                 "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate",
-                "$timeout", "$ionicHistory"]
+                "$timeout", "$ionicHistory", "LayersOfflineService", "SessionsService",
+                "FieldsOfflineService", "MembershipsOfflineService", "PlacesOfflineService"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
                 SiteSQLiteService, CameraService, moment, CalculationService,
                 ValidationService, PopupService, MembershipsService, $ionicScrollDelegate,
-                $timeout, $ionicHistory) {
+                $timeout, $ionicHistory, LayersOfflineService, SessionsService,FieldsOfflineService,
+                MembershipsOfflineService, PlacesOfflineService) {
 
   var vm = $scope, currentPhotoFieldId, isSubmit, layersMembership;
   vm.site = {properties : {}, id:'', files: {}};
@@ -56,30 +58,47 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function setLayerMembership(membership) {
-    layersMembership = membership.layers;
+    if(angular.isString(membership.layers))
+      layersMembership = angular.fromJson(membership.layers);
+    else
+      layersMembership = membership.layers
   }
 
   function setLayers(layers) {
     vm.layers = layers;
   }
 
-  function setCurrentLayerId(layer) {
-    if(layer.length > 0){
+  function setCurrentLayerId(layers, isFromServer) {
+    if(layers.length > 0){
       $timeout(function(){
         $ionicTabsDelegate.select(0);
       },1);
-      vm.currentLayerId = layer[0].id ;
+      console.log('layer : ', layers);
+      vm.currentLayerId = isFromServer? layers[0].id : layers[0].layer_id ;
+      console.log('vm.currentLayerId set : ', vm.currentLayerId);
     }
   }
 
+
   function renderForm() {
+    if(isOnline()){
+      renderFormOnline();
+    }else{
+      renderFormOffline()
+    }
+  }
+
+  function renderFormOnline() {
     vm.showSpinner('templates/loading/loading.html');
     getDistrictName();
     LayersService.fetch().then(function(builtLayers){
+      console.log('builtLayers : ', builtLayers);
+      handleStoreLayersFields(builtLayers);
       setLayers(builtLayers);
-      setCurrentLayerId(builtLayers);
+      setCurrentLayerId(builtLayers, true);
       MembershipsService.fetch().then(function(membership) {
         setLayerMembership(membership);
+        handleStoreMembership(membership);
         renderFormSiteInDbOrServer();
       }, function() {
         alert('Cannot get data from server.');
@@ -87,6 +106,61 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     }, function(error){
       vm.hideSpinner();
       PopupService.alertPopup('form.cannot_get_data_from_server', 'form.please_check_internet_connection')
+    });
+  }
+
+  function renderFormOffline() {
+    getDistrictName();
+    var userId = SessionsService.getUserId();
+    var placeId = PlacesService.getSelectedPlaceId();
+    LayersOfflineService.getByUserIdPlaceId(userId, placeId).then(function(layers) {
+      setLayers(layers);
+      setCurrentLayerId(layers, false);
+      console.log('layers : ',layers);
+      MembershipsOfflineService.getByUserId(userId).then(function(membership){
+        console.log('membership : ', membership.item(0));
+        setLayerMembership(membership.item(0));
+        // renderFormSiteInDbOrServer();
+        console.log('vm.currentLayerId    : ', vm.currentLayerId);
+        FieldsOfflineService.getByLayerId(vm.currentLayerId).then(function(res){
+          console.log('res : ', res);
+          vm.fields = res;
+        });
+      })
+    });
+  }
+
+  function handleStoreMembership(membership) {
+    MembershipsOfflineService.getByUserId(membership.user_id).then(function(res){
+      res.length>0 ? MembershipsOfflineService.update(membership):MembershipsOfflineService.insert(membership);
+    })
+  }
+
+  function handleStoreLayersFields(builtLayers) {
+    var userId = SessionsService.getUserId();
+    var placeId = PlacesService.getSelectedPlaceId();
+    angular.forEach(builtLayers, function(layer) {
+      handleStoreLayer(layer, userId, placeId);
+      handleStoreFields(layer);
+    })
+  }
+
+  function handleStoreLayer(layer, userId, placeId) {
+    LayersOfflineService.getByUserIdPlaceIdLayerId(userId, placeId, layer.id).then(function(res) {
+      if(res.length > 0){
+        if(res.item(0).name != layer.name)
+          LayersOfflineService.update(layer);
+      } else{
+        LayersOfflineService.insert(layer);
+      }
+    })
+  }
+
+  function handleStoreFields(layer) {
+    angular.forEach(layer.fields, function(field){
+      FieldsOfflineService.getByLayerIdFieldId(layer.id, field.id).then(function(res){
+        res.length > 0 ? FieldsOfflineService.update(field, layer.id) : FieldsOfflineService.insert(field, layer.id);
+      });
     });
   }
 
@@ -269,9 +343,9 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function getDistrictName() {
-    var place = PlacesService.getSelectedPlace();
-    PlacesService.fetchPlaceParent(place).then(function(place) {
-      vm.districtName = place ? place.name : "";
+    var placeId = PlacesService.getSelectedPlaceId();
+    PlacesOfflineService.getByPlaceId(placeId).then(function(place){
+      vm.districtName = place.length > 0 ? place.item(0).parent_place_name : "";
     });
   }
 
