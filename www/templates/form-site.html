@@ -8,15 +8,15 @@
   </ion-nav-buttons>
 
   <ion-tabs class="tabs-color-active-positive">
-    <ion-tab title="{{layer.name}}" ng-repeat="layer in layers track by layer.id"
-             on-select="renderFieldsForm({{layer.id}})">
+    <ion-tab title="{{layer.name}}" ng-repeat="layer in layers track by layer.layer_id"
+             on-select="renderFieldsByLayerId({{layer.layer_id}})">
     </ion-tab>
   </ion-tabs>
 
   <ion-content class="padding has-subheader" on-swipe-right="goPrevious()" on-swipe-left="goForward()">
-    <div ng-include="'templates/fields/default-fields.html'" ng-if="currentLayerId == layers[0].id"></div>
+    <div ng-include="'templates/fields/default-fields.html'" ng-if="currentLayerId == layers[0].layer_id"></div>
     <form name="formSite" ng-submit="formSite.$valid && saveSite(site, propertiesDate)">
-      <div ng-repeat="field in fields track by field.id" >
+      <div ng-repeat="field in fields track by field.field_id" >
         <div ng-include="'templates/fields/input.html'" ng-if="field.isInputType"></div>
         <div ng-include="'templates/fields/date.html'" ng-if="field.type == 'date'"></div>
         <div ng-include="'templates/fields/yesno.html'" ng-if="field.type == 'checkbox'"></div>

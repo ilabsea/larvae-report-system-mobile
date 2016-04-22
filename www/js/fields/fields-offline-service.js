@@ -1,8 +1,8 @@
 angular.module('app')
 .factory('FieldsOfflineService', FieldsOfflineService)
-FieldsOfflineService.$inject = ["$cordovaSQLite"]
+FieldsOfflineService.$inject = ["$cordovaSQLite", "FieldsService"]
 
-function FieldsOfflineService($cordovaSQLite) {
+function FieldsOfflineService($cordovaSQLite, FieldsService) {
 
   function insert(field, layerId) {
     var query = "INSERT INTO fields (field_id, name, kind, code, config, is_mandatory, " +
@@ -39,7 +39,8 @@ function FieldsOfflineService($cordovaSQLite) {
       for(; i < l ; i++){
         result.push(res.rows.item(i));
       }
-      return result;
+
+      return FieldsService.buildFields(result);
     })
   }
 

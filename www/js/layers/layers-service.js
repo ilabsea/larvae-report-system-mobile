@@ -12,8 +12,8 @@ function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
   function buildLayers(layers){
      builtLayers = [];
      angular.forEach(layers, function(layer) {
-       builtFields = FieldsService.buildFields(layer.fields);
-       builtLayers.push({id: layer.id, name: layer.name , ord: layer.ord, fields: builtFields});
+       builtFields = FieldsService.buildFields(layer.fields, true);
+       builtLayers.push({layer_id: layer.id, name: layer.name , ord: layer.ord, fields: builtFields});
      });
      return builtLayers;
    }
@@ -22,7 +22,7 @@ function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
      var fields;
      var builtLayers = getBuiltLayers();
      angular.forEach(builtLayers , function (layer) {
-       if(layer.id == layerId){
+       if(layer.layer_id == layerId){
          fields = layer.fields;
          return;
        }
@@ -32,7 +32,7 @@ function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
 
    var getLastLayerId = function () {
      var layerLength = builtLayers.length;
-     return layerLength > 0 ? builtLayers[layerLength-1].id : '';
+     return layerLength > 0 ? builtLayers[layerLength-1].layer_id : '';
    }
 
   function fetch(layersUrl) {

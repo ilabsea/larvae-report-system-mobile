@@ -33,8 +33,9 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService.fetch().then(function (places) {
       vm.hideSpinner();
       angular.forEach(places, function(place){
+        place.place_id = place.id;
         handleStorePlace(place);
-        SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.id)
+        SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.place_id)
           .then(function(site){
             if(site){
               place.siteOnServer = true;
@@ -54,7 +55,7 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
 
   function handleStorePlace(place) {
     PlacesService.fetchPlaceParent(place).then(function(parent){
-      PlacesOfflineService.getByUserIdPlaceId(SessionsService.getUserId(), place.id).then(function(res){
+      PlacesOfflineService.getByUserIdPlaceId(SessionsService.getUserId(), place.place_id).then(function(res){
         if(res.length > 0){
           if((res.item(0).name != place.name) || (res.item(0).parent_place_id != parent.id)
               || (res.item(0).parent_place_name!= parent.name))
@@ -67,7 +68,7 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
 
   function generateClassInPlaces(places){
     angular.forEach(places, function(place){
-      SiteSQLiteService.getSiteByPlaceIdInWeekYear(place.id).then(function(site){
+      SiteSQLiteService.getSiteByPlaceIdInWeekYear(place.place_id).then(function(site){
         place.hasData = site.length > 0 ;
       })
     });
@@ -93,7 +94,7 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
   }
 
   function setSelectedPlace(place) {
-    PlacesService.setSelectedPlaceId(place.id);
+    PlacesService.setSelectedPlaceId(place.place_id);
     PlacesService.setSelectedPlace(place);
   }
 

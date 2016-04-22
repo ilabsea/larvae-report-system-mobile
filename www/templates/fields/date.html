@@ -3,14 +3,14 @@
     <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
   </div>
   <div class="item-input-wrapper"
-      ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid &&
-          (formSite['{{field.id}}'].$touched ||!customValidate(field.id))}">
-    <input type="date" name='{{field.id}}' class='input-date' ng-disabled='isSiteInServer'
-      ng-required='{{field.required}}' ng-model="propertiesDate[field.id]">
+      ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid &&
+          (formSite['{{field.field_id}}'].$touched ||!customValidate(field.field_id))}">
+    <input type="date" name='{{field.field_id}}' class='input-date' ng-disabled='isSiteInServer'
+      ng-required='{{field.required}}' ng-model="propertiesDate[field.field_id]">
   </div>
-  <div class="error-message" ng-show="formSite['{{field.id}}'].$invalid &&
-        (formSite['{{field.id}}'].$touched ||!customValidate(field.id))"
-       ng-messages="formSite['{{field.id}}'].$error">
+  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid &&
+        (formSite['{{field.field_id}}'].$touched ||!customValidate(field.field_id))"
+       ng-messages="formSite['{{field.field_id}}'].$error">
      <div ng-message="required">This field is required!
      </div>
   </div>

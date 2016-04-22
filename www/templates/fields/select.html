@@ -1,13 +1,13 @@
 <div class='item-input-inset item-stacked-label'>
   <input type="hidden" ng-required="{{field.required}}"
-           name="{{field.id}}" ng-model="site.properties[field.id]">
+           name="{{field.field_id}}" ng-model="site.properties[field.field_id]">
   <fancy-select
-    invalid = "formSite[field.id].$invalid"
-    untouched="customValidate(field.id)"
+    invalid = "formSite[field.field_id].$invalid"
+    untouched="customValidate(field.field_id)"
     is-required="{{field.required}}"
     disabled-click='{{canReadOnlyLayer}}'
     header-text="Select option"
-    items="field.config.options" value="site.properties[field.id]"
+    items="field.config.options" value="site.properties[field.field_id]"
     value-property="id" text-property="label"
     multi-select="{{field.multiSelect}}" text="(no value)"
     modal-template-url="templates/fancy-select/fancy-select.html"
@@ -15,8 +15,8 @@
     note-text="{{field.name}}" value-changed="onValueChanged(value)"
     get-custom-text="getCustomText(value)">
   </fancy-select>
-  <div class="error-message" ng-show="formSite['{{field.id}}'].$invalid && !customValidate(field.id)"
-        ng-messages="formSite['{{field.id}}'].$error">
+  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate(field.field_id)"
+        ng-messages="formSite['{{field.field_id}}'].$error">
      <div ng-message='required'>This field is required!
      </div>
   </div>

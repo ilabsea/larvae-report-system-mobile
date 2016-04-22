@@ -3,18 +3,18 @@
     <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
   </div>
   <input type="hidden" ng-required="{{field.required}}"
-       name="{{field.id}}" ng-model="site.properties[field.id]">
-  <div ng-click='canReadOnlyLayer || showChoiceCameraPopup({{field.id}})'
-    style='width: 50px' ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid, 'ng-untouched': customValidate(field.id)}">
-    <img style='width: 50px' ng-if='imagesMimeData[field.id]'
-         ng-src="{{imagesMimeData[field.id]}}"
-         ng-model='site.properties[field.id]'>
-    <img style='width: 50px' ng-if='!imagesMimeData[field.id]'
+       name="{{field.field_id}}" ng-model="site.properties[field.field_id]">
+  <div ng-click='canReadOnlyLayer || showChoiceCameraPopup({{field.field_id}})'
+    style='width: 50px' ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid, 'ng-untouched': customValidate(field.field_id)}">
+    <img style='width: 50px' ng-if='imagesMimeData[field.field_id]'
+         ng-src="{{imagesMimeData[field.field_id]}}"
+         ng-model='site.properties[field.field_id]'>
+    <img style='width: 50px' ng-if='!imagesMimeData[field.field_id]'
         ng-src="{{field.defaultImageSrc}}"
-        ng-model='site.properties[field.id]'>
+        ng-model='site.properties[field.field_id]'>
   </div>
-  <div class="error-message" ng-show="formSite['{{field.id}}'].$invalid && !customValidate(field.id)"
-        ng-messages="formSite['{{field.id}}'].$error">
+  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate(field.field_id)"
+        ng-messages="formSite['{{field.field_id}}'].$error">
      <div ng-message='required'>This field is required!
      </div>
   </div>

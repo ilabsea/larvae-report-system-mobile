@@ -3,25 +3,25 @@
     <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
   </div>
   <div class="item-input-wrapper"
-      ng-class="{ 'has-errors' : formSite['{{field.id}}'].$invalid &&
-        (formSite['{{field.id}}'].$touched ||!customValidate(field.id))}">
-    <input class="item-input-wrapper" type="{{field.type}}" name='{{field.id}}'
+      ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid &&
+        (formSite['{{field.field_id}}'].$touched ||!customValidate(field.field_id))}">
+    <input class="item-input-wrapper" type="{{field.type}}" name='{{field.field_id}}'
       ng-if='field.type != "text"'
       ng-readonly='canReadOnlyLayer || field.readonly'
-      ng-required='{{field.required}}' ng-model="site.properties[field.id]"
-      ng-keyup='!dependFields[field.id] || prepareCalculationFields()'>
+      ng-required='{{field.required}}' ng-model="site.properties[field.field_id]"
+      ng-keyup='!dependFields[field.field_id] || prepareCalculationFields()'>
 
     <textarea ng-if='field.type == "text"'
       class="item-input-wrapper" style='background-color: #EEE'
       rows="1" msd-elastic
-      name='{{field.id}}'
+      name='{{field.field_id}}'
       ng-readonly='canReadOnlyLayer || field.readonly'
-      ng-required='{{field.required}}' ng-model="site.properties[field.id]"
-      ng-keyup='!dependFields[field.id] || prepareCalculationFields()'></textarea>
+      ng-required='{{field.required}}' ng-model="site.properties[field.field_id]"
+      ng-keyup='!dependFields[field.field_id] || prepareCalculationFields()'></textarea>
   </div>
   <div class="error-message"
-       ng-show="formSite['{{field.id}}'].$invalid && (formSite['{{field.id}}'].$touched ||!customValidate(field.id))"
-       ng-messages="formSite['{{field.id}}'].$error">
+       ng-show="formSite['{{field.field_id}}'].$invalid && (formSite['{{field.field_id}}'].$touched ||!customValidate(field.field_id))"
+       ng-messages="formSite['{{field.field_id}}'].$error">
      <div ng-message="required">This field is required!
      </div>
      <div ng-message="email">Field email is invalid</div>
