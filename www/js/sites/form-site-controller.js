@@ -158,13 +158,15 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         setDependentFields(vm.fields);
         setCanReadonlyLayer();
       }else{
-        if(isOnline()){
+        if(isOnline()) {
           renderFormSiteInServerOrCreate(builtFields);
-        }else{
+        } else {
+          console.log('here : ', builtFields);
           renderFormRememberLastInput(builtFields);
           setDependentFields(builtFields);
           setCanReadonlyLayer()
           vm.fields = builtFields;
+          console.log('vm.fields :', vm.fields);
         }
       }
     });
@@ -219,7 +221,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
           if(angular.isObject(field.default_value)){
             vm.site.properties[field.field_id] = field.default_value[field.field_id];
           }else{
-            vm.site.properties[field.field_id] = field.default_value;
+            vm.site.properties[field.field_id] = field.default_value ? field.default_value : "";
           }
         }
       }
