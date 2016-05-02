@@ -9,7 +9,7 @@ function LayersOfflineService($cordovaSQLite, SessionsService, CollectionsServic
   function insert(layer) {
     var query = "INSERT INTO layers (layer_id, name, place_id, user_id, collection_id)" +
           "VALUES (? ,? ,?, ?, ?)"
-    var layerData = [layer.id, layer.name, PlacesService.getSelectedPlaceId(), SessionsService.getUserId(),
+    var layerData = [layer.layer_id, layer.name, PlacesService.getSelectedPlaceId(), SessionsService.getUserId(),
       CollectionsService.getCollectionId()];
     $cordovaSQLite.execute(db, query, layerData).then(function(res) {
       console.log('res : ', res);

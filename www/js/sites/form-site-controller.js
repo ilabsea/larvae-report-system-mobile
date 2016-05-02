@@ -35,7 +35,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   vm.prepareCalculationFields = prepareCalculationFields;
   vm.dependFields = {};
   vm.customValidate = customValidate;
-  vm.layers;
+  vm.layers = [];
   vm.layerMembership = {};
   vm.canUpdateSiteOnline = false;
   vm.canReadOnlyLayer = false;
@@ -84,9 +84,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       setCurrentLayerId(layers);
       MembershipsOfflineService.getByUserId(userId).then(function(membership){
         MembershipsHelper.setLayersMembership(membership.item(0));
-        FieldsOfflineService.getByLayerId(vm.currentLayerId).then(function(res){
-          renderFormSiteInDbOrServer(res);
-        });
       })
     });
   }
@@ -161,12 +158,10 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         if(isOnline()) {
           renderFormSiteInServerOrCreate(builtFields);
         } else {
-          console.log('here : ', builtFields);
           renderFormRememberLastInput(builtFields);
           setDependentFields(builtFields);
-          setCanReadonlyLayer()
+          setCanReadonlyLayer();
           vm.fields = builtFields;
-          console.log('vm.fields :', vm.fields);
         }
       }
     });
@@ -233,15 +228,22 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     $ionicScrollDelegate.scrollTop(true);
     vm.currentLayerId = layerId;
     $timeout(function() {
-      vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
-      setCanReadonlyLayer();
-      renderFormRememberLastInput(vm.fields);
-      setDependentFields(vm.fields);
+      if(isOnline()){
+        vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
+        setCanReadonlyLayer();
+        renderFormRememberLastInput(vm.fields);
+        setDependentFields(vm.fields);
+      }else{
+        FieldsOfflineService.getByLayerId(layerId).then(function(res){
+          renderFormSiteInDbOrServer(res);
+        });
+      }
     }, 20);
   }
 
   function isLastTab() {
-    return vm.currentLayerId == LayersService.getLastLayerId()
+    if(vm.layers.length > 0)
+      return vm.currentLayerId == vm.layers[vm.layers.length - 1].layer_id;
   }
 
   function prepareCalculationFields() {

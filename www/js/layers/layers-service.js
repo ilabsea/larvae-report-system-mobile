@@ -4,6 +4,7 @@ LayersService.$inject = ["$q", "$http", "ApiService", "FieldsService", "PlacesSe
 
 function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
   var builtLayers = [];
+  var builtLayersOffline = [];
 
   function getBuiltLayers() {
     return builtLayers;
@@ -15,6 +16,7 @@ function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
        builtFields = FieldsService.buildFields(layer.fields, true);
        builtLayers.push({layer_id: layer.id, name: layer.name , ord: layer.ord, fields: builtFields});
      });
+     console.log('builtLayers : ', builtLayers);
      return builtLayers;
    }
 
@@ -28,11 +30,6 @@ function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
        }
      });
      return fields;
-   }
-
-   var getLastLayerId = function () {
-     var layerLength = builtLayers.length;
-     return layerLength > 0 ? builtLayers[layerLength-1].layer_id : '';
    }
 
   function fetch(layersUrl) {
@@ -50,8 +47,8 @@ function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
 
   return {
     fetch: fetch,
-    getLastLayerId: getLastLayerId,
     getBuiltLayers: getBuiltLayers,
-    getBuiltFieldsByLayerId: getBuiltFieldsByLayerId
+    getBuiltFieldsByLayerId: getBuiltFieldsByLayerId,
+    buildLayers: buildLayers
   };
 }
