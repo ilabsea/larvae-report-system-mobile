@@ -14,7 +14,7 @@ function ValidationService($q, LayersService){
           l = layer.fields.length
       for(; i < l ; i++){
         var field = layer.fields[i];
-        if(field.required && !siteData.properties[field.id]){
+        if(field.required && siteData.properties[field.id] != ""){
           invalidLayer.name = layer.name;
           invalidLayer.fields.push(field.name);
         }

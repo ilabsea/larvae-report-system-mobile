@@ -16,7 +16,6 @@ function LayersService($q, $http, ApiService, FieldsService, PlacesService) {
        builtFields = FieldsService.buildFields(layer.fields, true);
        builtLayers.push({layer_id: layer.id, name: layer.name , ord: layer.ord, fields: builtFields});
      });
-     console.log('builtLayers : ', builtLayers);
      return builtLayers;
    }
 
