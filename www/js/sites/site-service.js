@@ -20,7 +20,7 @@ function SiteService($q, $http, ApiService, SessionsService) {
           resolve(response);
         })
         .error(function(error){
-          reject('error ' + error);
+          reject(error);
         });
     });
   }
