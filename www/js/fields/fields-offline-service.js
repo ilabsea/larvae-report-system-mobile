@@ -10,9 +10,7 @@ function FieldsOfflineService($cordovaSQLite, FieldsService) {
           "VALUES (? ,? ,?, ?, ?, ?, ?, ?, ?, ?)";
     var fieldData = [field.id, field.name, field.kind, field.code, angular.toJson(field.config), field.is_mandatory? 1 : 0,
       field.is_enable_field_logic? 1:0, field.remember_last_input? 1:0, field.default_value, layerId];
-    $cordovaSQLite.execute(db, query, fieldData).then(function(res) {
-      console.log('res insert fields : ', res);
-    });
+    $cordovaSQLite.execute(db, query, fieldData);
   }
 
   function getByLayerIdFieldId(layerId, fieldId) {

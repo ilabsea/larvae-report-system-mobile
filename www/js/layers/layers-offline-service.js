@@ -11,9 +11,7 @@ function LayersOfflineService($cordovaSQLite, SessionsService, CollectionsServic
           "VALUES (? ,? ,?, ?, ?)"
     var layerData = [layer.layer_id, layer.name, PlacesService.getSelectedPlaceId(), SessionsService.getUserId(),
       CollectionsService.getCollectionId()];
-    $cordovaSQLite.execute(db, query, layerData).then(function(res) {
-      console.log('res : ', res);
-    });
+    $cordovaSQLite.execute(db, query, layerData);
   }
 
   function getByUserIdPlaceIdLayerId(userId, placeId, layerId) {

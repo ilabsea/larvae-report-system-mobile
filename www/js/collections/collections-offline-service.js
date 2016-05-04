@@ -8,7 +8,6 @@ function CollectionsOfflineService($cordovaSQLite, SessionsService){
   function insert(collection) {
     var query = "INSERT INTO collections (collection_id, user_id , name) VALUES (?, ?, ?)";
     var userId = SessionsService.getUserId();
-    console.log('userId : ', userId);
     var collectionData = [collection.id, userId ,collection.name];
     $cordovaSQLite.execute(db, query, collectionData);
   }
