@@ -2,10 +2,12 @@ angular.module('app')
 .controller('SessionsCtrl', SessionsCtrl)
 
 SessionsCtrl.$inject = ["$scope", "$state", "SessionsService", "ApiService",
-      "PopupService", "$ionicPopup", "IonicClosePopupService", "SessionsOfflineService"]
+      "PopupService", "$ionicPopup", "IonicClosePopupService", "SessionsOfflineService",
+      "$ionicHistory"]
 
 function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
-              $ionicPopup, IonicClosePopupService, SessionsOfflineService) {
+              $ionicPopup, IonicClosePopupService, SessionsOfflineService,
+              $ionicHistory) {
 
   var vm = $scope;
   vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
@@ -27,7 +29,9 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
       SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
         SessionsOfflineService.insertOrUpdateUser(userRes);
       });
-      $state.go("weeks-calendar");
+      $ionicHistory.clearCache().then(function(res){
+        return $state.go("weeks-calendar");
+      });
     }, function() {
       vm.hideSpinner();
       PopupService.alertPopup("login_validation.sign_in_failed", "login_validation.invalid_email_or_password");
@@ -38,7 +42,9 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
     SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
       if(userRes.length > 0){
         if(userRes.item(0).password === user.password){
-          $state.go("weeks-calendar");
+          $ionicHistory.clearCache().then(function(res){
+            return $state.go("weeks-calendar");
+          });
         }else {
           PopupService.alertPopup("login_validation.sign_in_failed", "login_validation.invalid_email_or_password");
         }
