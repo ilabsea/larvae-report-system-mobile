@@ -6,13 +6,15 @@
       ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid &&
         (formSite['{{field.field_id}}'].$touched ||!customValidate(field.field_id))}">
     <input class="item-input-wrapper" type="tel" name='{{field.field_id}}'
+      string-to-number
       ng-if='field.type == "number" && field.config.allows_decimals == "true"'
       ng-readonly='canReadOnlyLayer || field.readonly'
       ng-required='{{field.required}}' ng-model="site.properties[field.field_id]"
       ng-change='!dependFields[field.field_id] || prepareCalculationFields()'>
 
     <input class="item-input-wrapper" type="{{field.type}}" name='{{field.field_id}}'
-      ng-if='field.type != "text" || field.kind == "calculation"'
+      ng-if='(field.type != "text" && (field.type == "number" && field.config.allows_decimals == "false"))
+            || field.kind == "calculation"'
       ng-readonly='canReadOnlyLayer || field.readonly'
       ng-required='{{field.required}}' ng-model="site.properties[field.field_id]"
       ng-change='!dependFields[field.field_id] || prepareCalculationFields()'>
