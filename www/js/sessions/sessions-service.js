@@ -6,6 +6,7 @@ SessionsService.$inject = ["$q", "$http", "ENDPOINT", "API", "$state"]
 function SessionsService($q, $http, ENDPOINT, API, $state){
   var LOCAL_TOKEN_KEY = 'authToken';
   var USER_ID_KEY = 'userId';
+  var USER_EMAIL_KEY = 'userEmail'
   var authToken;
 
   function getUserId() {
@@ -15,6 +16,14 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
 
   function setUserId(id) {
     window.localStorage.setItem(USER_ID_KEY, id);
+  }
+
+  function setUserEmail(email) {
+    window.localStorage.setItem(USER_EMAIL_KEY, email);
+  }
+
+  function getUserEmail() {
+    return window.localStorage.getItem(USER_EMAIL_KEY);
   }
 
   function getAuthToken() {
@@ -34,6 +43,10 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
     window.localStorage.removeItem(USER_ID_KEY);
   }
 
+  function removeUserEmail() {
+    window.localStorage.removeItem(USER_EMAIL_KEY);
+  }
+
   var login = function(user) {
     return $q(function(resolve, reject) {
       email = user.email;
@@ -42,6 +55,7 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
         .success(function(response) {
           setAuthToken(response.auth_token);
           setUserId(response.user_id);
+          setUserEmail(email);
           resolve(response);
         })
         .error(function(error){
@@ -64,6 +78,10 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
     login: login,
     logout: logout,
     getUserId: getUserId,
-    getAuthToken: getAuthToken
+    getAuthToken: getAuthToken,
+    getUserEmail: getUserEmail,
+    removeUserEmail: removeUserEmail,
+    removeAuthToken: removeAuthToken,
+    removeUserId: removeUserId
   };
 }

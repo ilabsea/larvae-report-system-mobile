@@ -24,21 +24,26 @@
   "week" : {
     "weekly_calendar" : "ປະຕິທິນປະຈໍາອາທິດ",
     "select_year" : "ເລືອກປີ",
-    "please_select_week_to_report": "ອາທິດ"
+    "please_select_week_to_report": "ອາທິດ",
+    "account": "ບັນຊີ",
+    "weeks_missing_submitting_report_to_server": "ອາທິດຫາຍສົ່ງຂໍ້ມູນກັບເຄື່ອງແມ່ຂ່າຍ",
+    "weeks_have_report_in_device":"ອາທິດທີ່ມີຂໍ້ມູນໃນອຸປະກອນ",
+    "current_week": "ອາທິດໃນປັດຈຸບັນ"
   },
   "collection":{
     "error_retriving_data": "Error retriving data",
     "no_data_found_in_database": "No data found in database."
   },
   "place":{
-    "report_week": "Report week",
-    "of": "of",
+    "report_week": "ບົດລາຍງານອາທິດ",
+    "of": "ຂອງ",
     "please_select_place_to_report": "ກະລຸນາເລືອກສະຖານທີ່ລາຍງານ",
     "send_report_to_malaria_station": "ສົ່ງບົດລາຍງານທີ່ຈະສະຖານີພະຍາດໄຂ້ຍຸງ"
   },
   "form":{
     "save":"ຊ່ວຍປະຢັດ",
     "update": "ການປັບປຸງ",
+    "next": "ຕໍ່ໄປ",
     "new_weekly_report": "ບົດລາຍງານປະຈໍາອາທິດໃຫມ່",
     "cannot_get_data_from_server": "ບໍ່ສາມາດໄດ້ຮັບຂໍ້ມູນຈາກເຄື່ອງແມ່ຂ່າຍ.",
     "please_check_internet_connection": "ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ."

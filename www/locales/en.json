@@ -6,7 +6,7 @@
     "sign_out": "Sign out",
     "are_you_sure_you_want_to_sign_out": "Are you sure you want to sign out?",
     "sign_out_failed": "Sign out failed!",
-    "please_check_internet_connection": "Please check your internet connection."
+    "please_check_internet_connection": "Please check internet connection."
   },
   "login": {
     "larvae_weekly_report": "Larvae weekly report",
@@ -24,7 +24,11 @@
   "week" : {
     "weekly_calendar" : "Weekly calendar",
     "select_year" : "Select year",
-    "please_select_week_to_report": "Please select week to report"
+    "please_select_week_to_report": "Please select week to report",
+    "account": "Account",
+    "weeks_missing_submitting_report_to_server": "Weeks missing submitting report to server",
+    "weeks_have_report_in_device":"Weeks have report in device",
+    "current_week": "Current week"
   },
   "collection":{
     "error_retriving_data": "Error retriving data",
@@ -39,6 +43,7 @@
   "form":{
     "save":"Save",
     "update": "Update",
+    "next": "Next",
     "new_weekly_report": "New weekly report",
     "cannot_get_data_from_server": "Cannot get data from server.",
     "please_check_internet_connection": "Please check your internet connection."

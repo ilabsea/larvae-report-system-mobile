@@ -10,9 +10,9 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
               $ionicHistory) {
 
   var vm = $scope;
-  vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
+  // vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
   // vm.user = {'email': 'sokha@yahoo.com', 'password':'Ks0kmesa!'};
-  // vm.user = {'email': '', 'password':''};
+  vm.user = {'email': '', 'password':''};
   vm.login = login;
   vm.logout = logout;
   vm.popupAccount = popupAccount;
@@ -57,6 +57,9 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
   function logout() {
     SessionsService.logout().then(function() {
       popupAccount.close();
+      SessionsService.removeUserEmail();
+      SessionsService.removeAuthToken();
+      SessionsService.removeUserId();
       $state.go("login");
     }, function(err) {
       PopupService.alertPopup("global.sign_out_failed", "global.please_check_internet_connection");
@@ -70,7 +73,7 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
       templateUrl: 'templates/account.html',
       scope: vm,
       title: '<div class="tranparent-button icon-text-below"><i class="icon ion-custom-user-black"></i>'
-              + vm.user.email + '</div>'
+              + SessionsService.getUserEmail() + '</div>'
     });
 
     IonicClosePopupService.register(popupAccount);
