@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'phetsarath_otecorner';
+  src: url('font/phetsarath_ot.svg#phetsarath_otregular') format('svg');
+  src: url('font/phetsarath_ot.svg#phetsarath_otregular') format('svg'),
+       url('font/phetsarath_ot.woff') format('woff'),
+       url('font/phetsarath_ot.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body, .ionic-body {
+  font-family: 'phetsarath_otecorner', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'phetsarath_otecorner', sans-serif !important;
+}
+
+.tab-item {
+  font-family: 'phetsarath_otecorner', sans-serif !important;
+}
+
+input, button, select, textarea {
+  font-family: 'phetsarath_otecorner', sans-serif !important;
+}
+
+.roboto {
+  font-family: 'phetsarath_otecorner', sans-serif !important;
+}
+.roboto input {
+  font-family: 'phetsarath_otecorner', sans-serif !important;
+}
