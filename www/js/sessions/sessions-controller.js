@@ -30,6 +30,7 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
         SessionsOfflineService.insertOrUpdateUser(userRes);
       });
       $ionicHistory.clearCache().then(function(res){
+        vm.user.password = '';
         return $state.go("weeks-calendar");
       });
     }, function() {
@@ -43,6 +44,7 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
       if(userRes.length > 0){
         if(userRes.item(0).password === user.password){
           $ionicHistory.clearCache().then(function(res){
+            vm.user.password = '';
             return $state.go("weeks-calendar");
           });
         }else {
