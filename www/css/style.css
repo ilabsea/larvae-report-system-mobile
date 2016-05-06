@@ -13,8 +13,16 @@
   color: #fff;
 }
 
-.login-container{
-  padding-top: 15%;
+.login-container {
+  display: table !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.login-container .scroll {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .default-button, .default-button:hover, .default-button:active, .default-button:visited{
