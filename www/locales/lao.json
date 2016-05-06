@@ -1,51 +1,51 @@
 {
   "global":{
-    "ok": "ຕົກ​ລົງ",
-    "yes": "Yes",
-    "no": "No",
-    "sign_out": "ອອກ​ຈາກ​ລະ​ບົບ",
-    "are_you_sure_you_want_to_sign_out": "ທ່ານແນ່ໃຈວ່າທ່ານຕ້ອງການທີ່ຈະອອກຈາກລະບົບ?",
-    "sign_out_failed": "ອອກຈາກລະບົບສົບຜົນສໍາເລັດ!",
-    "please_check_internet_connection": "ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດ."
+    "ok": "ຕົກລົງ",
+    "yes": "ແມ່ນ",
+    "no": "ປະຕິເສດ",
+    "sign_out": "ລົງຊື່ອອກ",
+    "are_you_sure_you_want_to_sign_out": "ທ່ານແນ່ໃຈບໍ່ວ່າທ່ານຈະລົງຊື່ອອກ?",
+    "sign_out_failed": "ການລົງຊື່ອອກບໍ່ສຳເລັດ!",
+    "please_check_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ."
   },
   "login": {
-    "larvae_weekly_report": "ຕົວອ່ອນບົດລາຍງານປະຈໍາອາທິດ",
+    "larvae_weekly_report": "ການລາຍງານ Larvae ປະຈຳອາທິດ",
     "email": "ອີເມວ",
     "password": "ລະຫັດຜ່ານ",
-    "sign_in" : "ເຂົ້າ​ສູ່​ລະ​ບົບ",
-    "no_email_found_in_database": "No Email found in database"
+    "sign_in" : "ລົງຊື່ເຂົ້າໃຊ້ງານ",
+    "no_email_found_in_database": "ບໍ່ພົບອີເມວນີ້ໃນລະບົບ"
   },
   "login_validation" : {
-    "invalid_email_or_password" : "ອີເມວທີ່ບໍ່ຖືກຕ້ອງຫລືລະຫັດຜ່ານ.",
-    "sign_in_failed": "ເຂົ້າສູ່ລະບົບສົບຜົນສໍາເລັດ!",
-    "sign_out_failed": "ອອກຈາກລະບົບສົບຜົນສໍາເລັດ",
-    "please_check_your_internet_connection" :"ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ."
+    "invalid_email_or_password" : "ອີເມວ ຫຼື ລະຫັດຜ່ານ ນຳໃຊ້ບໍ່ໄດ້.",
+    "sign_in_failed": "ການລົງຊື່ເຂົ້າໃຊ້ງານບໍ່ສຳເລັດ!",
+    "sign_out_failed": "ການລົງຊື່ອອກບໍ່ສຳເລັດ",
+    "please_check_your_internet_connection" :"ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ."
   },
   "week" : {
-    "weekly_calendar" : "ປະຕິທິນປະຈໍາອາທິດ",
+    "weekly_calendar" : "ປະຕິທິນລາຍອາທິດ",
     "select_year" : "ເລືອກປີ",
-    "please_select_week_to_report": "ກະລຸນາເລືອກອາທິດທີ່ຈະລາຍງານ",
+    "please_select_week_to_report": "ກະລຸນາເລືອກອາທິດທີ່ຕ້ອງການໃຫ້ລາຍງານ",
     "account": "ບັນຊີ",
-    "weeks_missing_submitting_report_to_server": "ອາທິດຫາຍສົ່ງຂໍ້ມູນກັບເຄື່ອງແມ່ຂ່າຍ",
-    "weeks_have_report_in_device":"ອາທິດທີ່ມີຂໍ້ມູນໃນອຸປະກອນ",
-    "current_week": "ອາທິດໃນປັດຈຸບັນ"
+    "weeks_missing_submitting_report_to_server": "ການລາຍງານປະຈຳອາທິດສູ່ລະບົບລົ້ມເຫຼວ",
+    "weeks_have_report_in_device":"ການລາຍງານປະຈຳອາທິດໃນລະບົບສຳເລັດ",
+    "current_week": "ອາທິດປະຈຸບັນ"
   },
   "collection":{
-    "error_retriving_data": "Error retriving data",
-    "no_data_found_in_database": "No data found in database."
+    "error_retriving_data": "ການກູ້ຂໍ້ມູນຄືນຜິດພາດ",
+    "no_data_found_in_database": "ບໍ່ພົບຂໍ້ມູນໃນຖານຂໍ້ມູນ."
   },
   "place":{
-    "report_week": "ບົດລາຍງານອາທິດ",
+    "report_week": "ລາຍງານປະຈຳອາທິດ",
     "of": "ຂອງ",
-    "please_select_place_to_report": "ກະລຸນາເລືອກສະຖານທີ່ລາຍງານ",
-    "send_report_to_malaria_station": "ສົ່ງບົດລາຍງານທີ່ຈະສະຖານີພະຍາດໄຂ້ຍຸງ"
+    "please_select_place_to_report": "ກະລຸນາເລືອກສະຖານທີ່ທີ່ຕ້ອງການໃຫ້ລາຍງານ",
+    "send_report_to_malaria_station": "ສົ່ງຜົນການລາຍງານໃຫ້ສູນ malaria"
   },
   "form":{
-    "save":"ຊ່ວຍປະຢັດ",
-    "update": "ການປັບປຸງ",
+    "save":"ຈັດເກັບ",
+    "update": "ອັບເດດ",
     "next": "ຕໍ່ໄປ",
-    "new_weekly_report": "ບົດລາຍງານປະຈໍາອາທິດໃຫມ່",
-    "cannot_get_data_from_server": "ບໍ່ສາມາດໄດ້ຮັບຂໍ້ມູນຈາກເຄື່ອງແມ່ຂ່າຍ.",
-    "please_check_internet_connection": "ກະລຸນາກວດສອບການເຊື່ອມຕໍ່ອິນເຕີເນັດຂອງທ່ານ."
+    "new_weekly_report": "ລາຍງານປະຈຳອາທິດສະບັບໃໝ່",
+    "cannot_get_data_from_server": "ບໍ່ສາມາດນຳໃຊ້ຂໍ້ມູນຈາກລະບົບ.",
+    "please_check_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ."
   }
 }
