@@ -16,7 +16,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
                 MembershipsOfflineService, PlacesOfflineService, SwitchTabHelper,
                 MembershipsHelper) {
 
-  var vm = $scope, currentPhotoFieldId, isSubmit;
+  var vm = $scope, currentPhotoFieldId, isSubmit = false;
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
   vm.fields = [];
@@ -299,9 +299,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     }
   }
 
-  function customValidate(fieldId) {
-    value = vm.site.properties[fieldId];
-    return angular.isUndefined(value) && !isSubmit;
+  function customValidate() {
+    return isSubmit == false;
   }
 
   var CameraOptionsPopup;

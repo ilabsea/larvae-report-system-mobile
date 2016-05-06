@@ -5,7 +5,7 @@
   <input type="hidden" ng-required="{{field.required}}"
        name="{{field.field_id}}" ng-model="site.properties[field.field_id]">
   <div ng-click='canReadOnlyLayer || showChoiceCameraPopup({{field.field_id}})'
-    style='width: 50px' ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid, 'ng-untouched': customValidate(field.field_id)}">
+    style='width: 50px' ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid, 'ng-untouched': customValidate()}">
     <img style='width: 50px' ng-if='imagesMimeData[field.field_id]'
          ng-src="{{imagesMimeData[field.field_id]}}"
          ng-model='site.properties[field.field_id]'>
@@ -13,7 +13,7 @@
         ng-src="{{field.defaultImageSrc}}"
         ng-model='site.properties[field.field_id]'>
   </div>
-  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate(field.field_id)"
+  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate()"
         ng-messages="formSite['{{field.field_id}}'].$error">
      <div ng-message='required'>This field is required!
      </div>

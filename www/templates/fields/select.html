@@ -3,7 +3,7 @@
            name="{{field.field_id}}" ng-model="site.properties[field.field_id]">
   <fancy-select
     invalid = "formSite[field.field_id].$invalid"
-    untouched="customValidate(field.field_id)"
+    untouched="customValidate()"
     is-required="{{field.required}}"
     disabled-click='{{canReadOnlyLayer}}'
     header-text="Select option"
@@ -15,7 +15,7 @@
     note-text="{{field.name}}" value-changed="onValueChanged(value)"
     get-custom-text="getCustomText(value)">
   </fancy-select>
-  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate(field.field_id)"
+  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate()"
         ng-messages="formSite['{{field.field_id}}'].$error">
      <div ng-message='required'>This field is required!
      </div>

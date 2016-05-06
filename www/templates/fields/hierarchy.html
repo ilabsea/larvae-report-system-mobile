@@ -3,7 +3,7 @@
     <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
   </div>
   <div class="item"
-       ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid, 'ng-untouched': customValidate(field.field_id)}">
+       ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid, 'ng-untouched': customValidate()}">
     <input type="hidden" ng-required="{{field.required}}"
           name="{{field.field_id}}" ng-model="site.properties[field.field_id]">
     <ion-tree-list items="field.config.hierarchy"
@@ -13,7 +13,7 @@
                    collapsed="site.properties[field.field_id] ? false : true">
     </ion-tree-list>
   </div>
-  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate(field.field_id)"
+  <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate()"
         ng-messages="formSite['{{field.field_id}}'].$error">
      <div ng-message='required'>This field is required!
      </div>
