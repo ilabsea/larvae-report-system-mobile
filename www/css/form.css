@@ -16,3 +16,8 @@
 .input-date{
   width: 100%;
 }
+
+textarea[readonly]:not(.cloned-text-input) {
+    background-color: #f8f8f8 !important;
+    cursor: not-allowed;
+}
