@@ -24,7 +24,7 @@
   "week" : {
     "weekly_calendar" : "ປະຕິທິນປະຈໍາອາທິດ",
     "select_year" : "ເລືອກປີ",
-    "please_select_week_to_report": "ອາທິດ",
+    "please_select_week_to_report": "ກະລຸນາເລືອກອາທິດທີ່ຈະລາຍງານ",
     "account": "ບັນຊີ",
     "weeks_missing_submitting_report_to_server": "ອາທິດຫາຍສົ່ງຂໍ້ມູນກັບເຄື່ອງແມ່ຂ່າຍ",
     "weeks_have_report_in_device":"ອາທິດທີ່ມີຂໍ້ມູນໃນອຸປະກອນ",

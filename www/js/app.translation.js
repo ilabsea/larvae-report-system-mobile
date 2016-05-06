@@ -9,6 +9,6 @@ function translation($translateProvider){
     prefix: 'locales/',
     suffix: '.json'
   })
-  $translateProvider.preferredLanguage("lao");
+  $translateProvider.preferredLanguage("en");
   $translateProvider.fallbackLanguage("lao");
 }

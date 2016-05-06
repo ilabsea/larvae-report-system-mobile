@@ -275,10 +275,12 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     if(vm.canUpdateSiteOnline){
       SiteService.updateSite(site);
     }else{
-      if(vm.isUpdateSite)
+      if(vm.isUpdateSite){
         SiteSQLiteService.updateSite(site, vm.site.id);
-      else
+      }
+      else{
         SiteSQLiteService.insertSite(site);
+      }
     }
   }
 
