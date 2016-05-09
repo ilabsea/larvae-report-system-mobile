@@ -3,11 +3,11 @@ angular.module('app')
 
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
       "$state", "$ionicHistory", "PlacesService", "SiteService", "SiteSQLiteService",
-      "ApiService", "SessionsService", "PlacesOfflineService"]
+      "ApiService", "SessionsService", "PlacesOfflineService", "PopupService"]
 
 function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService, SiteService, SiteSQLiteService, ApiService, SessionsService,
-    PlacesOfflineService) {
+    PlacesOfflineService, PopupService) {
 
   var vm = $scope;
   vm.getPlaces = getPlaces;
@@ -76,21 +76,25 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
   }
 
   function uploadSites(){
-    var confirmPopup = $ionicPopup.confirm({
-      title: 'Upload Sites to malaria station',
-      template: 'Are you sure to send all reports to malaria station with total of '
-                  + vm.numberOfSites + ' villages?',
-      cssClass: 'custom-class',
-      cancelText: 'No',
-      okText: 'Yes',
-      okType: 'default-button'
-    });
-    confirmPopup.then(function (res) {
-      if(res){
-        vm.showSpinner('templates/loading/loading.html');
-        SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
-      }
-    });
+    if(isOnline()){
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Upload Sites to malaria station',
+        template: 'Are you sure to send all reports to malaria station with total of '
+                    + vm.numberOfSites + ' villages?',
+        cssClass: 'custom-class',
+        cancelText: 'No',
+        okText: 'Yes',
+        okType: 'default-button'
+      });
+      confirmPopup.then(function (res) {
+        if(res){
+          vm.showSpinner('templates/loading/loading.html');
+          SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
+        }
+      });
+    }else{
+      PopupService.alertPopup("place.error", "place.please_check_your_internet_connection");
+    }
   }
 
   function setSelectedPlace(place) {

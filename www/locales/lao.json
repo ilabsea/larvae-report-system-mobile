@@ -38,7 +38,9 @@
     "report_week": "ລາຍງານປະຈຳອາທິດ",
     "of": "ຂອງ",
     "please_select_place_to_report": "ກະລຸນາເລືອກສະຖານທີ່ທີ່ຕ້ອງການໃຫ້ລາຍງານ",
-    "send_report_to_malaria_station": "ສົ່ງຜົນການລາຍງານໃຫ້ສູນ malaria"
+    "send_report_to_malaria_station": "ສົ່ງຜົນການລາຍງານໃຫ້ສູນ malaria",
+    "error" : "ຄວາມຜິດພາດ",
+    "please_check_your_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ."
   },
   "form":{
     "save":"ຈັດເກັບ",

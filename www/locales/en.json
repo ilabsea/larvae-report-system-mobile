@@ -38,7 +38,9 @@
     "report_week": "Report week",
     "of": "of",
     "please_select_place_to_report": "Please select place to report",
-    "send_report_to_malaria_station": "Send report to malaria station"
+    "send_report_to_malaria_station": "Send report to malaria station",
+    "error" : "Error",
+    "please_check_your_internet_connection": "Please check your internet connection."
   },
   "form":{
     "save":"Save",
