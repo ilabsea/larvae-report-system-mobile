@@ -7,6 +7,10 @@ angular.module('app')
       ngModel.$parsers.push(function(value) {
         return parseFloat(value, 10);
       });
+
+      ngModel.$formatters.push(function(value) {
+        return parseFloat(value, 10);
+      });
     }
   };
 });

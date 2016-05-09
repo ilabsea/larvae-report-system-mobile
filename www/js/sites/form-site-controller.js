@@ -80,6 +80,11 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     var userId = SessionsService.getUserId();
     var placeId = PlacesService.getSelectedPlaceId();
     LayersOfflineService.getByUserIdPlaceId(userId, placeId).then(function(layers) {
+      angular.forEach(layers, function(layer){
+        FieldsOfflineService.getByLayerId(layer.layer_id).then(function(fields) {
+          layer.fields = fields;
+        });
+      });
       setLayers(layers);
       setCurrentLayerId(layers);
       MembershipsOfflineService.getByUserId(userId).then(function(membership){

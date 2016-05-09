@@ -13,6 +13,7 @@
       ng-change='!dependFields[field.field_id] || prepareCalculationFields()'>
 
     <input class="item-input-wrapper" type="{{field.type}}" name='{{field.field_id}}'
+      string-to-number
       ng-if='(field.type != "text" && (field.type == "number" && field.config.allows_decimals == "false"))
             || field.kind == "calculation"'
       ng-readonly='canReadOnlyLayer || field.readonly'
