@@ -346,7 +346,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
 
   function goBackAndSaveIfData() {
     $ionicHistory.goBack();
-    if(vm.site.properties && !vm.canUpdateSiteOnline)
+    if(vm.site.properties && !vm.canUpdateSiteOnline && !vm.isSiteInServer)
       addOrUpdateSite(vm.site, vm.propertiesDate);
   }
 }

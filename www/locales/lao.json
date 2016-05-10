@@ -28,7 +28,8 @@
     "account": "ບັນຊີ",
     "weeks_missing_submitting_report_to_server": "ການລາຍງານປະຈຳອາທິດສູ່ລະບົບລົ້ມເຫຼວ",
     "weeks_have_report_in_device":"ການລາຍງານປະຈຳອາທິດໃນລະບົບສຳເລັດ",
-    "current_week": "ອາທິດປະຈຸບັນ"
+    "current_week": "ອາທິດປະຈຸບັນ",
+    "note": "ບັນທຶກ"
   },
   "collection":{
     "error_retriving_data": "ການກູ້ຂໍ້ມູນຄືນຜິດພາດ",
