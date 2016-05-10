@@ -51,7 +51,7 @@ function WeeksService($filter) {
       setDisabledPreviousButton(true);
     else
       setDisabledPreviousButton(false);
-    i = index;
+    i = index ;
     weeks = [];
     while(i < index + 9){
       row = [];
@@ -75,7 +75,7 @@ function WeeksService($filter) {
   function findIndexInCurrentWeek() {
     var currentWeek = $filter('date')(new Date(), 'ww');
     var index = Math.ceil(currentWeek/9);
-    return index === 1 ? index : index + 8;
+    return index === 1 ? index : (index * 9) - 8;
   }
 
   function setSelectedWeek(weekNumber) {

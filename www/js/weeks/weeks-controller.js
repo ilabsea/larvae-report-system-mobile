@@ -15,7 +15,7 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   vm.selectedYear = todayYear;
   vm.isDisabledPreviousButton = index === 1 ? true : false;
   vm.isDisabledNextButton;
-  vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);;
+  vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
   vm.next = goNext;
   vm.previous = goPrevious;
   vm.getWeekNumber = setWeekNumber;
