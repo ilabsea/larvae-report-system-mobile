@@ -66,22 +66,30 @@ function SessionsService($q, $http, ENDPOINT, API, $state){
 
   function logout() {
     isLogout = $http.post(ENDPOINT.api + API.sign_out + getAuthToken()).success(function(response) {
-      removeAuthToken();
-      removeUserId();
+      clearSession()
     }, function(error){
       reject('Sign out failed.');
     });
     return isLogout;
   };
 
+  function clearSession() {
+    removeAuthToken();
+    removeUserId();
+    removeUserEmail();
+  }
+
   return {
     login: login,
     logout: logout,
     getUserId: getUserId,
+    setUserId: setUserId,
     getAuthToken: getAuthToken,
     getUserEmail: getUserEmail,
     removeUserEmail: removeUserEmail,
     removeAuthToken: removeAuthToken,
-    removeUserId: removeUserId
+    removeUserId: removeUserId,
+    clearSession: clearSession,
+    setUserEmail: setUserEmail
   };
 }

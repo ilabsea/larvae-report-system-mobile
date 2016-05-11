@@ -3,11 +3,11 @@ angular.module('app')
 
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
       "$state", "$ionicHistory", "PlacesService", "SiteService", "SiteSQLiteService",
-      "ApiService", "SessionsService", "PlacesOfflineService", "PopupService"]
+      "ApiService", "SessionsService", "PlacesOfflineService", "PopupService", "$timeout"]
 
 function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService, SiteService, SiteSQLiteService, ApiService, SessionsService,
-    PlacesOfflineService, PopupService) {
+    PlacesOfflineService, PopupService, $timeout) {
 
   var vm = $scope;
   vm.getPlaces = getPlaces;
@@ -44,6 +44,11 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
               vm.places = generateClassInPlaces(places);
         });
       });
+    }, function(err) {
+      if(!SessionsService.getAuthToken()){
+        vm.isErrorAuthToken = true;
+        $state.go('login');
+      }
     });
   }
 

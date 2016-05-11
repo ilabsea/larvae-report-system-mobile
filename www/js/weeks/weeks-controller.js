@@ -3,11 +3,11 @@ angular.module('app')
 
 WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService",
           "$ionicPlatform", "$location", "$ionicHistory", "$ionicPlatform", "ApiService",
-          "CollectionsService", "CollectionsOfflineService", "SessionsService"]
+          "CollectionsService", "CollectionsOfflineService", "SessionsService", "SessionsOfflineService"]
 
 function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $ionicPlatform,
           $location, $ionicHistory, $ionicPlatform, ApiService, CollectionsService,
-          CollectionsOfflineService, SessionsService){
+          CollectionsOfflineService, SessionsService, SessionsOfflineService){
 
   var vm = $scope, index = WeeksService.findIndexInCurrentWeek();
   var todayWeek = $filter('date')(new Date(), 'w');
@@ -45,6 +45,7 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
     vm.isDisabledPreviousButton = WeeksService.isDisabledPreviousButton();
     vm.isDisabledNextButton = WeeksService.isDisabledNextButton();
   }
+
   function goNext(){
     index += 9;
     vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);

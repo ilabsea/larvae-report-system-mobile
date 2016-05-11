@@ -45,11 +45,13 @@ h1.title-select{
 }
 
 .week-calendar-advanced {
-  font-weight: bold;
+  font-weight: 900;
+  color: rgb(222, 143, 47);
 }
 
 .week-calendar-advanced:hover {
-  font-weight: bold;
+  font-weight: 900;
+  color: rgb(222, 143, 47);
 }
 
 .calendar-current-week {

@@ -28,10 +28,10 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
       SessionsOfflineService.setCurrentUser(user, authenticated.user_id);
       SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
         SessionsOfflineService.insertOrUpdateUser(userRes);
-      });
-      $ionicHistory.clearCache().then(function(res){
-        vm.user.password = '';
-        return $state.go("weeks-calendar");
+        $ionicHistory.clearCache().then(function(res){
+          vm.user.password = '';
+          return $state.go("weeks-calendar");
+        });
       });
     }, function() {
       vm.hideSpinner();
@@ -43,6 +43,8 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
     SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
       if(userRes.length > 0){
         if(userRes.item(0).password === user.password){
+          SessionsService.setUserId(userRes.item(0).user_id);
+          SessionsService.setUserEmail(userRes.item(0).email);
           $ionicHistory.clearCache().then(function(res){
             vm.user.password = '';
             return $state.go("weeks-calendar");
@@ -51,12 +53,17 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
           PopupService.alertPopup("login_validation.sign_in_failed", "login_validation.invalid_email_or_password");
         }
       }else{
-        PopupService.alertPopup("login_validation.sign_in_failed", "login_validation.no_email_found_in_database");
+        PopupService.alertPopup("login_validation.sign_in_failed", "login.no_email_found_in_database");
       }
     });
   }
 
   function logout() {
+    isOnline() ? logoutOnline() : logoutOffline();
+  };
+
+  function logoutOnline() {
+    console.log('logoutOnline');
     SessionsService.logout().then(function() {
       popupAccount.close();
       SessionsService.removeUserEmail();
@@ -66,7 +73,14 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
     }, function(err) {
       PopupService.alertPopup("global.sign_out_failed", "global.please_check_internet_connection");
     });
-  };
+  }
+
+  function logoutOffline() {
+    console.log('logoutOffline');
+    SessionsOfflineService.logout();
+    popupAccount.close();
+    $state.go("login");
+  }
 
   var popupAccount;
 

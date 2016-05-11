@@ -13,10 +13,10 @@ function routes($stateProvider, $urlRouterProvider, $compileProvider) {
     resolve:{
       "firstStart": function(SessionsService, $location){
         console.log('SessionsService.getAuthToken : ', SessionsService.getAuthToken());
-        if(SessionsService.getAuthToken()){
-          $location.path('/weeks-calendar');
-        }else{
-          $location.path('/login');
+        if(isOnline()){
+          SessionsService.getAuthToken() ? $location.path('/weeks-calendar') : $location.path('/login');
+        }else {
+          SessionsService.getUserId() ? $location.path('/weeks-calendar') : $location.path('/login');
         }
       }
     }

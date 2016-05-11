@@ -1,18 +1,14 @@
 angular.module('app')
 .factory('SessionsOfflineService', SessionsOfflineService)
 
-SessionsOfflineService.$inject = ["$cordovaSQLite"]
+SessionsOfflineService.$inject = ["$cordovaSQLite", "SessionsService"]
 
-function SessionsOfflineService($cordovaSQLite){
+function SessionsOfflineService($cordovaSQLite, SessionsService){
   var currentUser;
 
   function setCurrentUser(user, userId) {
     currentUser = user;
     currentUser.id = userId;
-  }
-
-  function getCurrentUser() {
-    return currentUser;
   }
 
   function insertUser() {
@@ -43,10 +39,14 @@ function SessionsOfflineService($cordovaSQLite){
       insertUser();
   }
 
+  function logout() {
+    SessionsService.clearSession();
+  }
+
   return{
     getUserByEmail: getUserByEmail,
     setCurrentUser: setCurrentUser,
-    getCurrentUser: getCurrentUser,
-    insertOrUpdateUser: insertOrUpdateUser
+    insertOrUpdateUser: insertOrUpdateUser,
+    logout: logout
   }
 }
