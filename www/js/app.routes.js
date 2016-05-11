@@ -12,7 +12,6 @@ function routes($stateProvider, $urlRouterProvider, $compileProvider) {
     controller: 'SessionsCtrl',
     resolve:{
       "firstStart": function(SessionsService, $location){
-        console.log('SessionsService.getAuthToken : ', SessionsService.getAuthToken());
         if(isOnline()){
           SessionsService.getAuthToken() ? $location.path('/weeks-calendar') : $location.path('/login');
         }else {

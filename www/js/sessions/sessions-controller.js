@@ -24,13 +24,13 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
   function loginOnline(user) {
     vm.showSpinner('templates/loading/loading-login.html');
     SessionsService.login(user).then(function(authenticated) {
-      vm.hideSpinner();
       SessionsOfflineService.setCurrentUser(user, authenticated.user_id);
       SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
         SessionsOfflineService.insertOrUpdateUser(userRes);
         $ionicHistory.clearCache().then(function(res){
           vm.user.password = '';
-          return $state.go("weeks-calendar");
+          $state.go("weeks-calendar");
+          vm.hideSpinner();
         });
       });
     }, function() {
@@ -47,7 +47,7 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
           SessionsService.setUserEmail(userRes.item(0).email);
           $ionicHistory.clearCache().then(function(res){
             vm.user.password = '';
-            return $state.go("weeks-calendar");
+            $state.go("weeks-calendar");
           });
         }else {
           PopupService.alertPopup("login_validation.sign_in_failed", "login_validation.invalid_email_or_password");
@@ -63,7 +63,6 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
   };
 
   function logoutOnline() {
-    console.log('logoutOnline');
     SessionsService.logout().then(function() {
       popupAccount.close();
       SessionsService.removeUserEmail();
@@ -76,7 +75,6 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
   }
 
   function logoutOffline() {
-    console.log('logoutOffline');
     SessionsOfflineService.logout();
     popupAccount.close();
     $state.go("login");

@@ -65,6 +65,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         MembershipsHelper.setLayersMembership(membership);
         MembershipsHelper.handleStoreMembership(membership);
         var builtFields = builtLayers.length > 0 ? LayersService.getBuiltFieldsByLayerId(builtLayers[0].layer_id) : [];
+        console.log('builtFields : ', builtFields);
         renderFormSiteInDbOrServer(builtFields);
       }, function() {
         alert('Cannot get data from server.');
@@ -160,14 +161,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         setDependentFields(vm.fields);
         setCanReadonlyLayer();
       }else{
-        if(isOnline()) {
-          renderFormSiteInServerOrCreate(builtFields);
-        } else {
-          renderFormRememberLastInput(builtFields);
-          setDependentFields(builtFields);
-          setCanReadonlyLayer();
-          vm.fields = builtFields;
-        }
+        renderFormSiteInServerOrCreate(builtFields);
       }
     });
   }
@@ -232,15 +226,20 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     vm.fields = [];
     $ionicScrollDelegate.scrollTop(true);
     vm.currentLayerId = layerId;
+    console.log('vm.currentLayerId : ', vm.currentLayerId);
     $timeout(function() {
       if(isOnline()){
         vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
+        console.log('vm.fields : ', vm.fields);
         setCanReadonlyLayer();
         renderFormRememberLastInput(vm.fields);
         setDependentFields(vm.fields);
       }else{
         FieldsOfflineService.getByLayerId(layerId).then(function(res){
-          renderFormSiteInDbOrServer(res);
+          vm.fields = res;
+          setCanReadonlyLayer();
+          renderFormRememberLastInput(vm.fields);
+          setDependentFields(vm.fields);
         });
       }
     }, 20);
