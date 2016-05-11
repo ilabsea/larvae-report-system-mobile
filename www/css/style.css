@@ -109,3 +109,9 @@ h1.title-select{
   border: none;
   background: none;
 }
+
+/*@media only screen and (max-width: 320px) {
+  .table-row {
+    margin-left: 6%;
+  }
+}*/

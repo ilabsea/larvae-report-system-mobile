@@ -3,11 +3,11 @@ angular.module('app')
 
 WeeksCtrl.$inject = ["$scope", "$state", "$filter", "SiteSQLiteService", "WeeksService",
           "$ionicPlatform", "$location", "$ionicHistory", "$ionicPlatform", "ApiService",
-          "CollectionsService", "CollectionsOfflineService", "SessionsService"]
+          "CollectionsService", "CollectionsOfflineService", "SessionsService", "$cordovaNetwork"]
 
 function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $ionicPlatform,
           $location, $ionicHistory, $ionicPlatform, ApiService, CollectionsService,
-          CollectionsOfflineService, SessionsService){
+          CollectionsOfflineService, SessionsService, $cordovaNetwork){
 
   var vm = $scope, index = WeeksService.findIndexInCurrentWeek();
   var todayWeek = $filter('date')(new Date(), 'w');
@@ -28,6 +28,13 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
     WeeksService.setSelectedYear(vm.selectedYear);
     vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
   }
+
+  // var type = $cordovaNetwork.getNetwork();
+  // var is11Online = $cordovaNetwork.isOnline();
+  // var is11Offline = $cordovaNetwork.isOffline()
+  // console.log('type : ', $cordovaNetwork.getNetwork());
+  // console.log('isOnlien : ', $cordovaNetwork.isOnline());
+  // console.log('isOffline : ', $cordovaNetwork.isOffline());
 
   function setYears() {
     var startYear = 2014;
