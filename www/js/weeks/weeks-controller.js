@@ -131,7 +131,6 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
     CollectionsService.fetch().then(function(collections){
       var cId = collections.length > 0 ? collections[0].id : "";
       CollectionsService.setCollectionId(cId);
-      ApiService.setApi(cId);
       CollectionsOfflineService.getByUserId(SessionsService.getUserId())
         .then(function(res){
           if(res.length > 0){
@@ -151,7 +150,6 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
         if(res.length > 0){
           var cId = res.item(0).collection_id ;
           CollectionsService.setCollectionId(cId);
-          ApiService.setApi(cId);
         }else{
           PopupService.alertPopup("collection.error_retriving_data", "collection.no_data_found_in_database");
         }

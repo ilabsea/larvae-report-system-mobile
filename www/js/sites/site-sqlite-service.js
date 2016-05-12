@@ -33,7 +33,11 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
 
   function uploadSites(week, year) {
     getSitesInWeekYear(week, year).then(function(sites){
-      angular.forEach(sites, function(site, key){
+      var j = 0,
+          length = sites.length
+      for( ; j < length ; j++){
+        var isError = false;
+        var site = sites[j];
         var prepareSite = { "name": site.name,
                             "week": site.week_number, "year" : site.year,
                             "place_id" : site.place_id,
@@ -42,26 +46,29 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
                           }
         SiteService.saveSite(prepareSite).then(function(response){
           removeSiteById(site.id);
-          if(key == sites.length -1){
+          if(j == sites.length -1){
             $rootScope.hideSpinner();
             $state.go('weeks-calendar')
           }
         }, function(e){
-          $rootScope.hideSpinner();
-          var ul = "Please fill all required data before submitting to server of " + prepareSite.name + "<ul>";
-          var i = 0,
-              l = e.properties.length
-          for(; i < l ; i++){
-            var key = Object.keys(e.properties[i])[0];
-            ul += "<li class='bullet-list'>" + e.properties[i][key] + "</li>";
+          if(!isError){
+            isError = true;
+            $rootScope.hideSpinner();
+            var ul = "Please fill all required data before submitting to server of " + prepareSite.name + "<ul>";
+            var i = 0,
+                l = e.properties.length
+            for(; i < l ; i++){
+              var key = Object.keys(e.properties[i])[0];
+              ul += "<li class='bullet-list'>" + e.properties[i][key] + "</li>";
+            }
+            $ionicPopup.alert({
+              title: 'Cannot upload data',
+              template: ul + "</ul>",
+              okType: 'default-button'
+            });
           }
-          $ionicPopup.alert({
-            title: 'Cannot upload data',
-            template: ul + "</ul>",
-            okType: 'default-button'
-          });
         });
-      });
+      }
     });
   }
 
