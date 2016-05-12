@@ -11,8 +11,8 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
 
   var vm = $scope;
   // vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
-  vm.user = {'email': 'sokha@yahoo.com', 'password':'Ks0kmesa!'};
-  // vm.user = {'email': '', 'password':''};
+  // vm.user = {'email': 'sokha@yahoo.com', 'password':'Ks0kmesa!'};
+  vm.user = {'email': '', 'password':''};
   vm.login = login;
   vm.logout = logout;
   vm.popupAccount = popupAccount;

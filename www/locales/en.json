@@ -49,6 +49,8 @@
     "next": "Next",
     "new_weekly_report": "New weekly report",
     "cannot_get_data_from_server": "Cannot get data from server.",
-    "please_check_internet_connection": "Please check your internet connection."
+    "please_check_internet_connection": "Please check your internet connection.",
+    "no_data_found_in_database": "No data found in database",
+    "turn_on_your_internet_connection_to_get_data_from_server": "Turn on your internet connecton to get data from server"
   }
 }

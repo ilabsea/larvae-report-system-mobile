@@ -1,20 +1,20 @@
 angular.module('app')
 .factory('ValidationService', ValidationService)
 
-ValidationService.$inject = ["$q", "LayersService"]
+ValidationService.$inject = ["$q", "LayersService", 'LayersOfflineService']
 
-function ValidationService($q, LayersService){
+function ValidationService($q, LayersService, LayersOfflineService){
 
   function getLayersWithInvalidData(siteData){
     var invalidLayers = [];
-    var builtLayers = LayersService.getBuiltLayers();
+    var builtLayers = isOnline() ? LayersService.getBuiltLayers() : LayersOfflineService.getBuildLayers();
     angular.forEach(builtLayers, function(layer){
       var invalidLayer = {name : '', fields: []};
       var i = 0,
           l = layer.fields.length
       for(; i < l ; i++){
         var field = layer.fields[i];
-        if(field.required && !siteData.properties[field.id] && siteData.properties[field.id] != 0){
+        if(field.required && !siteData.properties[field.field_id] && siteData.properties[field.field_id] != 0){
           invalidLayer.name = layer.name;
           invalidLayer.fields.push(field.name);
         }

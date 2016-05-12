@@ -25,8 +25,39 @@ function MembershipsService($q, $http, ApiService, PlacesService){
     return canUpdate;
   }
 
+  function canCreate() {
+    var canCreate = false;
+    if(membership.admin)
+      canCreate =  true;
+    else {
+      if(angular.isString(membership.layers))
+        layersMembership = angular.fromJson(membership.layers);
+      else
+        layersMembership = membership.layers;
+
+      var i = 0,
+          len = layersMembership.length;
+      for(; i < len ; i++){
+        var layer = layersMembership[i];
+        if(layer.create){
+          canCreate = true;
+          break;
+        }
+      }
+    }
+    return canCreate;
+  }
+
   function setMemberships(membershipResponse) {
     membership = membershipResponse;
+  }
+
+  function getMemberships() {
+    if(angular.isString(membership.layers))
+      layersMembership = angular.fromJson(membership.layers);
+    else
+      membership = membership;
+    return membership;
   }
 
   function fetch() {
@@ -45,6 +76,9 @@ function MembershipsService($q, $http, ApiService, PlacesService){
 
   return {
     fetch: fetch,
-    canUpdate: canUpdate
+    canUpdate: canUpdate,
+    canCreate: canCreate,
+    getMemberships: getMemberships,
+    setMemberships: setMemberships
   }
 }

@@ -6,6 +6,16 @@ LayersOfflineService.$inject = ["$cordovaSQLite", "SessionsService", "Collection
 function LayersOfflineService($cordovaSQLite, SessionsService, CollectionsService,
     PlacesService) {
 
+  var builtLayers;
+
+  function setBuildLayers(layers) {
+    builtLayers = layers;
+  }
+
+  function getBuildLayers() {
+    return builtLayers;
+  }
+
   function insert(layer) {
     var query = "INSERT INTO layers (layer_id, name, place_id, user_id, collection_id)" +
           "VALUES (? ,? ,?, ?, ?)"
@@ -43,6 +53,8 @@ function LayersOfflineService($cordovaSQLite, SessionsService, CollectionsServic
     insert: insert,
     update: update,
     getByUserIdPlaceId: getByUserIdPlaceId,
-    getByUserIdPlaceIdLayerId: getByUserIdPlaceIdLayerId
+    getByUserIdPlaceIdLayerId: getByUserIdPlaceIdLayerId,
+    setBuildLayers: setBuildLayers,
+    getBuildLayers: getBuildLayers
   }
 }

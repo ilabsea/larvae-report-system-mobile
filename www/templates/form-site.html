@@ -25,9 +25,9 @@
         <div ng-include="'templates/fields/hierarchy.html'" ng-if="field.type == 'hierarchy'"></div>
       </div>
       <div ng-if='isLastTab()'>
-        <div ng-style="{'padding-top' : 'calc(100px * {{fields.length}})'}" ng-if='!isSiteInServer'>
+        <div ng-style="{'padding-top' : 'calc(100px * {{fields.length}})'}" ng-if='!isSiteInServer && !canReadOnlySite' >
           <button class='button button-block default-button'
-              type='submit' ng-click='isSubmit()'>
+              type='submit' ng-click='isSubmit();'>
             <span ng-if='isUpdateSite'>{{"form.update" | translate}}</span>
             <span ng-if='!isUpdateSite'>{{"form.save" | translate}}</span>
           </button>

@@ -49,6 +49,8 @@
     "next": "ຕໍ່ໄປ",
     "new_weekly_report": "ລາຍງານປະຈຳອາທິດສະບັບໃໝ່",
     "cannot_get_data_from_server": "ບໍ່ສາມາດນຳໃຊ້ຂໍ້ມູນຈາກລະບົບ.",
-    "please_check_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ."
+    "please_check_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ.",
+    "no_data_found_in_database": "ບໍ່ມີ ພົບເຫັນຢູ່ໃນ ຖານຂໍ້ມູນ ຂໍ້ມູນ.",
+    "turn_on_your_internet_connection_to_get_data_from_server": "ເປີດການເຊື່ອມຕໍ່ ອິນເຕີເນັດ ຂອງທ່ານ ເພື່ອໃຫ້ໄດ້ຮັບ ຂໍ້ມູນ ຈາກເຄື່ອງແມ່ຂ່າຍ."
   }
 }

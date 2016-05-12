@@ -39,6 +39,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   vm.layerMembership = {};
   vm.canUpdateSiteOnline = false;
   vm.canReadOnlyLayer = false;
+  vm.canReadOnlySite = false;
   vm.selectedYear = WeeksService.getSelectedYear();
   vm.selectedWeek = WeeksService.getSelectedWeek();
   vm.goNext = SwitchTabHelper.goNext;
@@ -65,7 +66,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         MembershipsHelper.setLayersMembership(membership);
         MembershipsHelper.handleStoreMembership(membership);
         var builtFields = builtLayers.length > 0 ? LayersService.getBuiltFieldsByLayerId(builtLayers[0].layer_id) : [];
-        console.log('builtFields : ', builtFields);
         renderFormSiteInDbOrServer(builtFields);
       }, function() {
         alert('Cannot get data from server.');
@@ -81,24 +81,34 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     var userId = SessionsService.getUserId();
     var placeId = PlacesService.getSelectedPlaceId();
     LayersOfflineService.getByUserIdPlaceId(userId, placeId).then(function(layers) {
+      if(layers.length == 0){
+        PopupService.alertPopup("form.no_data_found_in_database", 'form.turn_on_your_internet_connection_to_get_data_from_server');
+      }
       angular.forEach(layers, function(layer){
         FieldsOfflineService.getByLayerId(layer.layer_id).then(function(fields) {
           layer.fields = fields;
         });
       });
+      LayersOfflineService.setBuildLayers(layers);
       setLayers(layers);
       setCurrentLayerId(layers);
       MembershipsOfflineService.getByUserId(userId).then(function(membership){
         MembershipsHelper.setLayersMembership(membership.item(0));
-      })
+        MembershipsService.setMemberships(membership.item(0));
+        renderFormSiteInDbOrServer(layers[0].fields);
+      });
     });
   }
 
   function setCanReadonlyLayer() {
-    layersMembership = MembershipsHelper.getLayersMembership();
+    membership = MembershipsService.getMemberships();
+    if(angular.isString(membership.layers))
+      layersMembership = angular.fromJson(membership.layers);
+    else
+      layersMembership = membership.layers;
     angular.forEach(layersMembership, function(layerMembership){
       if(vm.currentLayerId == layerMembership.layer_id){
-        vm.canReadOnlyLayer = (!vm.isUpdateSite && !layerMembership.create)
+        vm.canReadOnlyLayer = !layerMembership.create
                           || (vm.isSiteInServer && !layerMembership.write);
       }
     })
@@ -160,10 +170,19 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         vm.fields = builtFields;
         setDependentFields(vm.fields);
         setCanReadonlyLayer();
+        vm.canReadOnlySite = !MembershipsService.canCreate();
       }else{
-        renderFormSiteInServerOrCreate(builtFields);
+        isOnline() ? renderFormSiteInServerOrCreate(builtFields) : renderFormCreate(builtFields);
       }
     });
+  }
+
+  function renderFormCreate(builtFields) {
+    vm.fields = builtFields;
+    setCanReadonlyLayer();
+    vm.canReadOnlySite = !MembershipsService.canCreate();
+    renderFormRememberLastInput(builtFields);
+    setDependentFields(builtFields);
   }
 
   function renderFormSiteInServerOrCreate(builtFields) {
@@ -181,7 +200,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         renderFormRememberLastInput(builtFields);
         setDependentFields(builtFields);
       }
-      setCanReadonlyLayer()
+      setCanReadonlyLayer();
+      vm.canReadOnlySite = !MembershipsService.canCreate();
       vm.fields = builtFields;
     });
   }
@@ -226,11 +246,9 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     vm.fields = [];
     $ionicScrollDelegate.scrollTop(true);
     vm.currentLayerId = layerId;
-    console.log('vm.currentLayerId : ', vm.currentLayerId);
     $timeout(function() {
       if(isOnline()){
         vm.fields = LayersService.getBuiltFieldsByLayerId(layerId);
-        console.log('vm.fields : ', vm.fields);
         setCanReadonlyLayer();
         renderFormRememberLastInput(vm.fields);
         setDependentFields(vm.fields);
@@ -345,7 +363,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
 
   function goBackAndSaveIfData() {
     $ionicHistory.goBack();
-    if(vm.site.properties && !vm.canUpdateSiteOnline && !vm.isSiteInServer)
+    if(vm.site.properties && !vm.canUpdateSiteOnline
+      && !vm.isSiteInServer && vm.layers.length != 0 && !vm.canReadOnlySite)
       addOrUpdateSite(vm.site, vm.propertiesDate);
   }
 }

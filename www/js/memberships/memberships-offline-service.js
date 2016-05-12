@@ -13,8 +13,8 @@ function MembershipsOfflineService($cordovaSQLite) {
 
   function update(membership) {
     var query = "UPDATE place_memberships SET admin=?, layers=?, sites=? WHERE user_id=?";
-    var membershipData = [membership.user_id, membership.admin? 1:0,
-      angular.toJson(membership.layers), angular.toJson(membership.sites)];
+    var membershipData = [membership.admin? 1:0, angular.toJson(membership.layers),
+      angular.toJson(membership.sites), membership.user_id];
     $cordovaSQLite.execute(db, query, membershipData);
   }
 

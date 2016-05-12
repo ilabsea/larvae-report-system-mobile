@@ -3,8 +3,8 @@
     <span ng-if="field.required" ng-class="{'error' : field.required}"> * </span>
   </div>
   <div class="item-input-wrapper"
-      ng-class="{ 'has-errors' : formSite['{{field.field_id}}'].$invalid &&
-        (formSite['{{field.field_id}}'].$touched || !customValidate())}">
+      ng-class="{ 'has-errors' : !canReadOnlyLayer && (formSite['{{field.field_id}}'].$invalid &&
+        (formSite['{{field.field_id}}'].$touched || !customValidate()))}">
     <input class="item-input-wrapper" type="tel" name='{{field.field_id}}'
       string-to-number
       ng-if='field.type == "number" && field.config.allows_decimals == "true"'
@@ -29,7 +29,8 @@
       ng-change='!dependFields[field.field_id] || prepareCalculationFields()'></textarea>
   </div>
   <div class="error-message"
-       ng-show="formSite['{{field.field_id}}'].$invalid && (formSite['{{field.field_id}}'].$touched ||!customValidate())"
+       ng-show="!canReadOnlyLayer && (formSite['{{field.field_id}}'].$invalid
+              && (formSite['{{field.field_id}}'].$touched ||!customValidate()))"
        ng-messages="formSite['{{field.field_id}}'].$error">
      <div ng-message="required">This field is required!
      </div>
