@@ -33,25 +33,22 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
 
   function uploadSites(week, year) {
     getSitesInWeekYear(week, year).then(function(sites){
-      var j = 0,
-          length = sites.length
-      for( ; j < length ; j++){
-        var isError = false;
-        var site = sites[j];
+      var isError = false;
+      angular.forEach(sites, function(site, index){
         var prepareSite = { "name": site.name,
                             "week": site.week_number, "year" : site.year,
                             "place_id" : site.place_id,
                             "properties": angular.fromJson(site.properties),
                             "files": angular.fromJson(site.files)
-                          }
+                          };
         SiteService.saveSite(prepareSite).then(function(response){
           removeSiteById(site.id);
-          if(j == sites.length -1){
+          if(index == sites.length -1){
             $rootScope.hideSpinner();
-            $state.go('weeks-calendar')
+            $state.go('weeks-calendar');
           }
         }, function(e){
-          if(!isError){
+          if(isError == false){
             isError = true;
             $rootScope.hideSpinner();
             var ul = "Please fill all required data before submitting to server of " + prepareSite.name + "<ul>";
@@ -68,7 +65,7 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
             });
           }
         });
-      }
+      });
     });
   }
 
