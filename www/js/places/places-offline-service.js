@@ -9,16 +9,12 @@ function PlacesOfflineService($cordovaSQLite, SessionsService) {
     var query = "INSERT INTO places (place_id, name , user_id, parent_place_id, parent_place_name) VALUES (?, ?, ?, ?,?)";
     var userId = SessionsService.getUserId();
     var placeData = [place.id, place.name, userId, parent.id, parent.name];
-    $cordovaSQLite.execute(db, query, placeData).then(function(res ){
-      console.log('insertPlace : ', res);
-    });
+    $cordovaSQLite.execute(db, query, placeData);
   }
 
   function deleteByUserId(uId, placeId) {
     var query = "DELETE FROM places WHERE user_id=?";
-    $cordovaSQLite.execute(db, query, [uId]).then(function(res) {
-      console.log('delete : ', res);
-    });
+    $cordovaSQLite.execute(db, query, [uId]);
   }
 
 
@@ -37,12 +33,6 @@ function PlacesOfflineService($cordovaSQLite, SessionsService) {
     });
   }
 
-  function update(place, parent) {
-    var query = "UPDATE places SET place_id=?, name=?, parent_place_id=?, parent_place_name=?";
-    var placeData = [place.id, place.name, parent.id, parent.name];
-    $cordovaSQLite.execute(db, query, placeData);
-  }
-
   function getByPlaceId(placeId) {
     var query = "SELECT * FROM places WHERE place_id=?";
     return place = $cordovaSQLite.execute(db, query, [placeId]).then(function(res){
@@ -52,7 +42,6 @@ function PlacesOfflineService($cordovaSQLite, SessionsService) {
 
   return{
     insert: insert,
-    update: update,
     getByUserId: getByUserId,
     getByPlaceId: getByPlaceId,
     deleteByUserId: deleteByUserId

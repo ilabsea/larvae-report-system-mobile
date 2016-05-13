@@ -1,10 +1,8 @@
 angular.module('app')
 .factory('LayersOfflineService', LayersOfflineService)
-LayersOfflineService.$inject = ["$cordovaSQLite", "SessionsService", "CollectionsService",
-      "PlacesService"]
+LayersOfflineService.$inject = ["$cordovaSQLite", "SessionsService", "CollectionsService"]
 
-function LayersOfflineService($cordovaSQLite, SessionsService, CollectionsService,
-    PlacesService) {
+function LayersOfflineService($cordovaSQLite, SessionsService, CollectionsService) {
 
   var builtLayers;
 
@@ -17,28 +15,16 @@ function LayersOfflineService($cordovaSQLite, SessionsService, CollectionsServic
   }
 
   function insert(layer) {
-    var query = "INSERT INTO layers (layer_id, name, place_id, user_id, collection_id)" +
-          "VALUES (? ,? ,?, ?, ?)"
-    var layerData = [layer.layer_id, layer.name, PlacesService.getSelectedPlaceId(), SessionsService.getUserId(),
+    var query = "INSERT INTO layers (layer_id, name,  user_id, collection_id)" +
+          "VALUES (? ,?, ?, ?)"
+    var layerData = [layer.layer_id, layer.name,  SessionsService.getUserId(),
       CollectionsService.getCollectionId()];
     $cordovaSQLite.execute(db, query, layerData);
   }
 
-  function getByUserIdPlaceIdLayerId(userId, placeId, layerId) {
-    var query = "SELECT * FROM layers WHERE user_id=? AND place_id=? AND layer_id=?";
-    return layer = $cordovaSQLite.execute(db, query, [userId, placeId, layerId]).then(function(res) {
-      return res.rows;
-    });
-  }
-
-  function update(layer) {
-    var query = "UPDATE layers SET name=?";
-    $cordovaSQLite.execute(db, query, [layer.name]);
-  }
-
-  function getByUserIdPlaceId(userId, placeId) {
-    var query = "SELECT * FROM layers WHERE user_id=? AND place_id=?";
-    return layers = $cordovaSQLite.execute(db, query, [userId, placeId]).then(function(res) {
+  function getByUserId(userId) {
+    var query = "SELECT * FROM layers WHERE user_id=?";
+    return layers = $cordovaSQLite.execute(db, query, [userId]).then(function(res) {
       var result = [];
       var i = 0,
           l = res.rows.length
@@ -49,12 +35,16 @@ function LayersOfflineService($cordovaSQLite, SessionsService, CollectionsServic
     });
   }
 
+  function deleteByUserId(uId) {
+    var query = "DELETE FROM layers WHERE user_id=?";
+    $cordovaSQLite.execute(db, query, [uId]);
+  }
+
   return{
     insert: insert,
-    update: update,
-    getByUserIdPlaceId: getByUserIdPlaceId,
-    getByUserIdPlaceIdLayerId: getByUserIdPlaceIdLayerId,
+    getByUserId: getByUserId,
     setBuildLayers: setBuildLayers,
-    getBuildLayers: getBuildLayers
+    getBuildLayers: getBuildLayers,
+    deleteByUserId: deleteByUserId
   }
 }

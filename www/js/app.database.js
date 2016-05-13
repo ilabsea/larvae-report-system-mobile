@@ -16,7 +16,7 @@ function createTables($cordovaSQLite) {
         "user_id integer, place_id integer, device_id text, name text, week_number integer, " +
         "year integer, properties text, files text)";
   var layer = "CREATE TABLE IF NOT EXISTS layers (id integer primary key, layer_id integer, " +
-        "collection_id integer, user_id integer, place_id integer, name text, field_offline_id integer,"+
+        "collection_id integer, user_id integer, name text, field_offline_id integer,"+
         "FOREIGN KEY(field_offline_id) REFERENCES fields (id))";
   var field = "CREATE TABLE IF NOT EXISTS fields (id integer primary key, field_id integer, " +
         "name text, kind text, code text, config text, is_mandatory integer, is_enable_field_logic integer, " +

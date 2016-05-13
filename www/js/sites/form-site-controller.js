@@ -6,7 +6,7 @@ FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicTabsDelegate",
                 "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate",
                 "$timeout", "$ionicHistory", "LayersOfflineService", "SessionsService",
                 "FieldsOfflineService", "MembershipsOfflineService", "PlacesOfflineService",
-                "SwitchTabHelper", "MembershipsHelper"]
+                "SwitchTabHelper", "MembershipsHelper", "LayersHelperService"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
@@ -14,7 +14,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
                 ValidationService, PopupService, MembershipsService, $ionicScrollDelegate,
                 $timeout, $ionicHistory, LayersOfflineService, SessionsService,FieldsOfflineService,
                 MembershipsOfflineService, PlacesOfflineService, SwitchTabHelper,
-                MembershipsHelper) {
+                MembershipsHelper, LayersHelperService) {
 
   var vm = $scope, currentPhotoFieldId, isSubmit = false;
   vm.site = {properties : {}, id:'', files: {}};
@@ -59,7 +59,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     vm.showSpinner('templates/loading/loading.html');
     getDistrictName();
     LayersService.fetch().then(function(builtLayers){
-      handleStoreLayersFields(builtLayers);
+      LayersHelperService.removeLayersFields();
+      LayersHelperService.storeLayersFields(builtLayers);
       setLayers(builtLayers);
       setCurrentLayerId(builtLayers);
       MembershipsService.fetch().then(function(membership) {
@@ -79,8 +80,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   function renderFormOffline() {
     getDistrictName();
     var userId = SessionsService.getUserId();
-    var placeId = PlacesService.getSelectedPlaceId();
-    LayersOfflineService.getByUserIdPlaceId(userId, placeId).then(function(layers) {
+    LayersOfflineService.getByUserId(userId).then(function(layers) {
+      console.log('layers : ', layers);
       if(layers.length == 0){
         PopupService.alertPopup("form.no_data_found_in_database", 'form.turn_on_your_internet_connection_to_get_data_from_server');
       }
@@ -99,6 +100,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       });
     });
   }
+
 
   function setCanReadonlyLayer() {
     membership = MembershipsService.getMemberships();
@@ -125,35 +127,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       },1);
       vm.currentLayerId = layers[0].layer_id ;
     }
-  }
-
-  function handleStoreLayersFields(builtLayers) {
-    var userId = SessionsService.getUserId();
-    var placeId = PlacesService.getSelectedPlaceId();
-    angular.forEach(builtLayers, function(layer) {
-      handleStoreLayer(layer, userId, placeId);
-      handleStoreFields(layer);
-    })
-  }
-
-  function handleStoreLayer(layer, userId, placeId) {
-    LayersOfflineService.getByUserIdPlaceIdLayerId(userId, placeId, layer.layer_id).then(function(res) {
-      if(res.length > 0){
-        if(res.item(0).name != layer.name)
-          LayersOfflineService.update(layer);
-      } else{
-        LayersOfflineService.insert(layer);
-      }
-    })
-  }
-
-  function handleStoreFields(layer) {
-    angular.forEach(layer.fields, function(field){
-      FieldsOfflineService.getByLayerIdFieldId(layer.layer_id, field.field_id).then(function(res){
-        if(res.length > 0) FieldsOfflineService.update(field, layer.layer_id)
-        else FieldsOfflineService.insert(field, layer.layer_id);
-      });
-    });
   }
 
   function renderFormSiteInDbOrServer(builtFields) {

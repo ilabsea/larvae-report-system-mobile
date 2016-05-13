@@ -13,21 +13,6 @@ function FieldsOfflineService($cordovaSQLite, FieldsService) {
     $cordovaSQLite.execute(db, query, fieldData);
   }
 
-  function getByLayerIdFieldId(layerId, fieldId) {
-    var query = "SELECT * FROM fields WHERE layer_id=? AND field_id=?";
-    return fields = $cordovaSQLite.execute(db, query, [layerId, fieldId]).then(function(res) {
-      return res.rows;
-    })
-  }
-
-  function update(field, layerId) {
-    var query = "UPDATE fields SET name=?, kind=?, code=?, config=?, is_mandatory=?, " +
-          "is_enable_field_logic=?, remember_last_input=?, default_value=?, layer_id=? WHERE field_id=?";
-    var fieldData = [field.name, field.kind, field.code, angular.toJson(field.config), field.is_mandatory? 1:0,
-      field.is_enable_field_logic?1:0, field.remember_last_input?1:0, field.default_value, layerId, field.id];
-    $cordovaSQLite.execute(db, query, fieldData);
-  }
-
   function getByLayerId(layerId){
     var query = "SELECT * FROM fields WHERE layer_id=?";
     return fields = $cordovaSQLite.execute(db, query, [layerId]).then(function(res) {
@@ -42,10 +27,14 @@ function FieldsOfflineService($cordovaSQLite, FieldsService) {
     })
   }
 
+  function deleteByLayerId(layerId) {
+    var query = "DELETE FROM fields WHERE layer_id=?";
+    $cordovaSQLite.execute(db, query, [layerId]);
+  }
+
   return{
     insert: insert,
-    update: update,
-    getByLayerIdFieldId: getByLayerIdFieldId,
-    getByLayerId: getByLayerId
+    getByLayerId: getByLayerId,
+    deleteByLayerId: deleteByLayerId
   }
 }
