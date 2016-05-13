@@ -20,7 +20,7 @@ function createTables($cordovaSQLite) {
         "FOREIGN KEY(field_offline_id) REFERENCES fields (id))";
   var field = "CREATE TABLE IF NOT EXISTS fields (id integer primary key, field_id integer, " +
         "name text, kind text, code text, config text, is_mandatory integer, is_enable_field_logic integer, " +
-        "remember_last_input integer, default_value text, layer_id integer, " +
+        "remember_last_input integer, default_value integer, layer_id integer, " +
         "FOREIGN KEY(layer_id) REFERENCES layers (layer_id))";
   var placeMembership  = "CREATE TABLE IF NOT EXISTS place_memberships (id integer primary key, user_id integer, " +
         "admin integer, layers text, sites text)";
