@@ -32,17 +32,11 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     vm.showSpinner('templates/loading/loading.html');
     PlacesService.fetch().then(function (places) {
       vm.hideSpinner();
+      removePlacesByUserId(userId);
       angular.forEach(places, function(place){
         place.place_id = place.id;
-        handleStorePlace(place);
-        SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.place_id)
-          .then(function(site){
-            if(site){
-              place.siteOnServer = true;
-              vm.places = places;
-            }else
-              vm.places = generateClassInPlaces(places);
-        });
+        storePlace(place);
+        generateIconInPlace(places, place);
       });
     }, function(err) {
       if(!SessionsService.getAuthToken()){
@@ -58,16 +52,24 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     });
   }
 
-  function handleStorePlace(place) {
-    PlacesService.fetchPlaceParent(place).then(function(parent){
-      PlacesOfflineService.getByUserIdPlaceId(SessionsService.getUserId(), place.place_id).then(function(res){
-        if(res.length > 0){
-          if((res.item(0).name != place.name) || (res.item(0).parent_place_id != parent.id)
-              || (res.item(0).parent_place_name!= parent.name))
-            PlacesOfflineService.update(place, parent);
+  function generateIconInPlace(places, place) {
+    SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.place_id)
+      .then(function(site){
+        if(site){
+          place.siteOnServer = true;
+          vm.places = places;
         }else
-          PlacesOfflineService.insert(place, parent);
-      });
+          vm.places = generateClassInPlaces(places);
+    });
+  }
+
+  function removePlacesByUserId(uId) {
+    PlacesOfflineService.deleteByUserId(uId);
+  }
+
+  function storePlace(place) {
+    PlacesService.fetchPlaceParent(place).then(function(parent){
+      PlacesOfflineService.insert(place, parent);
     });
   }
 

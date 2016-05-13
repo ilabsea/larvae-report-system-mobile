@@ -9,15 +9,18 @@ function PlacesOfflineService($cordovaSQLite, SessionsService) {
     var query = "INSERT INTO places (place_id, name , user_id, parent_place_id, parent_place_name) VALUES (?, ?, ?, ?,?)";
     var userId = SessionsService.getUserId();
     var placeData = [place.id, place.name, userId, parent.id, parent.name];
-    $cordovaSQLite.execute(db, query, placeData);
-  }
-
-  function getByUserIdPlaceId(uId, placeId) {
-    var query = "SELECT * FROM places WHERE user_id=? AND place_id=?";
-    return place = $cordovaSQLite.execute(db, query, [uId, placeId]).then(function(res) {
-      return res.rows;
+    $cordovaSQLite.execute(db, query, placeData).then(function(res ){
+      console.log('insertPlace : ', res);
     });
   }
+
+  function deleteByUserId(uId, placeId) {
+    var query = "DELETE FROM places WHERE user_id=?";
+    $cordovaSQLite.execute(db, query, [uId]).then(function(res) {
+      console.log('delete : ', res);
+    });
+  }
+
 
   function getByUserId(uId){
     var query = "SELECT * FROM places WHERE user_id=?";
@@ -50,8 +53,8 @@ function PlacesOfflineService($cordovaSQLite, SessionsService) {
   return{
     insert: insert,
     update: update,
-    getByUserIdPlaceId: getByUserIdPlaceId,
     getByUserId: getByUserId,
-    getByPlaceId: getByPlaceId
+    getByPlaceId: getByPlaceId,
+    deleteByUserId: deleteByUserId
   }
 }
