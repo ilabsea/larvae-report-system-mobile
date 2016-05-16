@@ -81,7 +81,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     getDistrictName();
     var userId = SessionsService.getUserId();
     LayersOfflineService.getByUserId(userId).then(function(layers) {
-      console.log('layers : ', layers);
       if(layers.length == 0){
         PopupService.alertPopup("form.no_data_found_in_database", 'form.turn_on_your_internet_connection_to_get_data_from_server');
       }
