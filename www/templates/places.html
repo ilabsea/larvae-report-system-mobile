@@ -11,15 +11,16 @@
       {{"place.please_select_place_to_report" | translate}}
     </span>
 
-    <div class="list list-inset">
-      <a class="item"
-         ui-sref="form-site" ng-repeat="place in places"
-         ng-click='setPlace(place)'>
+    <ion-list show-delete="false" can-swipe="true">
+      <ion-item ui-sref="form-site" ng-repeat='place in places' ng-click='setPlace(place)'>
         {{place.name}}
         <i ng-if="place.siteOnServer" class="icon ion-clowd-checked"></i>
         <i ng-if="!place.siteOnServer" class="icon" ng-class="place.hasData ? 'ion-checkmark' : ''"></i>
-      </a>
-    </div>
+        <ion-option-button class="button-assertive icon ion-trash-a"
+                            ng-click='deleteReport(place)'>
+        </ion-option-button>
+      </ion-item>
+    </ion-list>
 
     <button ng-disabled="numberOfSites == 0" class='button button-block default-button'
             ng-click="uploadSites()">

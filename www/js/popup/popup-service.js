@@ -14,12 +14,13 @@ function PopupService($translate, $ionicPopup){
     });
   }
 
-  function confirmPopup(title, template, callback) {
+  function confirmPopup(title, template, dynamicString = "", callback, noCallback = function(){}) {
     $ionicPopup.confirm({
      title: $translate.instant(title),
-     template: $translate.instant(template),
+     template: $translate.instant(template) + dynamicString,
      buttons: [{
         text: $translate.instant("global.no"),
+        onTap: noCallback
       }, {
         text: $translate.instant("global.yes"),
         type: 'default-button',

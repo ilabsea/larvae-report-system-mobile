@@ -3,11 +3,12 @@ angular.module('app')
 
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
       "$state", "$ionicHistory", "PlacesService", "SiteService", "SiteSQLiteService",
-      "ApiService", "SessionsService", "PlacesOfflineService", "PopupService", "$timeout"]
+      "ApiService", "SessionsService", "PlacesOfflineService", "PopupService", "$timeout",
+      "$ionicListDelegate"]
 
 function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService, SiteService, SiteSQLiteService, ApiService, SessionsService,
-    PlacesOfflineService, PopupService, $timeout) {
+    PlacesOfflineService, PopupService, $timeout, $ionicListDelegate) {
 
   var vm = $scope;
   vm.getPlaces = getPlaces;
@@ -17,6 +18,7 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
   vm.setPlace = setSelectedPlace;
   vm.numberOfSites = 0;
   vm.goBack = goBack;
+  vm.deleteReport = deleteReport;
 
   function setNumberOfSitesInWeekYear() {
     SiteSQLiteService.getNumberOfSitesInWeekYear().then(function(l){
@@ -113,10 +115,22 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     $ionicHistory.goBack();
   }
 
+  function deleteReport(place) {
+    PopupService.confirmPopup('place.delete_report',
+      'place.are_you_sure_you_want_to_delete_report_in' , place.name + "?" , function(res ){
+        SiteSQLiteService.deleteSiteByPlaceWeekYear(place.id);
+        $state.go($state.current, {}, {reload: true});
+        $ionicListDelegate.closeOptionButtons();
+    }, function(){
+      $ionicListDelegate.closeOptionButtons();
+    });
+  }
+
   $scope.$on('$stateChangeSuccess', function(event, toState) {
-    if (toState.url== "/places") {
+    if (toState.url== "/places") {console.log('here');
       vm.places = generateClassInPlaces(vm.places);
       setNumberOfSitesInWeekYear();
+      $ionicListDelegate.closeOptionButtons();
     }
   });
 }

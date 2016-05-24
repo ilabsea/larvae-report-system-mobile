@@ -41,7 +41,9 @@
     "please_select_place_to_report": "ກະລຸນາເລືອກສະຖານທີ່ທີ່ຕ້ອງການໃຫ້ລາຍງານ",
     "send_report_to_malaria_station": "ສົ່ງຜົນການລາຍງານໃຫ້ສູນ malaria",
     "error" : "ຄວາມຜິດພາດ",
-    "please_check_your_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ."
+    "please_check_your_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ.",
+    "delete_report": "ລົບ report!",
+    "are_you_sure_you_want_to_delete_report_in": "ທ່ານແນ່ໃຈວ່າ ທ່ານ ຕ້ອງການທີ່ຈະ ລົບ ລາຍງານ ໃນ "
   },
   "form":{
     "save":"ຈັດເກັບ",

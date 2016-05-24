@@ -31,6 +31,13 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     $cordovaSQLite.execute(db, query, [id]);
   }
 
+  function deleteSiteByPlaceWeekYear(placeId) {
+    var weekNumber = WeeksService.getSelectedWeek();
+    var year = WeeksService.getSelectedYear();
+    var query = "DELETE FROM sites WHERE place_id= ? AND week_number=? AND year=?";
+    $cordovaSQLite.execute(db, query, [placeId, weekNumber, year]);
+  }
+
   function uploadSites(week, year) {
     getSitesInWeekYear(week, year).then(function(sites){
       var isError = false;
@@ -142,6 +149,7 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     removeSiteById: removeSiteById,
     getWeeksMissingSend: getWeeksMissingSend,
     getSiteByPlaceIdInWeekYear: getSiteByPlaceIdInWeekYear,
-    getNumberOfSitesInWeekYear: getNumberOfSitesInWeekYear
+    getNumberOfSitesInWeekYear: getNumberOfSitesInWeekYear,
+    deleteSiteByPlaceWeekYear: deleteSiteByPlaceWeekYear
   }
 }

@@ -41,7 +41,9 @@
     "please_select_place_to_report": "Please select place to report",
     "send_report_to_malaria_station": "Send report to malaria station",
     "error" : "Error",
-    "please_check_your_internet_connection": "Please check your internet connection."
+    "please_check_your_internet_connection": "Please check your internet connection.",
+    "delete_report": "Delete report!",
+    "are_you_sure_you_want_to_delete_report_in": "Are you sure you want to delete report in "
   },
   "form":{
     "save":"Save",
