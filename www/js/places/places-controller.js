@@ -4,13 +4,14 @@ angular.module('app')
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
       "$state", "$ionicHistory", "PlacesService", "SiteService", "SiteSQLiteService",
       "ApiService", "SessionsService", "PlacesOfflineService", "PopupService", "$timeout",
-      "$ionicListDelegate"]
+      "$ionicListDelegate", "LayersOfflineService", "FieldsOfflineService"]
 
 function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService, SiteService, SiteSQLiteService, ApiService, SessionsService,
-    PlacesOfflineService, PopupService, $timeout, $ionicListDelegate) {
+    PlacesOfflineService, PopupService, $timeout, $ionicListDelegate,
+    LayersOfflineService, FieldsOfflineService) {
 
-  var vm = $scope;
+  var vm = $scope, fieldsMandatory = [];
   vm.getPlaces = getPlaces;
   vm.selectedYear = WeeksService.getSelectedYear();
   vm.selectedWeek = WeeksService.getSelectedWeek();
@@ -27,7 +28,27 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
   }
 
   function getPlaces() {
+    setFieldsMandatory();
     isOnline() ? getPlacesOnline() : getPlacesOffline();
+  }
+
+  function setFieldsMandatory() {
+    LayersOfflineService.getByUserId(SessionsService.getUserId()).then(function(layers){
+      var i = 0,
+          l = layers.length
+      for(; i < l ; i++){
+        layer = layers[i];
+        FieldsOfflineService.getByLayerId(layer.layer_id).then(function(fields){
+          var j = 0,
+              lf = fields.length
+          for(; j < lf ; j++){
+            field = fields[j];
+            if(field.is_mandatory)
+              fieldsMandatory.push(field);
+          }
+        });
+      }
+    });
   }
 
   function getPlacesOnline() {
@@ -35,10 +56,11 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService.fetch().then(function (places) {
       vm.hideSpinner();
       removePlacesByUserId(userId);
-      angular.forEach(places, function(place){
+      vm.places = places;
+      angular.forEach(vm.places, function(place){
         place.place_id = place.id;
         storePlace(place);
-        generateIconInPlace(places, place);
+        generateIconInPlace(place);
       });
     }, function(err) {
       if(!SessionsService.getAuthToken()){
@@ -54,14 +76,13 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     });
   }
 
-  function generateIconInPlace(places, place) {
+  function generateIconInPlace(place) {
     SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.place_id)
       .then(function(site){
         if(site){
           place.siteOnServer = true;
-          vm.places = places;
         }else
-          vm.places = generateClassInPlaces(places);
+          generateClassInAPlace(place);
     });
   }
 
@@ -77,11 +98,30 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
 
   function generateClassInPlaces(places){
     angular.forEach(places, function(place){
-      SiteSQLiteService.getSiteByPlaceIdInWeekYear(place.place_id).then(function(site){
-        place.hasData = site.length > 0 ;
-      })
+      generateClassInAPlace(place);
     });
     return places;
+  }
+
+  function generateClassInAPlace(place){
+    SiteSQLiteService.getSiteByPlaceIdInWeekYear(place.place_id).then(function(site){
+      place.hasData = site.length > 0 ;
+      place.siteError = false;
+      if(site.length > 0){
+        var properties = angular.fromJson(site[0].properties);
+        place.siteInvalid = false;
+        var i = 0;
+            l = fieldsMandatory.length
+        for(; i < l ; i++){
+          fieldMandatory = fieldsMandatory[i];
+          value = properties[fieldMandatory.field_id];
+          if(angular.isUndefined(value) || value == '' || value == null){
+            place.siteInvalid = true;
+            break;
+          }
+        }
+      }
+    })
   }
 
   function uploadSites(){
@@ -127,7 +167,7 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
   }
 
   $scope.$on('$stateChangeSuccess', function(event, toState) {
-    if (toState.url== "/places") {console.log('here');
+    if (toState.url== "/places") {
       vm.places = generateClassInPlaces(vm.places);
       setNumberOfSitesInWeekYear();
       $ionicListDelegate.closeOptionButtons();

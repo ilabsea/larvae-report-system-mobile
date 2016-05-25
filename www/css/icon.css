@@ -3,6 +3,11 @@
   color: #3d8b3d;
 }
 
+.icon.ion-warning{
+  float: right;
+  content: url('../img/warning.png') !important;
+}
+
 .icon.ion-clowd-checked{
   float: right;
   content: url('../img/clowd-checked.png') !important;

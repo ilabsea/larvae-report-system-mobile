@@ -15,7 +15,9 @@
       <ion-item ui-sref="form-site" ng-repeat='place in places' ng-click='setPlace(place)'>
         {{place.name}}
         <i ng-if="place.siteOnServer" class="icon ion-clowd-checked"></i>
-        <i ng-if="!place.siteOnServer" class="icon" ng-class="place.hasData ? 'ion-checkmark' : ''"></i>
+        <i ng-if="!place.siteOnServer && place.siteInvalid" class="icon ion-warning"></i>
+        <i ng-if="!place.siteOnServer && !place.siteInvalid" class="icon" ng-class="place.hasData ? 'ion-checkmark' : ''"></i>
+
         <ion-option-button class="button-assertive icon ion-trash-a"
                             ng-click='deleteReport(place)'>
         </ion-option-button>
