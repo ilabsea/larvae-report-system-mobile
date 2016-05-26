@@ -5,18 +5,11 @@ ParentsOfflineService.$inject = ["$cordovaSQLite", "SessionsService"];
 
 function ParentsOfflineService($cordovaSQLite, SessionsService) {
 
-  var parentsExist = [];
-
   function insert(place) {
-    // console.log('parentsExist : ', parentsExist);
-    // console.log('place.id : ', place.id);
-    // console.log('parentsExist.indexOf(place.id) !== -1 : ', parentsExist.indexOf(place.id) != -1);
-    // if(!(parentsExist.indexOf(place.id) !== -1)){
-      var userId = SessionsService.getUserId();
-      var query = "INSERT INTO parent_places (parent_id, name , user_id) VALUES (?, ?, ?)";
-      var placeData = [place.id, place.name, userId];
-      $cordovaSQLite.execute(db, query, placeData);
-    // }
+    var userId = SessionsService.getUserId();
+    var query = "INSERT INTO parent_places (parent_id, name , user_id) VALUES (?, ?, ?)";
+    var placeData = [place.id, place.name, userId];
+    $cordovaSQLite.execute(db, query, placeData);
   }
 
   function deleteByUserId(uId) {
@@ -24,8 +17,16 @@ function ParentsOfflineService($cordovaSQLite, SessionsService) {
     $cordovaSQLite.execute(db, query, [uId]);
   }
 
+  function getByParentId(id) {
+    var query = "SELECT * FROM parent_places WHERE parent_id=?";
+    return parent = $cordovaSQLite.execute(db, query, [id]).then(function(res){
+      return res.rows;
+    });
+  }
+
   return{
     insert: insert,
-    deleteByUserId: deleteByUserId
+    deleteByUserId: deleteByUserId,
+    getByParentId: getByParentId
   }
 }

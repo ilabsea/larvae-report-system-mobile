@@ -102,7 +102,6 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
 
   function storeParent(ancestry) {
     PlacesService.fetchPlaceParent(ancestry).then(function(parent){
-      console.log('parent : ', parent);
       ParentsOfflineService.insert(parent);
     });
   }

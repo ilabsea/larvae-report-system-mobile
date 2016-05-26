@@ -6,7 +6,7 @@ FormSiteCtrl.$inject = ["$scope", "$state", "$ionicPopup", "$ionicTabsDelegate",
                 "ValidationService", "PopupService" , "MembershipsService", "$ionicScrollDelegate",
                 "$timeout", "$ionicHistory", "LayersOfflineService", "SessionsService",
                 "FieldsOfflineService", "MembershipsOfflineService", "PlacesOfflineService",
-                "SwitchTabHelper", "MembershipsHelper", "LayersHelperService"]
+                "SwitchTabHelper", "MembershipsHelper", "LayersHelperService", "ParentsOfflineService"]
 
 function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksService,
                 PlacesService, ENDPOINT, LayersService, FieldsService, SiteService,
@@ -14,7 +14,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
                 ValidationService, PopupService, MembershipsService, $ionicScrollDelegate,
                 $timeout, $ionicHistory, LayersOfflineService, SessionsService,FieldsOfflineService,
                 MembershipsOfflineService, PlacesOfflineService, SwitchTabHelper,
-                MembershipsHelper, LayersHelperService) {
+                MembershipsHelper, LayersHelperService, ParentsOfflineService) {
 
   var vm = $scope, currentPhotoFieldId, isSubmit = false;
   vm.site = {properties : {}, id:'', files: {}};
@@ -326,11 +326,13 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function getDistrictName() {
-    var placeId = PlacesService.getSelectedPlaceId();
-    PlacesOfflineService.getByPlaceId(placeId).then(function(place){
-      console.log('place : ', place);
-      vm.districtName = place.length > 0 ? place.item(0).parent_place_name : "";
-    });
+    var place = PlacesService.getSelectedPlace();
+    if(place.ancestry){
+      var splitParents = place.ancestry.split("/");
+      ParentsOfflineService.getByParentId(splitParents[splitParents.length-1]).then(function(parent){
+        vm.districtName = parent.length > 0 ? parent.item(0).name : "";
+      })
+    }
   }
 
   function goBackAndSaveIfData() {
