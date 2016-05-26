@@ -43,7 +43,11 @@
     "error" : "Error",
     "please_check_your_internet_connection": "Please check your internet connection.",
     "delete_report": "Delete report!",
-    "are_you_sure_you_want_to_delete_report_in": "Are you sure you want to delete report in "
+    "are_you_sure_you_want_to_delete_report_in": "Are you sure you want to delete report in ",
+    "cannot_upload_reports" : "Cannot upload reports",
+    "please_fill_all_required_fields_before_uploading_to_malaria_station_of_report": "Please fill all required fields before uploading to malaria station of report ",
+    "upload_reports": "Upload reports",
+    "are_you_sure_to_send_all_reports_to_malaria_station_with_total_of": "Are you sure to send all reports to malaria station with total of "
   },
   "form":{
     "save":"Save",
@@ -53,6 +57,20 @@
     "cannot_get_data_from_server": "Cannot get data from server.",
     "please_check_internet_connection": "Please check your internet connection.",
     "no_data_found_in_database": "No data found in database",
-    "turn_on_your_internet_connection_to_get_data_from_server": "Turn on your internet connecton to get data from server"
+    "turn_on_your_internet_connection_to_get_data_from_server": "Turn on your internet connecton to get data from server",
+    "error_save_report": "Error save report!",
+    "field": "Field ",
+    "in": " in ",
+    "is_required": "is required.",
+    "district_name": "District name",
+    "village_name" : "Village name",
+    "no_value": "no value",
+    "take_photo": "Take photo",
+    "choose_existing" : "Choose existing",
+    "photo_options": "Photo options"
+  },
+  "form_validation":{
+    "this_field_is_required": "This field is required.",
+    "invalid_email": "Invalid email"
   }
 }

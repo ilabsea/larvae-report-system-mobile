@@ -11,7 +11,7 @@
   <div class="error-message" ng-show="!canReadOnlyLayer && (formSite['{{field.field_id}}'].$invalid
             && (formSite['{{field.field_id}}'].$touched ||!customValidate()))"
        ng-messages="formSite['{{field.field_id}}'].$error">
-     <div ng-message="required">This field is required!
+     <div ng-message="required">{{"form.district_name" | translate}}
      </div>
   </div>
 </label>

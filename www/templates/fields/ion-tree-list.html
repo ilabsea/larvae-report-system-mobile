@@ -31,12 +31,12 @@
             style="padding-left: 15px"
             ng-click="setSelected(item);"
             ng-class="item == selectedItem ? 'custom-selected-item' : ''">
-            (no value)
+            ({{"form.no_value" | translate}})
   </ion-item>
   <ion-item ng-if="disabledClick" class="item custom-item"
             style="padding-left: 15px"
             ng-class="item == selectedItem ? 'custom-selected-item' : ''">
-            (no value)
+            ({{"form.no_value" | translate}})
   </ion-item>
   <span ng-repeat="item in items" ng-include="'items_renderer'"></span>
 </div>

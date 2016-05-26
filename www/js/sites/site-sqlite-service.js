@@ -1,10 +1,10 @@
 angular.module('app')
 .factory('SiteSQLiteService', SiteSQLiteService)
 SiteSQLiteService.$inject = ["SessionsService", "SiteService", "$cordovaSQLite", "WeeksService",
-      "PlacesService", "$rootScope", "$state", "$ionicPopup"]
+      "PlacesService", "$rootScope", "$state", "$ionicPopup", "$translate"]
 
 function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksService, PlacesService,
-    $rootScope, $state, $ionicPopup) {
+    $rootScope, $state, $ionicPopup, $translate) {
 
   function insertSite(site){
     var query = "INSERT INTO sites" +
@@ -58,7 +58,7 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
           if(isError == false){
             isError = true;
             $rootScope.hideSpinner();
-            var ul = "Please fill all required data before submitting to server of " + prepareSite.name + "<ul>";
+            var ul = $translate.instant("place.please_fill_all_required_fields_before_uploading_to_malaria_station_of_report") +  prepareSite.name + "<ul>";
             var i = 0,
                 l = e.properties.length
             for(; i < l ; i++){
@@ -66,7 +66,7 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
               ul += "<li class='bullet-list'>" + e.properties[i][key] + "</li>";
             }
             $ionicPopup.alert({
-              title: 'Cannot upload data',
+              title: $translate.instant("place.cannot_upload_reports"),
               template: ul + "</ul>",
               okType: 'default-button'
             });

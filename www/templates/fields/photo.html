@@ -15,7 +15,7 @@
   </div>
   <div class="error-message" ng-show="formSite['{{field.field_id}}'].$invalid && !customValidate()"
         ng-messages="formSite['{{field.field_id}}'].$error">
-     <div ng-message='required'>This field is required!
+     <div ng-message='required'>{{"form_validation.this_field_is_required" | translate}}
      </div>
   </div>
 </div>

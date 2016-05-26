@@ -1,6 +1,6 @@
 <ul ng-repeat='layer in layersWithInvalidData'>
   <li ng-repeat='field in layer.fields' class='bullet-list'>
-    Field <span style="color: red"> {{field}} </span> in
-    <span style="color: red"> {{layer.name}} </span> is required
+    {{"form.field" | translate }} <span style="color: red"> {{field}} </span> {{"form.in" | translate}}
+    <span style="color: red"> {{layer.name}} </span> {{"form.is_required" | translate}}
   </li>
 </ul>

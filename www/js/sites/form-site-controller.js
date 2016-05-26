@@ -283,12 +283,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       addOrUpdateSite(site, propertiesDate);
       $state.go('places');
     } else {
-      $ionicPopup.alert({
-        title: 'Error sending data!',
-        scope: vm,
-        templateUrl: 'templates/validation/save-site.html',
-        okType: 'default-button'
-      });
+      PopupService.alertPopup("form.error_save_report", "", 'templates/validation/save-site.html', vm);
     }
   }
 
@@ -301,7 +296,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   function showChoiceCameraPopup(photoFieldId){
     CameraOptionsPopup = $ionicPopup.show({
       templateUrl: "templates/camera-options.html",
-      title: 'Photo options',
+      title: 'form.photo_options',
       scope: $scope,
       buttons: [{ text: 'Cancel' }]
     });

@@ -43,7 +43,11 @@
     "error" : "ຄວາມຜິດພາດ",
     "please_check_your_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ.",
     "delete_report": "ລົບ report!",
-    "are_you_sure_you_want_to_delete_report_in": "ທ່ານແນ່ໃຈວ່າ ທ່ານ ຕ້ອງການທີ່ຈະ ລົບ ລາຍງານ ໃນ "
+    "are_you_sure_you_want_to_delete_report_in": "ທ່ານແນ່ໃຈວ່າ ທ່ານ ຕ້ອງການທີ່ຈະ ລົບ ລາຍງານ ໃນ ",
+    "cannot_upload_reports" : "ບໍ່ສາມາດອັບໂຫລດບົດລາຍງານ",
+    "please_fill_all_required_fields_before_uploading_to_malaria_station_of_report": "ກະລຸນາຕື່ມຂໍ້ມູນໃສ່ທົ່ງນາທີ່ກໍານົດໄວ້ທັງຫມົດກ່ອນທີ່ຈະອັບໂຫຼດໃຫ້ສະຖານີພະຍາດໄຂ້ຍຸງຂອງບົດລາຍງານ ",
+    "upload_reports": "ອັບໂຫລດ ບົດລາຍງານ",
+    "are_you_sure_to_send_all_reports_to_malaria_station_with_total_of": "ທ່ານມີຄວາມ ແນ່ໃຈວ່າຈະ ສົ່ງບົດລາຍງານ ທັງຫມົດເພື່ອ ສະຖານີ ພະຍາດໄຂ້ຍຸງ ມີຈໍານວນ "
   },
   "form":{
     "save":"ຈັດເກັບ",
@@ -53,6 +57,20 @@
     "cannot_get_data_from_server": "ບໍ່ສາມາດນຳໃຊ້ຂໍ້ມູນຈາກລະບົບ.",
     "please_check_internet_connection": "ກະລຸນາກວດສອບເບິ່ງສັນຍານອິນເຕີເນັດ.",
     "no_data_found_in_database": "ບໍ່ມີ ພົບເຫັນຢູ່ໃນ ຖານຂໍ້ມູນ ຂໍ້ມູນ.",
-    "turn_on_your_internet_connection_to_get_data_from_server": "ເປີດການເຊື່ອມຕໍ່ ອິນເຕີເນັດ ຂອງທ່ານ ເພື່ອໃຫ້ໄດ້ຮັບ ຂໍ້ມູນ ຈາກເຄື່ອງແມ່ຂ່າຍ."
+    "turn_on_your_internet_connection_to_get_data_from_server": "ເປີດການເຊື່ອມຕໍ່ ອິນເຕີເນັດ ຂອງທ່ານ ເພື່ອໃຫ້ໄດ້ຮັບ ຂໍ້ມູນ ຈາກເຄື່ອງແມ່ຂ່າຍ.",
+    "error_save_report": "ຄວາມຜິດພາດ ນອກຈາກ ບົດລາຍງານ !",
+    "field": "ພາກສະຫນາມ ",
+    "in": " ໃນ ",
+    "is_required": "ຈໍາ​ເປັນ.",
+    "district_name": "ຊື່ເມືອງ",
+    "village_name" : "ຊື່ບ້ານ",
+    "no_value": "ບໍ່ມີຄຸນຄ່າ",
+    "take_photo": "ຖ່າຍ​ຮູບ",
+    "choose_existing" : "ເລືອກທີ່ມີຢູ່ແລ້ວ",
+    "photo_options": "ທາງເລືອກໃນການຮູບພາບ"
+  },
+  "form_validation":{
+    "this_field_is_required": "ພາກສະຫນາມນີ້ແມ່ນຕ້ອງການ.",
+    "invalid_email": "ອີເມວທີ່ບໍ່ຖືກຕ້ອງ"
   }
 }

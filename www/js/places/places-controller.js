@@ -1,12 +1,12 @@
 angular.module('app')
 .controller('PlacesCtrl', PlacesCtrl)
 
-PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
-      "$state", "$ionicHistory", "PlacesService", "SiteService", "SiteSQLiteService",
-      "ApiService", "SessionsService", "PlacesOfflineService", "PopupService", "$timeout",
-      "$ionicListDelegate", "LayersOfflineService", "FieldsOfflineService", "ParentsOfflineService"]
+PlacesCtrl.$inject = ["$scope", "WeeksService", "$state", "$ionicHistory", "PlacesService",
+      "SiteService", "SiteSQLiteService", "ApiService", "SessionsService", "PlacesOfflineService",
+      "PopupService", "$timeout", "$ionicListDelegate", "LayersOfflineService",
+      "FieldsOfflineService", "ParentsOfflineService"]
 
-function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
+function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     PlacesService, SiteService, SiteSQLiteService, ApiService, SessionsService,
     PlacesOfflineService, PopupService, $timeout, $ionicListDelegate,
     LayersOfflineService, FieldsOfflineService, ParentsOfflineService) {
@@ -136,20 +136,11 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
 
   function uploadSites(){
     if(isOnline()){
-      var confirmPopup = $ionicPopup.confirm({
-        title: 'Upload Sites to malaria station',
-        template: 'Are you sure to send all reports to malaria station with total of '
-                    + vm.numberOfSites + ' villages?',
-        cssClass: 'custom-class',
-        cancelText: 'No',
-        okText: 'Yes',
-        okType: 'default-button'
-      });
-      confirmPopup.then(function (res) {
-        if(res){
-          vm.showSpinner('templates/loading/loading.html');
-          SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
-        }
+      PopupService.confirmPopup("place.upload_reports",
+          "place.are_you_sure_to_send_all_reports_to_malaria_station_with_total_of", vm.numberOfSites + " villages?" ,
+          function(res){
+        vm.showSpinner('templates/loading/loading.html');
+        SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
       });
     }else{
       PopupService.alertPopup("place.error", "place.please_check_your_internet_connection");
