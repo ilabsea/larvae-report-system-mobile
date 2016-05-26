@@ -4,12 +4,12 @@ angular.module('app')
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$ionicPopup",
       "$state", "$ionicHistory", "PlacesService", "SiteService", "SiteSQLiteService",
       "ApiService", "SessionsService", "PlacesOfflineService", "PopupService", "$timeout",
-      "$ionicListDelegate", "LayersOfflineService", "FieldsOfflineService"]
+      "$ionicListDelegate", "LayersOfflineService", "FieldsOfflineService", "ParentsOfflineService"]
 
 function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService, SiteService, SiteSQLiteService, ApiService, SessionsService,
     PlacesOfflineService, PopupService, $timeout, $ionicListDelegate,
-    LayersOfflineService, FieldsOfflineService) {
+    LayersOfflineService, FieldsOfflineService, ParentsOfflineService) {
 
   var vm = $scope, fieldsMandatory = [];
   vm.getPlaces = getPlaces;
@@ -56,10 +56,12 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesService.fetch().then(function (places) {
       vm.hideSpinner();
       removePlacesByUserId(userId);
+      removeParentsByUserId(userId);
       vm.places = places;
       angular.forEach(vm.places, function(place){
         place.place_id = place.id;
         storePlace(place);
+        storeParent(place.ancestry);
         generateIconInPlace(place);
       });
     }, function(err) {
@@ -90,9 +92,18 @@ function PlacesCtrl($scope, WeeksService, $ionicPopup, $state, $ionicHistory,
     PlacesOfflineService.deleteByUserId(uId);
   }
 
+  function removeParentsByUserId(uId) {
+    ParentsOfflineService.deleteByUserId(uId);
+  }
+
   function storePlace(place) {
-    PlacesService.fetchPlaceParent(place).then(function(parent){
-      PlacesOfflineService.insert(place, parent);
+    PlacesOfflineService.insert(place);
+  }
+
+  function storeParent(ancestry) {
+    PlacesService.fetchPlaceParent(ancestry).then(function(parent){
+      console.log('parent : ', parent);
+      ParentsOfflineService.insert(parent);
     });
   }
 

@@ -7,6 +7,7 @@ function PlacesService($q, $http, ApiService) {
   var placeId;
   var selectedPlace;
   var parentPlaceId;
+  var ancestryValues = [];
 
   function setSelectedPlaceId(id){
     placeId = id;
@@ -44,19 +45,21 @@ function PlacesService($q, $http, ApiService) {
     });
   }
 
-  function fetchPlaceParent(place) {
+  function fetchPlaceParent(ancestry) {
     return $q(function(resolve, reject) {
-      var ancestry = place.ancestry;
       var dataAttr = {"ancestry" : ancestry};
-      if(ancestry){
-        $http.get(ApiService.getPlaceParentUrl(), {"params": dataAttr} )
-          .success(function (place) {
-            setParentSelectedPlaceId(place.id);
-            resolve(place);
-          })
-          .error(function(error){
-            reject(error);
-          });
+      if(!(ancestryValues.indexOf(ancestry) != -1)){
+        if(ancestry){
+          ancestryValues.push(ancestry);
+          $http.get(ApiService.getPlaceParentUrl(), {"params": dataAttr} )
+            .success(function (place) {
+              setParentSelectedPlaceId(place.id);
+              resolve(place);
+            })
+            .error(function(error){
+              reject(error);
+            });
+        }
       }
     });
   }
@@ -68,6 +71,6 @@ function PlacesService($q, $http, ApiService) {
     getSelectedPlace: getSelectedPlace,
     fetch: fetch,
     fetchPlaceParent: fetchPlaceParent,
-    getParentSelectedPlaceId: getParentSelectedPlaceId
+    getParentSelectedPlaceId: getParentSelectedPlaceId,
   };
 }

@@ -20,13 +20,6 @@
 
     <script src="lib/angular-translate/angular-translate.min.js"></script>
     <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
-    <script src="lib/ionic-fancy-select/src/ionic-fancy-select.js"></script>
-    <script src="lib/ion-tree-list/ion-tree-list.js"></script>
-    <script src="lib/moment/moment.min.js"></script>
-    <script src="lib/angular-moment/angular-moment.min.js"></script>
-    <script src="lib/angular-messages/angular-messages.min.js"></script>
-    <script src="lib/ionic-close-popup/ionic-close-popup.js"></script>
-    <script src="lib/angular-elastic/elastic.js"></script>
 
     <script src="js/app.module.js"></script>
     <script src="js/app.run.js"></script>
@@ -35,6 +28,19 @@
     <script src="js/app.translation.js"></script>
     <script src="js/app.database.js"></script>
     <script src="js/network-connection.js"></script>
+  </head>
+  <body ng-app="app">
+    <ion-nav-bar class="bar-custom-header" align-title="left">
+    </ion-nav-bar>
+    <ion-nav-view></ion-nav-view>
+    <script src="lib/ionic-fancy-select/src/ionic-fancy-select.js"></script>
+    <script src="lib/ion-tree-list/ion-tree-list.js"></script>
+    <script src="lib/moment/moment.min.js"></script>
+    <script src="lib/angular-moment/angular-moment.min.js"></script>
+    <script src="lib/angular-messages/angular-messages.min.js"></script>
+    <script src="lib/ionic-close-popup/ionic-close-popup.js"></script>
+    <script src="lib/angular-elastic/elastic.js"></script>
+
     <script src="js/sites/switch-tab-helper.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/constants.js"></script>
@@ -49,6 +55,7 @@
     <script src="js/places/places-controller.js"></script>
     <script src="js/places/places-service.js"></script>
     <script src="js/places/places-offline-service.js"></script>
+    <script src="js/places/parents-offline-service.js"></script>
     <script src="js/sites/form-site-controller.js"></script>
     <script src="js/sites/site-service.js"></script>
     <script src="js/sites/site-sqlite-service.js"></script>
@@ -66,10 +73,5 @@
     <script src="js/memberships/memberships-service.js"></script>
     <script src="js/memberships/memberships-offline-service.js"></script>
     <script src="js/memberships/memberships-helper.js"></script>
-  </head>
-  <body ng-app="app">
-    <ion-nav-bar class="bar-custom-header" align-title="left">
-    </ion-nav-bar>
-    <ion-nav-view></ion-nav-view>
   </body>
 </html>

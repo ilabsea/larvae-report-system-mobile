@@ -52,12 +52,12 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function renderForm() {
+    getDistrictName();
     isOnline() ? renderFormOnline() : renderFormOffline();
   }
 
   function renderFormOnline() {
     vm.showSpinner('templates/loading/loading.html');
-    getDistrictName();
     LayersService.fetch().then(function(builtLayers){
       LayersHelperService.removeLayersFields();
       LayersHelperService.storeLayersFields(builtLayers);
@@ -78,7 +78,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function renderFormOffline() {
-    getDistrictName();
     var userId = SessionsService.getUserId();
     LayersOfflineService.getByUserId(userId).then(function(layers) {
       if(layers.length == 0){
@@ -329,6 +328,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   function getDistrictName() {
     var placeId = PlacesService.getSelectedPlaceId();
     PlacesOfflineService.getByPlaceId(placeId).then(function(place){
+      console.log('place : ', place);
       vm.districtName = place.length > 0 ? place.item(0).parent_place_name : "";
     });
   }

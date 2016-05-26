@@ -5,14 +5,14 @@ PlacesOfflineService.$inject = ["$cordovaSQLite", "SessionsService"];
 
 function PlacesOfflineService($cordovaSQLite, SessionsService) {
 
-  function insert(place, parent) {
-    var query = "INSERT INTO places (place_id, name , user_id, parent_place_id, parent_place_name) VALUES (?, ?, ?, ?,?)";
+  function insert(place) {
+    var query = "INSERT INTO places (place_id, name , user_id, ancestry) VALUES (?, ?, ?, ?)";
     var userId = SessionsService.getUserId();
-    var placeData = [place.id, place.name, userId, parent.id, parent.name];
+    var placeData = [place.id, place.name, userId, place.ancestry];
     $cordovaSQLite.execute(db, query, placeData);
   }
 
-  function deleteByUserId(uId, placeId) {
+  function deleteByUserId(uId) {
     var query = "DELETE FROM places WHERE user_id=?";
     $cordovaSQLite.execute(db, query, [uId]);
   }

@@ -11,7 +11,9 @@ function createTables($cordovaSQLite) {
   var collection = "CREATE TABLE IF NOT EXISTS collections (id integer primary key, " +
         "collection_id integer, user_id integer, name text)";
   var place = "CREATE TABLE IF NOT EXISTS places (id integer primary key, place_id integer, " +
-        "name text, user_id integer, parent_place_id integer, parent_place_name text)";
+        "name text, user_id integer, ancestry text)";
+  var parent_places = "CREATE TABLE IF NOT EXISTS parent_places (id integer primary key, parent_id integer, " +
+        "name text, user_id integer)";
   var site = "CREATE TABLE IF NOT EXISTS sites (id integer primary key, collection_id integer, " +
         "user_id integer, place_id integer, device_id text, name text, week_number integer, " +
         "year integer, properties text, files text)";
@@ -27,6 +29,7 @@ function createTables($cordovaSQLite) {
 
   $cordovaSQLite.execute(db, user);
   $cordovaSQLite.execute(db, collection);
+  $cordovaSQLite.execute(db, parent_places);
   $cordovaSQLite.execute(db, place);
   $cordovaSQLite.execute(db, site);
   $cordovaSQLite.execute(db, layer);
