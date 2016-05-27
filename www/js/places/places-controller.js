@@ -60,6 +60,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
       vm.places = places;
       angular.forEach(vm.places, function(place){
         place.place_id = place.id;
+        place.hasData = false;
         storePlace(place);
         storeParent(place.ancestry);
       });
@@ -174,6 +175,8 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     PopupService.confirmPopup('place.delete_report',
       'place.are_you_sure_you_want_to_delete_report_in' , place.name + "?" , function(res ){
         SiteSQLiteService.deleteSiteByPlaceWeekYear(place.id);
+        place.siteInvalid = false;
+        place.hasData = false;
         $state.go($state.current, {}, {reload: true});
         $ionicListDelegate.closeOptionButtons();
     }, function(){
