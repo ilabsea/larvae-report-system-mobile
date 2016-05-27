@@ -75,7 +75,8 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   function getPlacesOffline() {
     PlacesOfflineService.getByUserId(SessionsService.getUserId()).then(function(places) {
-      vm.places = generateClassInPlaces(places);
+      vm.places = places;
+      buildIconSitesInSQLite(vm.places);
     });
   }
 

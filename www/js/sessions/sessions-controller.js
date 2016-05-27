@@ -23,7 +23,6 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
 
   function loginOnline(user) {
     vm.showSpinner('templates/loading/loading-login.html');
-    console.log('user : ', user);
     SessionsService.login(user).then(function(authenticated) {
       SessionsOfflineService.setCurrentUser(user, authenticated.user_id);
       SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
