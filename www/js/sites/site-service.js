@@ -34,7 +34,20 @@ function SiteService($q, $http, ApiService, SessionsService) {
           resolve(site);
         })
         .error(function(error){
-          reject('error ' + error);
+          reject(error);
+        });
+    });
+  }
+
+  function fetchSitesByWeekYear(week, year) {
+    return $q(function(resolve, reject) {
+      var dataAttr = {"week" : week, "year" : year};
+      $http.get(ApiService.getSitesByWeekYearUrl(), {"params": dataAttr })
+        .success(function(site) {
+          resolve(site);
+        })
+        .error(function(error){
+          reject(error);
         });
     });
   }
@@ -55,6 +68,7 @@ function SiteService($q, $http, ApiService, SessionsService) {
   return {
     saveSite: saveSite,
     updateSite: updateSite,
-    fetchSiteByWeekYearPlaceId: fetchSiteByWeekYearPlaceId
+    fetchSiteByWeekYearPlaceId: fetchSiteByWeekYearPlaceId,
+    fetchSitesByWeekYear: fetchSitesByWeekYear
   };
 }

@@ -3,7 +3,7 @@ angular.module('app')
 ApiService.$inject = ["ENDPOINT", "API", "SessionsService", "CollectionsService"]
 
 function ApiService(ENDPOINT, API, SessionsService, CollectionsService) {
-  
+
   function getLayersUrl() {
     var authToken = SessionsService.getAuthToken();
     var cId = CollectionsService.getCollectionId();
@@ -39,6 +39,13 @@ function ApiService(ENDPOINT, API, SessionsService, CollectionsService) {
     return siteWeekYearPlaceId;
   }
 
+  function getSitesByWeekYearUrl() {
+    var authToken = SessionsService.getAuthToken();
+    var cId = CollectionsService.getCollectionId();
+    var sitesWeekYear = ENDPOINT.api + API.collectionsv1 + cId + API.get_sites_by_week_year + authToken;
+    return sitesWeekYear;
+  }
+
   function getPlaceMembershipsUrl() {
     var authToken = SessionsService.getAuthToken();
     var cId = CollectionsService.getCollectionId();
@@ -60,6 +67,7 @@ function ApiService(ENDPOINT, API, SessionsService, CollectionsService) {
     getSiteUrl: getSiteUrl,
     getSiteByWeekYearPlaceIdUrl: getSiteByWeekYearPlaceIdUrl,
     getPlaceMembershipsUrl: getPlaceMembershipsUrl,
-    getUpdateSiteUrl: getUpdateSiteUrl
+    getUpdateSiteUrl: getUpdateSiteUrl,
+    getSitesByWeekYearUrl: getSitesByWeekYearUrl
   }
 }

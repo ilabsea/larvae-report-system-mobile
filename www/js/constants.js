@@ -16,6 +16,7 @@ angular.module('app')
   sites: '/sites?auth_token=',
   update_site: '/sites/',
   get_site_by_week_year_placeId: '/sites/get_site_by_week_year_place.json?auth_token=',
+  get_sites_by_week_year: '/sites/get_sites_by_week_year.json?auth_token=',
   get_parent_place_by_ancestry: '/places/get_parent_place_by_ancestry_id.json?auth_token=',
   places: '/places/my_supervision_place.json?auth_token=',
   place_memberships: '/places/memberships.json?auth_token='

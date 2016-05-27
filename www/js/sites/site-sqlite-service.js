@@ -39,7 +39,7 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
   }
 
   function uploadSites(week, year) {
-    getSitesInWeekYear(week, year).then(function(sites){
+    getSitesByWeekYear(week, year).then(function(sites){
       var isError = false;
       angular.forEach(sites, function(site, index){
         var prepareSite = { "name": site.name,
@@ -106,7 +106,7 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     return weeksMissingSend;
   }
 
-  function getSitesInWeekYear(week, year) {
+  function getSitesByWeekYear(week, year) {
     var query = "SELECT * FROM sites WHERE week_number=? AND year=? AND user_id=?";
     var userId = SessionsService.getUserId();
     var sites = $cordovaSQLite.execute(db, query, [week, year, userId]).then(function(site){
@@ -150,6 +150,7 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     getWeeksMissingSend: getWeeksMissingSend,
     getSiteByPlaceIdInWeekYear: getSiteByPlaceIdInWeekYear,
     getNumberOfSitesInWeekYear: getNumberOfSitesInWeekYear,
-    deleteSiteByPlaceWeekYear: deleteSiteByPlaceWeekYear
+    deleteSiteByPlaceWeekYear: deleteSiteByPlaceWeekYear,
+    getSitesByWeekYear: getSitesByWeekYear
   }
 }

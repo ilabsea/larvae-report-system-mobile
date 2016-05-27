@@ -62,8 +62,9 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
         place.place_id = place.id;
         storePlace(place);
         storeParent(place.ancestry);
-        generateIconInPlace(place);
       });
+      buildIconSitesInServer(places);
+      buildIconSitesInSQLite(places);
     }, function(err) {
       if(!SessionsService.getAuthToken()){
         vm.isErrorAuthToken = true;
@@ -78,13 +79,53 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     });
   }
 
-  function generateIconInPlace(place) {
-    SiteService.fetchSiteByWeekYearPlaceId(vm.selectedWeek, vm.selectedYear, place.place_id)
-      .then(function(site){
-        if(site){
-          place.siteOnServer = true;
-        }else
-          generateClassInAPlace(place);
+  function buildIconSitesInServer(places) {
+    SiteService.fetchSitesByWeekYear(vm.selectedWeek, vm.selectedYear).then(function(sites) {
+      var index = 0,
+          lsites = sites.length
+      for(; index < lsites; index++){
+        site = sites[index];
+        var j = 0,
+            l = places.length
+        for(; j < l ; j++){
+          place = places[j];
+          if(site.place_id == place.place_id){
+            place.siteOnServer = true;
+            break;
+          }
+        }
+      }
+    });
+  }
+
+  function buildIconSitesInSQLite(places) {
+    SiteSQLiteService.getSitesByWeekYear(vm.selectedWeek, vm.selectedYear).then(function(sites){
+      var index = 0,
+          lsites = sites.length
+      for(; index < lsites; index++){
+        site = sites[index];
+        var j = 0,
+            l = places.length
+        for(; j < l ; j++){
+          place = places[j];
+          if(site.place_id == place.place_id){
+            place.hasData = true ;
+            place.siteInvalid = false;
+            var properties = angular.fromJson(site.properties);
+            var i = 0;
+                l = fieldsMandatory.length
+            for(; i < l ; i++){
+              fieldMandatory = fieldsMandatory[i];
+              value = properties[fieldMandatory.field_id];
+              if(angular.isUndefined(value) || value == '' || value == null){
+                place.siteInvalid = true;
+                break;
+              }
+            }
+            break;
+          }
+        }
+      }
     });
   }
 
@@ -104,34 +145,6 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     PlacesService.fetchPlaceParent(ancestry).then(function(parent){
       ParentsOfflineService.insert(parent);
     });
-  }
-
-  function generateClassInPlaces(places){
-    angular.forEach(places, function(place){
-      generateClassInAPlace(place);
-    });
-    return places;
-  }
-
-  function generateClassInAPlace(place){
-    SiteSQLiteService.getSiteByPlaceIdInWeekYear(place.place_id).then(function(site){
-      place.hasData = site.length > 0 ;
-      place.siteError = false;
-      if(site.length > 0){
-        var properties = angular.fromJson(site[0].properties);
-        place.siteInvalid = false;
-        var i = 0;
-            l = fieldsMandatory.length
-        for(; i < l ; i++){
-          fieldMandatory = fieldsMandatory[i];
-          value = properties[fieldMandatory.field_id];
-          if(angular.isUndefined(value) || value == '' || value == null){
-            place.siteInvalid = true;
-            break;
-          }
-        }
-      }
-    })
   }
 
   function uploadSites(){
@@ -169,9 +182,11 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   $scope.$on('$stateChangeSuccess', function(event, toState) {
     if (toState.url== "/places") {
-      vm.places = generateClassInPlaces(vm.places);
-      setNumberOfSitesInWeekYear();
-      $ionicListDelegate.closeOptionButtons();
+      if(vm.places){
+        buildIconSitesInSQLite(vm.places);
+        setNumberOfSitesInWeekYear();
+        $ionicListDelegate.closeOptionButtons();
+      }
     }
   });
 }

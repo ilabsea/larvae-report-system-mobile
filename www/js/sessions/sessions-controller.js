@@ -10,9 +10,8 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
               $ionicHistory) {
 
   var vm = $scope;
-  // vm.user = {'email': 'mouyleng+3@instedd.org', 'password':'mouyleng123'};
-  vm.user = {'email': 'sokha@yahoo.com', 'password':'Ks0kmesa!'};
-  // vm.user = {'email': 'channesuy@instedd.org', 'password':'Ks0kmesa!'};
+  // vm.user = {'email': 'sokha@yahoo.com', 'password':'Ks0kmesa!'};
+  vm.user = {'email': 'channesuy@instedd.org', 'password':'Ks0kmesa!'};
   // vm.user = {'email': '', 'password':''};
   vm.login = login;
   vm.logout = logout;
@@ -24,6 +23,7 @@ function SessionsCtrl($scope, $state, SessionsService, ApiService, PopupService,
 
   function loginOnline(user) {
     vm.showSpinner('templates/loading/loading-login.html');
+    console.log('user : ', user);
     SessionsService.login(user).then(function(authenticated) {
       SessionsOfflineService.setCurrentUser(user, authenticated.user_id);
       SessionsOfflineService.getUserByEmail(user.email).then(function(userRes){
