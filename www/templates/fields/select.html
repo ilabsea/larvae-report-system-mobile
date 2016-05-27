@@ -6,10 +6,10 @@
     untouched="customValidate()"
     is-required="{{field.required}}"
     disabled-click='{{canReadOnlyLayer}}'
-    header-text="Select option"
+    header-text="{{'form.select_option' | translate}}"
     items="field.config.options" value="site.properties[field.field_id]"
     value-property="id" text-property="label"
-    multi-select="{{field.multiSelect}}" text="(no value)"
+    multi-select="{{field.multiSelect}}" text="({{'form.no_value' | translate}})"
     modal-template-url="templates/fancy-select/fancy-select.html"
     template-url="templates/fancy-select/item-template.html"
     note-text="{{field.name}}" value-changed="onValueChanged(value)"

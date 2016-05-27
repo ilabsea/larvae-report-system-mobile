@@ -65,7 +65,7 @@
     "district_name": "District name",
     "village_name" : "Village name",
     "no_value": "no value",
-    "select_options": "Select options",
+    "select_option": "Select option",
     "take_photo": "Take photo",
     "choose_existing" : "Choose existing",
     "photo_options": "Photo options"

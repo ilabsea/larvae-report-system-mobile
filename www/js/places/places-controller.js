@@ -156,6 +156,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
           function(res){
         vm.showSpinner('templates/loading/loading.html');
         SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
+        $state.go($state.current, {}, {reload: true});
       });
     }else{
       PopupService.alertPopup("place.error", "place.please_check_your_internet_connection");
@@ -188,9 +189,9 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     if (toState.url== "/places") {
       if(vm.places){
         buildIconSitesInSQLite(vm.places);
-        setNumberOfSitesInWeekYear();
-        $ionicListDelegate.closeOptionButtons();
       }
+      setNumberOfSitesInWeekYear();
+      $ionicListDelegate.closeOptionButtons();
     }
   });
 }
