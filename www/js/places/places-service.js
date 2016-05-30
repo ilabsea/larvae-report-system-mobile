@@ -8,6 +8,7 @@ function PlacesService($q, $http, ApiService) {
   var selectedPlace;
   var parentPlaceId;
   var ancestryValues = [];
+  var siteData;
 
   function setSelectedPlaceId(id){
     placeId = id;
@@ -64,6 +65,14 @@ function PlacesService($q, $http, ApiService) {
     });
   }
 
+  function setPlaceWithSiteData(site) {
+    siteData = site;
+  }
+
+  function getPlaceWithSiteData() {
+    return siteData;
+  }
+
   return {
     setSelectedPlaceId: setSelectedPlaceId,
     getSelectedPlaceId: getSelectedPlaceId,
@@ -72,5 +81,7 @@ function PlacesService($q, $http, ApiService) {
     fetch: fetch,
     fetchPlaceParent: fetchPlaceParent,
     getParentSelectedPlaceId: getParentSelectedPlaceId,
+    setPlaceWithSiteData: setPlaceWithSiteData,
+    getPlaceWithSiteData: getPlaceWithSiteData
   };
 }

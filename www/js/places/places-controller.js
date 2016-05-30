@@ -4,12 +4,12 @@ angular.module('app')
 PlacesCtrl.$inject = ["$scope", "WeeksService", "$state", "$ionicHistory", "PlacesService",
       "SiteService", "SiteSQLiteService", "ApiService", "SessionsService", "PlacesOfflineService",
       "PopupService", "$timeout", "$ionicListDelegate", "LayersOfflineService",
-      "FieldsOfflineService", "ParentsOfflineService"]
+      "FieldsOfflineService", "ParentsOfflineService", "ValidationService"]
 
 function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     PlacesService, SiteService, SiteSQLiteService, ApiService, SessionsService,
     PlacesOfflineService, PopupService, $timeout, $ionicListDelegate,
-    LayersOfflineService, FieldsOfflineService, ParentsOfflineService) {
+    LayersOfflineService, FieldsOfflineService, ParentsOfflineService, ValidationService) {
 
   var vm = $scope, fieldsMandatory = [];
   vm.getPlaces = getPlaces;
@@ -34,10 +34,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   function setFieldsMandatory() {
     LayersOfflineService.getByUserId(SessionsService.getUserId()).then(function(layers){
-      var i = 0,
-          l = layers.length
-      for(; i < l ; i++){
-        layer = layers[i];
+      angular.forEach(layers, function(layer){
         FieldsOfflineService.getByLayerId(layer.layer_id).then(function(fields){
           var j = 0,
               lf = fields.length
@@ -47,7 +44,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
               fieldsMandatory.push(field);
           }
         });
-      }
+      });
     });
   }
 
@@ -102,10 +99,12 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   function buildIconSitesInSQLite(places) {
     SiteSQLiteService.getSitesByWeekYear(vm.selectedWeek, vm.selectedYear).then(function(sites){
+      console.log('sites : ', sites);
       var index = 0,
           lsites = sites.length
       for(; index < lsites; index++){
         site = sites[index];
+        console.log('fieldsMandatory : ', fieldsMandatory);
         var j = 0,
             l = places.length
         for(; j < l ; j++){
@@ -184,14 +183,21 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
       $ionicListDelegate.closeOptionButtons();
     });
   }
+  function buildIconWhenStateChange() {
+    var site = SiteService.getSiteBackToPlace();
+    var isValid = ValidationService.isValidSite(site);
+    var place = PlacesService.getSelectedPlace();
+    place.siteInvalid = !isValid;
+    place.hasData = true;
+  }
 
-  $scope.$on('$stateChangeSuccess', function(event, toState) {
+  $scope.$on('$stateChangeSuccess', function(event, toState, toParams, from) {
     if (toState.url== "/places") {
-      if(vm.places){
-        buildIconSitesInSQLite(vm.places);
+      if(vm.places && from.url == "/form-site"){
+        buildIconWhenStateChange();
+        $ionicListDelegate.closeOptionButtons();
       }
       setNumberOfSitesInWeekYear();
-      $ionicListDelegate.closeOptionButtons();
     }
   });
 }
