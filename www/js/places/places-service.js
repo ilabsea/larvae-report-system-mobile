@@ -65,14 +65,6 @@ function PlacesService($q, $http, ApiService) {
     });
   }
 
-  function setPlaceWithSiteData(site) {
-    siteData = site;
-  }
-
-  function getPlaceWithSiteData() {
-    return siteData;
-  }
-
   return {
     setSelectedPlaceId: setSelectedPlaceId,
     getSelectedPlaceId: getSelectedPlaceId,
@@ -80,8 +72,6 @@ function PlacesService($q, $http, ApiService) {
     getSelectedPlace: getSelectedPlace,
     fetch: fetch,
     fetchPlaceParent: fetchPlaceParent,
-    getParentSelectedPlaceId: getParentSelectedPlaceId,
-    setPlaceWithSiteData: setPlaceWithSiteData,
-    getPlaceWithSiteData: getPlaceWithSiteData
+    getParentSelectedPlaceId: getParentSelectedPlaceId
   };
 }

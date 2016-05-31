@@ -193,8 +193,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, from) {
     if (toState.url== "/places") {
-      if(vm.places && from.url == "/form-site"){
-        buildIconWhenStateChange();
+      if(vm.places){
         $ionicListDelegate.closeOptionButtons();
       }
       setNumberOfSitesInWeekYear();

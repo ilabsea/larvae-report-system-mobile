@@ -281,6 +281,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     vm.layersWithInvalidData = ValidationService.getLayersWithInvalidData(site);
     if (vm.layersWithInvalidData.length == 0) {
       addOrUpdateSite(site, propertiesDate);
+      buildIconForPlace(site, true);
       $state.go('places');
     } else {
       PopupService.alertPopup("form.error_save_report", "", 'templates/validation/save-site.html', vm);
@@ -330,12 +331,19 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     }
   }
 
+  function buildIconForPlace(site, isValid) {
+    var place = PlacesService.getSelectedPlace();
+    place.siteInvalid = !isValid;
+    place.hasData = true;
+  }
+
   function goBackAndSaveIfData() {
     $ionicHistory.goBack();
     if(vm.site.properties && !vm.canUpdateSiteOnline
       && !vm.isSiteInServer && vm.layers.length != 0 && !vm.canReadOnlySite){
         addOrUpdateSite(vm.site, vm.propertiesDate);
-        SiteService.setSiteBackToPlace(vm.site);
+        var isValid = ValidationService.isValidSite(vm.site);
+        buildIconForPlace(vm.site, isValid);
       }
   }
 }

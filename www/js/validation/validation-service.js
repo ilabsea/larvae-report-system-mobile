@@ -28,7 +28,6 @@ function ValidationService($q, LayersService, LayersOfflineService){
   function isValidSite(siteData) {
     isValid = true;
     var builtLayers = isOnline() ? LayersService.getBuiltLayers() : LayersOfflineService.getBuildLayers();
-    console.log('builtLayers ; ', builtLayers);
     var i = 0,
         l = builtLayers.length
     for(; i < l ; i++){
@@ -40,7 +39,6 @@ function ValidationService($q, LayersService, LayersOfflineService){
         var field = layer.fields[j];
         if(field.required && !siteData.properties[field.field_id] && siteData.properties[field.field_id] != 0){
           b = true;
-          console.log(b);
           break;
         }
       }

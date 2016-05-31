@@ -3,7 +3,7 @@ angular.module('app')
 SiteService.$inject = ["$q", "$http", "ApiService" , "SessionsService"]
 
 function SiteService($q, $http, ApiService, SessionsService) {
-  var site, siteBackToPage;
+  var site;
 
   function setSelectedSite(siteResult) {
     site = siteResult;
@@ -65,20 +65,10 @@ function SiteService($q, $http, ApiService, SessionsService) {
     });
   }
 
-  function setSiteBackToPlace(site) {
-    siteBackToPage = site;
-  }
-
-  function getSiteBackToPlace() {
-    return siteBackToPage;
-  }
-
   return {
     saveSite: saveSite,
     updateSite: updateSite,
     fetchSiteByWeekYearPlaceId: fetchSiteByWeekYearPlaceId,
-    fetchSitesByWeekYear: fetchSitesByWeekYear,
-    setSiteBackToPlace: setSiteBackToPlace,
-    getSiteBackToPlace: getSiteBackToPlace
+    fetchSitesByWeekYear: fetchSitesByWeekYear
   };
 }
