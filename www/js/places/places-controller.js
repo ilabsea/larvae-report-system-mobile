@@ -54,7 +54,6 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
       vm.hideSpinner();
       removePlacesByUserId(userId);
       removeParentsByUserId(userId);
-      console.log('removeParentsByUserId ; ');
       vm.places = places;
       angular.forEach(vm.places, function(place, i){
         place.place_id = place.id;
@@ -143,7 +142,6 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   function storeParent(ancestry) {
     PlacesService.fetchPlaceParent(ancestry).then(function(parent){
-      console.log('parent : ', parent);
       ParentsOfflineService.insert(parent);
     });
   }
@@ -151,12 +149,12 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
   function uploadSites(){
     if(isOnline()){
       PopupService.confirmPopup("place.upload_reports",
-          "place.are_you_sure_to_send_all_reports_to_malaria_station_with_total_of", vm.numberOfSites + " villages?" ,
+          "place.are_you_sure_to_send_all_reports_to_malaria_station_with_total_of",
           function(res){
         vm.showSpinner('templates/loading/loading.html');
         SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
         $state.go($state.current, {}, {reload: true});
-      });
+      }, vm.numberOfSites + " villages?" );
     }else{
       PopupService.alertPopup("place.error", "place.please_check_your_internet_connection");
     }
@@ -173,13 +171,13 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   function deleteReport(place) {
     PopupService.confirmPopup('place.delete_report',
-      'place.are_you_sure_you_want_to_delete_report_in' , place.name + "?" , function(res ){
+      'place.are_you_sure_you_want_to_delete_report_in' , function(res ){
         SiteSQLiteService.deleteSiteByPlaceWeekYear(place.id);
         place.siteInvalid = false;
         place.hasData = false;
         $state.go($state.current, {}, {reload: true});
         $ionicListDelegate.closeOptionButtons();
-    }, function(){
+    }, place.name + "?" , function(){
       $ionicListDelegate.closeOptionButtons();
     });
   }

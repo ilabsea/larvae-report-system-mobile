@@ -16,7 +16,7 @@ function PopupService($translate, $ionicPopup){
     });
   }
 
-  function confirmPopup(title, template, dynamicString = "", callback, noCallback = function(){}) {
+  function confirmPopup(title, template, callback, dynamicString, noCallback) {
     $ionicPopup.confirm({
      title: $translate.instant(title),
      template: $translate.instant(template) + dynamicString,
