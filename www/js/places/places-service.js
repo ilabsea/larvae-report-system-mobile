@@ -54,6 +54,7 @@ function PlacesService($q, $http, ApiService) {
           ancestryValues.push(ancestry);
           $http.get(ApiService.getPlaceParentUrl(), {"params": dataAttr} )
             .success(function (place) {
+              ancestryValues = [];
               setParentSelectedPlaceId(place.id);
               resolve(place);
             })

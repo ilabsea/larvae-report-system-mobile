@@ -54,8 +54,9 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
       vm.hideSpinner();
       removePlacesByUserId(userId);
       removeParentsByUserId(userId);
+      console.log('removeParentsByUserId ; ');
       vm.places = places;
-      angular.forEach(vm.places, function(place){
+      angular.forEach(vm.places, function(place, i){
         place.place_id = place.id;
         place.hasData = false;
         storePlace(place);
@@ -99,12 +100,10 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   function buildIconSitesInSQLite(places) {
     SiteSQLiteService.getSitesByWeekYear(vm.selectedWeek, vm.selectedYear).then(function(sites){
-      console.log('sites : ', sites);
       var index = 0,
           lsites = sites.length
       for(; index < lsites; index++){
         site = sites[index];
-        console.log('fieldsMandatory : ', fieldsMandatory);
         var j = 0,
             l = places.length
         for(; j < l ; j++){
@@ -144,6 +143,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
 
   function storeParent(ancestry) {
     PlacesService.fetchPlaceParent(ancestry).then(function(parent){
+      console.log('parent : ', parent);
       ParentsOfflineService.insert(parent);
     });
   }
