@@ -1,6 +1,5 @@
 /*jslint white: true */
 /*global angular */
-/*added custom attribute disabledClick in line 62 */
 
 (function () { // To stop JSHint/JSLint whing
 "use strict";
@@ -27,8 +26,6 @@ angular.module("ionic-fancy-select", ["ionic"])
     scope: {
       items: "=", // Needs to have a value
       value: "=", // Needs to have a value
-      invalid: "=",
-      untouched: "=",
       valueChangedCallback: "&valueChanged", // The callback used to signal that the value has changed
       getCustomTextCallback: "&getCustomText" // The callback used to get custom text based on the selected value
     },
@@ -55,15 +52,11 @@ angular.module("ionic-fancy-select", ["ionic"])
       // The modal properties
       scope.modalTemplateUrl = attrs.modalTemplateUrl;
       scope.modalAnimation = attrs.modalAnimation;
-
+      
       // Note properties
       scope.noteImg = attrs.noteImg || "";
       scope.noteText = attrs.noteText || "";
       scope.noteImgClass = attrs.noteImgClass || "";
-
-      ///////////// custom attribute of fancy select added //////////////
-      scope.disabledClick = attrs.disabledClick === 'false' ? false : true;
-      scope.isRequired = (attrs.isRequired === 'false' || attrs.isRequired == 0) ? false : true;
 
       /* Initialise the modal
        * If a modal template URL has been provided, then use that,
@@ -95,15 +88,15 @@ angular.module("ionic-fancy-select", ["ionic"])
       scope.$on("$destroy", function() {
         scope.modal.remove();
       });
-
+      
       scope.getItemText = function(item) {
         return scope.textProperty ? item[scope.textProperty] : item;
       };
-
+      
       scope.getItemValue = function(item) {
         return scope.valueProperty ? item[scope.valueProperty] : item;
       };
-
+      
       // Gets the text for the specified values
       scope.getText = function(value) {
         // Push the values into a temporary array so that they can be iterated through
@@ -125,11 +118,11 @@ angular.module("ionic-fancy-select", ["ionic"])
               }
             }
           });
-
+          
         } else {
           // Just use the default text
           text = scope.defaultText;
-
+          
         }
 
         // If a callback has been specified for the text
@@ -139,17 +132,12 @@ angular.module("ionic-fancy-select", ["ionic"])
       // Hides the list
       scope.hideItems = function(event) {
         scope.modal.hide();
-        if (angular.isArray(scope.value)) {
-          scope.isValid = scope.value.length > 0 ? true : false;
-        }else{
-          scope.isValid = scope.value ? true : false;
-        }
       };
-
+      
       // Raised by watch when the value changes
       scope.onValueChanged = function(newValue, oldValue) {
         scope.text = scope.getText(newValue);
-
+        
         // Notify subscribers that the value has changed
         scope.valueChangedCallback({value: newValue});
       };
@@ -157,16 +145,16 @@ angular.module("ionic-fancy-select", ["ionic"])
       // Shows the list
       scope.showItems = function(event) {
         event.preventDefault(); // Prevent the event from bubbling
-
+        
         // For multi-select, make sure we have an up-to-date list of checked items
         if (scope.multiSelect) {
           // Clone the list of values, as we'll splice them as we go through to reduce loops
           var values = scope.value ? angular.copy(scope.value) : [];
-
+          
           angular.forEach(scope.items, function(item, key) {
             // Not checked by default
             item[scope.checkedProperty] = false;
-
+            
             var val = scope.getItemValue(item);
             for (var i = 0; i < values.length; i++) {
               if (val === values[i]) {
@@ -177,6 +165,7 @@ angular.module("ionic-fancy-select", ["ionic"])
             }
           });
         }
+
         scope.modal.show();
       };
 
@@ -185,6 +174,7 @@ angular.module("ionic-fancy-select", ["ionic"])
         if (scope.multiSelect) {
           // Need to scan the list for selected items and push them into the value list
           scope.value = [];
+
           if (scope.items) {
             angular.forEach(scope.items, function(item, key) {
               if (item[scope.checkedProperty]) {
@@ -193,18 +183,15 @@ angular.module("ionic-fancy-select", ["ionic"])
             });
           }
 
-          ///////////////////// added for validation ///////////////////////
-          if(scope.value.length == 0)
-            scope.value = "";
-
         } else {
           // Just use the current item
           scope.value = scope.getItemValue(item);
 
         }
+
         scope.hideItems();
       };
-
+      
       // Watch the value property, as this is used to build the text
       scope.$watch(function(){return scope.value;}, scope.onValueChanged, true);
     }
@@ -213,3 +200,4 @@ angular.module("ionic-fancy-select", ["ionic"])
 
 ;
 }());
+

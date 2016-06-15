@@ -8,7 +8,7 @@ function SwitchTabHelper($timeout, $ionicTabsDelegate) {
     $timeout(function () {
       var selected = $ionicTabsDelegate.selectedIndex();
       $ionicTabsDelegate.select(selected + 1);
-    }, 10);
+    }, 30);
   }
 
   function goForward() {

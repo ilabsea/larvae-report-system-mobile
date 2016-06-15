@@ -49,27 +49,3 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
-
-// `npm install --save replace`
-var replace = require('replace');
-var replaceFiles = ['./www/js/constants.js'];
-
-gulp.task('add-proxy', function() {
-  return replace({
-    regex: "http://localhost:8100/api",
-    replacement: "http://cam-monitoring.info:8080/api/",
-    paths: replaceFiles,
-    recursive: false,
-    silent: false,
-  });
-})
-
-gulp.task('remove-proxy', function() {
-  return replace({
-    regex: "http://localhost:8100/api",
-    replacement: "http://cam-monitoring.info:8080/api/",
-    paths: replaceFiles,
-    recursive: false,
-    silent: false,
-  });
-})
