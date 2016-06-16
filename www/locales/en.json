@@ -68,7 +68,9 @@
     "select_option": "Select option",
     "take_photo": "Take photo",
     "choose_existing" : "Choose existing",
-    "photo_options": "Photo options"
+    "photo_options": "Photo options",
+    "report_duplicate_error": "Report duplicate error!",
+    "the_report_you_created_offline_will_be_ignored_because_there_is_report_in_the_server": "The report you created offline will be ignored because there is report in the server."
   },
   "form_validation":{
     "this_field_is_required": "This field is required.",

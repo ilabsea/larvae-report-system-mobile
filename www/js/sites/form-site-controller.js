@@ -16,7 +16,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
                 MembershipsOfflineService, PlacesOfflineService, SwitchTabHelper,
                 MembershipsHelper, LayersHelperService, ParentsOfflineService) {
 
-  var vm = $scope, currentPhotoFieldId, isSubmit = false;
+  var vm = $scope, currentPhotoFieldId, isSubmit = false, selectedPlace = PlacesService.getSelectedPlace();
   vm.site = {properties : {}, id:'', files: {}};
   vm.propertiesDate = {};
   vm.fields = [];
@@ -31,7 +31,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   vm.saveSite = saveSite;
   vm.showChoiceCameraPopup = showChoiceCameraPopup;
   vm.getPhoto = getPhoto;
-  vm.villageName = PlacesService.getSelectedPlace().name;
+  vm.villageName = selectedPlace.name;
   vm.prepareCalculationFields = prepareCalculationFields;
   vm.dependFields = {};
   vm.customValidate = customValidate;
@@ -67,7 +67,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         MembershipsHelper.setLayersMembership(membership);
         MembershipsHelper.handleStoreMembership(membership);
         var builtFields = builtLayers.length > 0 ? LayersService.getBuiltFieldsByLayerId(builtLayers[0].layer_id) : [];
-        renderFormSiteInDbOrServer(builtFields);
+        renderFormSiteInServerOrDbOrCreate(builtFields);
       }, function() {
         alert('Cannot get data from server.');
       });
@@ -75,6 +75,24 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       vm.hideSpinner();
       PopupService.alertPopup('form.cannot_get_data_from_server', 'form.please_check_internet_connection')
     });
+  }
+
+  function renderFormSiteInServerOrDbOrCreate(builtFields) {
+    if(selectedPlace.siteOnServer){
+      renderFormSiteInServer(builtFields);
+      if(selectedPlace.hasData){
+        PopupService.alertPopup("form.report_duplicate_error", "form.the_report_you_created_offline_will_be_ignored_because_there_is_report_in_the_server").then(function(res){
+          if(res){
+            SiteSQLiteService.deleteSiteByPlaceWeekYear(selectedPlace.place_id);
+            selectedPlace.hasData = false;
+            selectedPlace.siteInvalid = false;
+          }
+        });
+      }
+    }else{
+      vm.hideSpinner();
+      selectedPlace.hasData ? renderFormSiteInDb(builtFields) : renderFormSiteCreate(builtFields);
+    }
   }
 
   function renderFormOffline() {
@@ -94,7 +112,11 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       MembershipsOfflineService.getByUserId(userId).then(function(membership){
         MembershipsHelper.setLayersMembership(membership.item(0));
         MembershipsService.setMemberships(membership.item(0));
-        renderFormSiteInDbOrServer(layers[0].fields);
+        if(selectedPlace.hasData){
+          renderFormSiteInDb(layers[0].fields);
+        }else{
+          renderFormSiteCreate(layers[0].fields);
+        }
       });
     });
   }
@@ -127,36 +149,22 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     }
   }
 
-  function renderFormSiteInDbOrServer(builtFields) {
-    var placeId = PlacesService.getSelectedPlaceId();
-    SiteSQLiteService.getSiteByPlaceIdInWeekYear(placeId).then(function(site){
-      vm.hideSpinner();
-      if(site.length > 0){
-        vm.isUpdateSite = true;
-        vm.isSiteInServer = false;
-        vm.site.id = site[0].id;
-        var siteData = {"properties" : angular.fromJson(site[0].properties),
-                        "files" : angular.fromJson(site[0].files)}
-        prepareFormRender(siteData, vm.isSiteInServer);
-        vm.fields = builtFields;
-        setDependentFields(vm.fields);
-        setCanReadonlyLayer();
-        vm.canReadOnlySite = !MembershipsService.canCreate();
-      }else{
-        isOnline() ? renderFormSiteInServerOrCreate(builtFields) : renderFormCreate(builtFields);
-      }
+  function renderFormSiteInDb(builtFields) {
+    SiteSQLiteService.getSiteByPlaceIdInWeekYear(selectedPlace.place_id).then(function(site){
+      vm.isUpdateSite = true;
+      vm.isSiteInServer = false;
+      vm.site.id = site[0].id;
+      var siteData = {"properties" : angular.fromJson(site[0].properties),
+                      "files" : angular.fromJson(site[0].files)}
+      prepareFormRender(siteData, vm.isSiteInServer);
+      vm.fields = builtFields;
+      setDependentFields(vm.fields);
+      setCanReadonlyLayer();
+      vm.canReadOnlySite = !MembershipsService.canCreate();
     });
   }
 
-  function renderFormCreate(builtFields) {
-    vm.fields = builtFields;
-    setCanReadonlyLayer();
-    vm.canReadOnlySite = !MembershipsService.canCreate();
-    renderFormRememberLastInput(builtFields);
-    setDependentFields(builtFields);
-  }
-
-  function renderFormSiteInServerOrCreate(builtFields) {
+  function renderFormSiteInServer(builtFields){
     var week = WeeksService.getSelectedWeek();
     var year = WeeksService.getSelectedYear();
     var placeId = PlacesService.getSelectedPlaceId();
@@ -167,14 +175,19 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         vm.canUpdateSiteOnline = MembershipsService.canUpdate();
         vm.isSiteInServer = true;
         prepareFormRender(site, vm.isSiteInServer);
-      }else{
-        renderFormRememberLastInput(builtFields);
-        setDependentFields(builtFields);
       }
       setCanReadonlyLayer();
       vm.canReadOnlySite = !MembershipsService.canCreate();
       vm.fields = builtFields;
     });
+  }
+
+  function renderFormSiteCreate(builtFields) {
+    vm.fields = builtFields;
+    setCanReadonlyLayer();
+    vm.canReadOnlySite = !MembershipsService.canCreate();
+    renderFormRememberLastInput(builtFields);
+    setDependentFields(builtFields);
   }
 
   function prepareFormRender(site, fromServer) {
@@ -322,9 +335,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function getDistrictName() {
-    var place = PlacesService.getSelectedPlace();
-    if(place.ancestry){
-      var splitParents = place.ancestry.split("/");
+    if(selectedPlace.ancestry){
+      var splitParents = selectedPlace.ancestry.split("/");
       ParentsOfflineService.getByParentId(splitParents[splitParents.length-1]).then(function(parent){
         vm.districtName = parent.length > 0 ? parent.item(0).name : "";
       })
@@ -332,9 +344,8 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
   }
 
   function buildIconForPlace(site, isValid) {
-    var place = PlacesService.getSelectedPlace();
-    place.siteInvalid = !isValid;
-    place.hasData = true;
+    selectedPlace.siteInvalid = !isValid;
+    selectedPlace.hasData = true;
   }
 
   function goBackAndSaveIfData() {

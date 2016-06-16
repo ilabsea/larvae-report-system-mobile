@@ -68,7 +68,9 @@
     "select_option": "Select option",
     "take_photo": "ຖ່າຍ​ຮູບ",
     "choose_existing" : "ເລືອກທີ່ມີຢູ່ແລ້ວ",
-    "photo_options": "ທາງເລືອກໃນການຮູບພາບ"
+    "photo_options": "ທາງເລືອກໃນການຮູບພາບ",
+    "report_duplicate_error" : "ລາຍງານຄວາມຜິດພາດຊ້ໍາ!",
+    "the_report_you_created_offline_will_be_ignored_because_there_is_report_in_the_server": "ບົດລາຍງານທີ່ທ່ານສ້າງອອຟໄລຈະໄດ້ຮັບການເລີຍເນື່ອງຈາກວ່າມີບົດລາຍງານໃນເຄື່ອງແມ່ຂ່າຍ."
   },
   "form_validation":{
     "this_field_is_required": "ພາກສະຫນາມນີ້ແມ່ນຕ້ອງການ.",

@@ -6,7 +6,7 @@ PopupService.$inject = ["$translate", "$ionicPopup"]
 function PopupService($translate, $ionicPopup){
 
   function alertPopup(title, template, templateUrl, scope) {
-    $ionicPopup.alert({
+    return $ionicPopup.alert({
       title: $translate.instant(title),
       template: $translate.instant(template),
       templateUrl: templateUrl,
