@@ -45,7 +45,7 @@
     "delete_report": "Delete report!",
     "are_you_sure_you_want_to_delete_report_in": "Are you sure you want to delete report in ",
     "cannot_upload_reports" : "Cannot upload reports",
-    "please_fill_all_required_fields_before_uploading_to_malaria_station_of_report": "Please fill all required fields before uploading to malaria station of report ",
+    "please_fill_all_required_data_before_uploading_to_malaria_station_of_report_in_places": "Please fill all required data before uploading to malaria station of report in places ",
     "upload_reports": "Upload reports",
     "are_you_sure_to_send_all_reports_to_malaria_station_with_total_of": "Are you sure to send all reports to malaria station with total of "
   },

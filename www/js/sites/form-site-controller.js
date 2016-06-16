@@ -112,11 +112,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       MembershipsOfflineService.getByUserId(userId).then(function(membership){
         MembershipsHelper.setLayersMembership(membership.item(0));
         MembershipsService.setMemberships(membership.item(0));
-        if(selectedPlace.hasData){
-          renderFormSiteInDb(layers[0].fields);
-        }else{
-          renderFormSiteCreate(layers[0].fields);
-        }
+        selectedPlace.hasData ? renderFormSiteInDb(layers[0].fields) : renderFormSiteCreate(layers[0].fields);
       });
     });
   }

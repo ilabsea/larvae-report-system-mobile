@@ -38,42 +38,47 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     $cordovaSQLite.execute(db, query, [placeId, weekNumber, year]);
   }
 
-  function uploadSites(week, year) {
-    getSitesByWeekYear(week, year).then(function(sites){
-      var isError = false;
-      angular.forEach(sites, function(site, index){
-        var prepareSite = { "name": site.name,
-                            "week": site.week_number, "year" : site.year,
-                            "place_id" : site.place_id,
-                            "properties": angular.fromJson(site.properties),
-                            "files": angular.fromJson(site.files)
-                          };
-        SiteService.saveSite(prepareSite).then(function(response){
-          removeSiteById(site.id);
-          if(index == sites.length -1){
+
+
+  function uploadSites(week, year, placesWithReport) {
+    var placesWithInvalidReport = [];
+    $rootScope.showSpinner();
+    angular.forEach(placesWithReport, function(place, index){
+      if(!place.siteInvalid){
+        getSiteByPlaceIdInWeekYear(place.place_id).then(function(site){
+          var prepareSite = { "name": site[0].name,
+                              "week": site[0].week_number, "year" : site[0].year,
+                              "place_id" : site[0].place_id,
+                              "properties": angular.fromJson(site[0].properties),
+                              "files": angular.fromJson(site[0].files)
+                            };
+          SiteService.saveSite(prepareSite).then(function(response){
+            removeSiteById(site[0].id);
+            place.hasData = false;
+            place.siteOnServer = true;
             $rootScope.hideSpinner();
-            $state.go('weeks-calendar');
-          }
-        }, function(e){
-          if(isError == false){
-            isError = true;
-            $rootScope.hideSpinner();
-            var ul = $translate.instant("place.please_fill_all_required_fields_before_uploading_to_malaria_station_of_report") +  prepareSite.name + "<ul>";
-            var i = 0,
-                l = e.properties.length
-            for(; i < l ; i++){
-              var key = Object.keys(e.properties[i])[0];
-              ul += "<li class='bullet-list'>" + e.properties[i][key] + "</li>";
-            }
-            $ionicPopup.alert({
-              title: $translate.instant("place.cannot_upload_reports"),
-              template: ul + "</ul>",
-              okType: 'default-button'
-            });
-          }
+          });
         });
-      });
+      }else{
+        placesWithInvalidReport.push(place);
+      }
     });
+    if(placesWithInvalidReport.length > 0){
+      var ul = $translate.instant("place.please_fill_all_required_data_before_uploading_to_malaria_station_of_report_in_places") + "<ul>";
+      var i = 0,
+          l = placesWithInvalidReport.length
+      for(; i < l ; i++){
+        ul += "<li class='bullet-list'>" + placesWithInvalidReport[i].name + "</li>";
+      }
+      $ionicPopup.alert({
+        title: $translate.instant("place.cannot_upload_reports"),
+        template: ul + "</ul>",
+        okType: 'default-button'
+      }).then(function(res){
+        if(res)
+          $rootScope.hideSpinner();
+      });
+    }
   }
 
   function getNumberOfSitesInWeekYear(){

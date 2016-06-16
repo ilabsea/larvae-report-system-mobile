@@ -11,7 +11,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     PlacesOfflineService, PopupService, $timeout, $ionicListDelegate,
     LayersOfflineService, FieldsOfflineService, ParentsOfflineService, ValidationService) {
 
-  var vm = $scope, fieldsMandatory = [];
+  var vm = $scope, fieldsMandatory = [], placesWithReport = [];
   vm.getPlaces = getPlaces;
   vm.selectedYear = WeeksService.getSelectedYear();
   vm.selectedWeek = WeeksService.getSelectedWeek();
@@ -110,6 +110,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
           if(site.place_id == place.place_id){
             place.hasData = true ;
             place.siteInvalid = false;
+            placesWithReport.push(place);
             var properties = angular.fromJson(site.properties);
             var i = 0;
                 l = fieldsMandatory.length
@@ -152,7 +153,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
           "place.are_you_sure_to_send_all_reports_to_malaria_station_with_total_of",
           function(res){
         vm.showSpinner('templates/loading/loading.html');
-        SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear);
+        SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear, placesWithReport);
         $state.go($state.current, {}, {reload: true});
       }, vm.numberOfSites + " villages?" );
     }else{
