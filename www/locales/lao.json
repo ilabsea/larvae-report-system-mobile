@@ -74,6 +74,7 @@
   },
   "form_validation":{
     "this_field_is_required": "ພາກສະຫນາມນີ້ແມ່ນຕ້ອງການ.",
-    "invalid_email": "ອີເມວທີ່ບໍ່ຖືກຕ້ອງ"
+    "invalid_email": "ອີເມວທີ່ບໍ່ຖືກຕ້ອງ",
+    "please_fill_with_valid_number" : "ກະລຸນາຕື່ມຂໍ້ມູນໃສ່ກັບຈໍານວນທີ່ຖືກຕ້ອງ."
   }
 }

@@ -74,6 +74,7 @@
   },
   "form_validation":{
     "this_field_is_required": "This field is required.",
-    "invalid_email": "Invalid email"
+    "invalid_email": "Invalid email",
+    "please_fill_with_valid_number" : "Please fill with valid number."
   }
 }

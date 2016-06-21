@@ -14,10 +14,16 @@
 
     <input class="item-input-wrapper" type="{{field.type}}" name='{{field.field_id}}'
       string-to-number
-      ng-if='(field.type != "text" && (field.type == "number" && field.config.allows_decimals == "false"))
-            || field.kind == "calculation"'
+      ng-if='(field.type != "text" && (field.type == "number" && field.config.allows_decimals == "false"))'
       ng-readonly='canReadOnlyLayer || field.readonly'
       ng-required='{{field.required}}' ng-model="site.properties[field.field_id]"
+      ng-change='!dependFields[field.field_id] || prepareCalculationFields()'
+      ng-pattern="/^\d+$/">
+
+    <input class="item-input-wrapper" type="{{field.type}}" name='{{field.field_id}}'
+      string-to-number
+      ng-if='field.kind == "calculation"'
+      readonly ng-model="site.properties[field.field_id]"
       ng-change='!dependFields[field.field_id] || prepareCalculationFields()'>
 
     <textarea ng-if='field.type == "text" && field.kind != "calculation"'
@@ -35,5 +41,6 @@
      <div ng-message="required">{{"form_validation.this_field_is_required" | translate}}
      </div>
      <div ng-message="email">{{"form_validation.invalid_email" | translate}}</div>
+     <div ng-message="pattern">{{"form_validation.please_fill_with_valid_number" | translate}}</div>
   </div>
 </label>
