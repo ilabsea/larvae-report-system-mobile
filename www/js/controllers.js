@@ -5,5 +5,6 @@ angular.module('app')
   console.log('app controller');
   vm.selectLanguage = function(language) {
     $translate.use(language);
+    localStorage.setItem("language", language);
   }
 })

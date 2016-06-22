@@ -9,6 +9,6 @@ function translation($translateProvider){
     prefix: 'locales/',
     suffix: '.json'
   })
-  $translateProvider.preferredLanguage("lao");
-  $translateProvider.fallbackLanguage("lao");
+  var language = localStorage.getItem("language");
+  language ? $translateProvider.preferredLanguage(language) : $translateProvider.preferredLanguage("lao");
 }
