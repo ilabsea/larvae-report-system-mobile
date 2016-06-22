@@ -12,13 +12,19 @@
       ng-required='{{field.required}}' ng-model="site.properties[field.field_id]"
       ng-change='!dependFields[field.field_id] || prepareCalculationFields()'>
 
-    <input class="item-input-wrapper" type="{{field.type}}" name='{{field.field_id}}'
+    <input class="item-input-wrapper" type="tel" name='{{field.field_id}}'
       string-to-number
-      ng-if='(field.type != "text" && (field.type == "number" && field.config.allows_decimals == "false"))'
+      ng-if='field.type == "number" && field.config.allows_decimals == "false"'
       ng-readonly='canReadOnlyLayer || field.readonly'
       ng-required='{{field.required}}' ng-model="site.properties[field.field_id]"
       ng-change='!dependFields[field.field_id] || prepareCalculationFields()'
-      ng-pattern="/^\d+$/">
+      valid-number>
+
+    <input class="item-input-wrapper" type="{{field.type}}" name='{{field.field_id}}'
+      ng-if='field.type != "number" && field.type != "text" && field.type != "calculation"'
+      ng-readonly='canReadOnlyLayer || field.readonly'
+      ng-required='{{field.required}}' ng-model="site.properties[field.field_id]"
+      ng-change='!dependFields[field.field_id] || prepareCalculationFields()'>
 
     <input class="item-input-wrapper" type="{{field.type}}" name='{{field.field_id}}'
       string-to-number
