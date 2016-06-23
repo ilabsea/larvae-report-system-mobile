@@ -27,6 +27,7 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   vm.setWeeks = function() {
     WeeksService.setSelectedYear(vm.selectedYear);
     vm.weeks = WeeksService.getWeeks(vm.selectedYear, index);
+    setWeeksMissingSend();
   }
 
   function setYears() {
@@ -59,7 +60,8 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   }
 
   function setWeeksMissingSend(){
-    SiteSQLiteService.getWeeksMissingSend().then(function(weeks){
+    vm.weeksMissingSend = [];
+    SiteSQLiteService.getWeeksMissingSend(vm.selectedYear).then(function(weeks){
       vm.weeksMissingSend = weeks;
     })
   }

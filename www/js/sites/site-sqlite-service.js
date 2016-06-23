@@ -93,11 +93,11 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     return numberOfSitesInWeekYear;
   }
 
-  function getWeeksMissingSend() {
+  function getWeeksMissingSend(selectedYear) {
     var query = "SELECT week_number, year, COUNT(*) AS number_sites FROM sites "+
-                "WHERE user_id=? GROUP BY week_number";
+                "WHERE user_id=? AND year=? GROUP BY week_number";
     var userId = SessionsService.getUserId();
-    weeksMissingSend = $cordovaSQLite.execute(db, query, [userId]).then(function(count){
+    weeksMissingSend = $cordovaSQLite.execute(db, query, [userId, selectedYear]).then(function(count){
       var result = [];
       if(count.rows.length > 0) {
         var i = 0,
