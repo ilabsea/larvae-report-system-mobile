@@ -5,7 +5,7 @@ PlacesService.$inject = ["$q", "$http", "ApiService"];
 
 function PlacesService($q, $http, ApiService) {
   var placeId;
-  var selectedPlace;
+  var selectedPlace,placesWithReport;
   var parentPlaceId;
   var ancestryValues = [];
   var siteData;
@@ -16,6 +16,14 @@ function PlacesService($q, $http, ApiService) {
 
   function getSelectedPlaceId() {
     return placeId;
+  }
+
+  function setPlacesWithReport(places){
+    placesWithReport = places;
+  }
+
+  function getPlacesWithReport() {
+    return placesWithReport;
   }
 
   function setSelectedPlace(place) {
@@ -73,6 +81,8 @@ function PlacesService($q, $http, ApiService) {
     getSelectedPlace: getSelectedPlace,
     fetch: fetch,
     fetchPlaceParent: fetchPlaceParent,
-    getParentSelectedPlaceId: getParentSelectedPlaceId
+    getParentSelectedPlaceId: getParentSelectedPlaceId,
+    getPlacesWithReport: getPlacesWithReport,
+    setPlacesWithReport: setPlacesWithReport
   };
 }

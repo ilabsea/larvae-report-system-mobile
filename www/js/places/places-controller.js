@@ -153,7 +153,8 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
           "place.are_you_sure_to_send_all_reports_to_malaria_station_with_total_of",
           function(res){
         vm.showSpinner('templates/loading/loading.html');
-        SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear, placesWithReport);
+        var reportInPlaces = PlacesService.getPlacesWithReport();
+        SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear, reportInPlaces);
         $state.go($state.current, {}, {reload: true});
       }, vm.numberOfSites + " villages?" );
     }else{
@@ -164,6 +165,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
   function setSelectedPlace(place) {
     PlacesService.setSelectedPlaceId(place.place_id);
     PlacesService.setSelectedPlace(place);
+    PlacesService.setPlacesWithReport(placesWithReport);
   }
 
   function goBack() {
@@ -194,6 +196,7 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     if (toState.url== "/places") {
       if(vm.places){
         $ionicListDelegate.closeOptionButtons();
+        console.log('placesWithReport : ', placesWithReport);
       }
       setNumberOfSitesInWeekYear();
     }
