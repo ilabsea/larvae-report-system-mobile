@@ -253,7 +253,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       angular.forEach(layer.fields, function (field) {
         if(field.kind == 'calculation'){
           var calSyn = CalculationService.generateSyntax(field);
-          vm.site.properties[field.field_id] = vm.$eval(calSyn);
+          vm.site.properties[field.field_id] = Math.floor(vm.$eval(calSyn) * 100) / 100;
         }
       });
     });

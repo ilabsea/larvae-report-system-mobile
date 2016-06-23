@@ -31,7 +31,7 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   }
 
   function setYears() {
-    var startYear = 2014;
+    var startYear = 2015;
     var years = [];
     var i = startYear
     for(; i <= todayYear ; i++){
