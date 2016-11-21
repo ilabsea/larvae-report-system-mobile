@@ -1,8 +1,8 @@
 angular.module('app')
 
 .constant("ENDPOINT", {
-  api: 'http://54.169.227.202/api/',
-  photo_path: "http://54.169.227.202/photo_field/"
+  api: 'http://202.62.107.83/api/',
+  photo_path: "http://202.62.107.83/photo_field/"
 })
 
 .constant("API", {

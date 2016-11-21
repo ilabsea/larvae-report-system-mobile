@@ -46,18 +46,20 @@ function SiteSQLiteService(SessionsService, SiteService, $cordovaSQLite, WeeksSe
     angular.forEach(placesWithReport, function(place, index){
       if(!place.siteInvalid){
         getSiteByPlaceIdInWeekYear(place.place_id).then(function(site){
-          var prepareSite = { "name": site[0].name,
-                              "week": site[0].week_number, "year" : site[0].year,
-                              "place_id" : site[0].place_id,
-                              "properties": angular.fromJson(site[0].properties),
-                              "files": angular.fromJson(site[0].files)
-                            };
-          SiteService.saveSite(prepareSite).then(function(response){
-            removeSiteById(site[0].id);
-            place.hasData = false;
-            place.siteOnServer = true;
-            $rootScope.hideSpinner();
-          });
+          if(site.length > 0){
+            var prepareSite = { "name": site[0].name,
+                                "week": site[0].week_number, "year" : site[0].year,
+                                "place_id" : site[0].place_id,
+                                "properties": angular.fromJson(site[0].properties),
+                                "files": angular.fromJson(site[0].files)
+                              };
+            SiteService.saveSite(prepareSite).then(function(response){
+              removeSiteById(site[0].id);
+              place.hasData = false;
+              place.siteOnServer = true;
+              $rootScope.hideSpinner();
+            });
+          }
         });
       }else{
         placesWithInvalidReport.push(place);

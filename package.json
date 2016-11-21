@@ -1,7 +1,7 @@
 {
-  "name": "larvae-report-system-mobile",
+  "name": "Larvae report system",
   "version": "1.1.1",
-  "description": "larvae-report-system-mobile: An Ionic project",
+  "description": "Larvae report system: A mobile application to report larvae case",
   "dependencies": {
     "angular-moment": "^1.0.0-beta.4",
     "gulp": "^3.5.6",
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "bower": "^1.3.3",
-    "gulp-util": "^2.2.14",
+    "gulp-util": "^2.2.20",
     "shelljs": "^0.3.0"
   },
   "cordovaPlugins": [
@@ -22,14 +22,15 @@
       "locator": "https://github.com/Telerik-Verified-Plugins/NativePageTransitions#0.6.2",
       "id": "com.telerik.plugins.nativepagetransitions"
     },
-    {
-      "locator": "https://github.com/apache/cordova-plugin-whitelist.git",
-      "id": "cordova-plugin-whitelist"
-    },
-    "cordova-sqlite-storage@0.8.0"
+    "cordova-sqlite-storage@0.8.0",
+    "cordova-plugin-whitelist",
+    "cordova-plugin-console",
+    "cordova-plugin-statusbar",
+    "cordova-plugin-device",
+    "cordova-plugin-splashscreen",
+    "ionic-plugin-keyboard"
   ],
   "cordovaPlatforms": [
-    "ios",
-    "android"
+    "ios"
   ]
 }

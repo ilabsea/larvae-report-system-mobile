@@ -2,8 +2,7 @@
   "name": "larvae-report-system-mobile",
   "app_id": "",
   "gulpStartupTasks": [
-    "sass",
-    "watch"
+    "sass"
   ],
   "watchPatterns": [
     "www/**/*",

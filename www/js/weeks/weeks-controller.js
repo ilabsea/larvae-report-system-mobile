@@ -22,7 +22,6 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   vm.weeksMissingSend = [];
   vm.isErrorOrCurrentWeekNumber = isErrorOrCurrentWeekNumber;
   vm.years = setYears();
-  loadCollections();
 
   vm.setWeeks = function() {
     WeeksService.setSelectedYear(vm.selectedYear);
@@ -31,7 +30,7 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
   }
 
   function setYears() {
-    var startYear = 2015;
+    var startYear = 2016;
     var years = [];
     var i = startYear
     for(; i <= todayYear ; i++){
@@ -165,5 +164,9 @@ function WeeksCtrl($scope, $state, $filter, SiteSQLiteService, WeeksService, $io
         setWeeksMissingSend();
       });
     }
+  });
+
+  $ionicPlatform.ready(function () {
+    loadCollections();
   });
 }

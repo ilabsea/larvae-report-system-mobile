@@ -12,11 +12,7 @@ function routes($stateProvider, $urlRouterProvider, $compileProvider) {
     controller: 'SessionsCtrl',
     resolve:{
       "firstStart": function(SessionsService, $location){
-        if(isOnline()){
-          SessionsService.getAuthToken() ? $location.path('/weeks-calendar') : $location.path('/login');
-        }else {
-          SessionsService.getUserId() ? $location.path('/weeks-calendar') : $location.path('/login');
-        }
+        SessionsService.getAuthToken() || SessionsService.getUserId() ? $location.path('/weeks-calendar') : $location.path('/login');
       }
     }
   })

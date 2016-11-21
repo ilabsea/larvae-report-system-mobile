@@ -196,9 +196,9 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
     if (toState.url== "/places") {
       if(vm.places){
         $ionicListDelegate.closeOptionButtons();
-        console.log('placesWithReport : ', placesWithReport);
       }
       setNumberOfSitesInWeekYear();
     }
   });
+  
 }
