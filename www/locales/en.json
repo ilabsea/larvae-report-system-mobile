@@ -47,7 +47,7 @@
     "cannot_upload_reports" : "Cannot upload reports",
     "please_fill_all_required_data_before_uploading_to_malaria_station_of_report_in_places": "Please fill all required data before uploading to malaria station of report in places ",
     "upload_reports": "Upload reports",
-    "are_you_sure_to_send_all_reports_to_malaria_station_with_total_of": "Are you sure to send all reports to malaria station with total of "
+    "are_you_sure_to_send_all_reports_to_malaria_station_with_total_of_villages": "Are you sure to send all reports to malaria station with total of villages "
   },
   "form":{
     "save":"Save",

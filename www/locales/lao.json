@@ -47,7 +47,7 @@
     "cannot_upload_reports" : "ບໍ່ສາມາດອັບໂຫລດບົດລາຍງານ",
     "please_fill_all_required_data_before_uploading_to_malaria_station_of_report_in_places": "ກະລຸນາຕື່ມຂໍ້ມູນໃສ່ທົ່ງນາທີ່ກໍານົດໄວ້ທັງຫມົດກ່ອນທີ່ຈະອັບໂຫຼດໃຫ້ສະຖານີພະຍາດໄຂ້ຍຸງຂອງບົດລາຍງານ ",
     "upload_reports": "ອັບໂຫລດ ບົດລາຍງານ",
-    "are_you_sure_to_send_all_reports_to_malaria_station_with_total_of": "ທ່ານມີຄວາມ ແນ່ໃຈວ່າຈະ ສົ່ງບົດລາຍງານ ທັງຫມົດເພື່ອ ສະຖານີ ພະຍາດໄຂ້ຍຸງ ມີຈໍານວນ "
+    "are_you_sure_to_send_all_reports_to_malaria_station_with_total_of_villages": "ທ່ານມີຄວາມ ແນ່ໃຈວ່າຈະ ສົ່ງບົດລາຍງານ ທັງຫມົດເພື່ອ ສະຖານີ ພະຍາດໄຂ້ຍຸງ ມີຈໍານວນ ບ້ານ "
   },
   "form":{
     "save":"ຈັດເກັບ",

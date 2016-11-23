@@ -282,6 +282,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
       }
       else{
         SiteSQLiteService.insertSite(site);
+        buildPlacesWithReport();
       }
     }
   }
@@ -291,7 +292,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
     if (vm.layersWithInvalidData.length == 0) {
       addOrUpdateSite(site, propertiesDate);
       buildIconForPlace(site, true);
-      buildPlacesWithReport();
       $state.go('places');
     } else {
       PopupService.alertPopup("form.error_save_report", "", 'templates/validation/save-site.html', vm);
@@ -342,7 +342,7 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
 
   function buildIconForPlace(site, isValid) {
     selectedPlace.siteInvalid = !isValid;
-    selectedPlace.hasData = true;
+    vm.isSiteInServer ? selectedPlace.hasData = false :  selectedPlace.hasData = true;
   }
 
   function buildPlacesWithReport() {
@@ -357,7 +357,6 @@ function FormSiteCtrl($scope, $state, $ionicPopup, $ionicTabsDelegate, WeeksServ
         addOrUpdateSite(vm.site, vm.propertiesDate);
         var isValid = ValidationService.isValidSite(vm.site);
         buildIconForPlace(vm.site, isValid);
-        buildPlacesWithReport();
       }
   }
 }

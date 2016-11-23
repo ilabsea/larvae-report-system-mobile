@@ -150,13 +150,13 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
   function uploadSites(){
     if(isOnline()){
       PopupService.confirmPopup("place.upload_reports",
-          "place.are_you_sure_to_send_all_reports_to_malaria_station_with_total_of",
+          "place.are_you_sure_to_send_all_reports_to_malaria_station_with_total_of_villages",
           function(res){
         vm.showSpinner('templates/loading/loading.html');
         var reportInPlaces = PlacesService.getPlacesWithReport();
         SiteSQLiteService.uploadSites(vm.selectedWeek, vm.selectedYear, reportInPlaces);
         $state.go($state.current, {}, {reload: true});
-      }, vm.numberOfSites + " villages?" );
+      }, vm.numberOfSites + "?" );
     }else{
       PopupService.alertPopup("place.error", "place.please_check_your_internet_connection");
     }
@@ -200,5 +200,5 @@ function PlacesCtrl($scope, WeeksService, $state, $ionicHistory,
       setNumberOfSitesInWeekYear();
     }
   });
-  
+
 }
